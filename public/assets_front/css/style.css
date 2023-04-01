@@ -140,13 +140,13 @@ p:last-child {
 /*default-btn&optional-btn*/
 .default-btn {
   display: inline-block;
-  border: 1px solid #f53f85;
+  border: 1px solid #fbff00;
   padding: 10px 30px;
   -webkit-transition: 0.5s;
   transition: 0.5s;
   text-transform: uppercase;
-  background-color: #f53f85;
-  color: #ffffff;
+  background-color: #fff200;
+  color: #000000;
   font-size: 14px;
   font-weight: 600;
 }
@@ -748,7 +748,7 @@ Navbar CSS
 }
 
 .xton-nav .navbar .navbar-nav .nav-item a:hover, .xton-nav .navbar .navbar-nav .nav-item a:focus, .xton-nav .navbar .navbar-nav .nav-item a.active {
-  color: #f53f85;
+  color: #fff200;
 }
 
 .xton-nav .navbar .navbar-nav .nav-item:last-child a {
@@ -760,7 +760,7 @@ Navbar CSS
 }
 
 .xton-nav .navbar .navbar-nav .nav-item:hover a, .xton-nav .navbar .navbar-nav .nav-item.active a {
-  color: #f53f85;
+  color: #fff200;
 }
 
 .xton-nav .navbar .navbar-nav .nav-item .dropdown-menu {
@@ -2252,6 +2252,8 @@ Categories Banner CSS
   transition: 0.5s;
   border-radius: 5px;
   width: 100%;
+  height: 300px; 
+  object-fit: cover;
 }
 
 .single-categories-box .content {

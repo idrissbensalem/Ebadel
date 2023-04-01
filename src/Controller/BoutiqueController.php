@@ -13,6 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+
 
 #[Route('/boutique')]
 class BoutiqueController extends AbstractController
@@ -25,13 +29,32 @@ class BoutiqueController extends AbstractController
         ]);
     }
     #[Route('/new', name: 'app_boutique_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository): Response
+    public function new(Request $request,  SluggerInterface $slugger , BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository): Response
     {
         $boutique = new Boutique();
         $form = $this->createForm(BoutiqueType::class, $boutique);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('image')->getData();
+
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+
+                $boutique->setImage($newFilename);
+            }
+
             $boutiqueRepository->save($boutique, true);
     
             return $this->redirectToRoute('app_produit_new', ['boutiqueId' => $boutique->getId()], Response::HTTP_SEE_OTHER);

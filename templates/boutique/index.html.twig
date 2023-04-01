@@ -1,51 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_front.html.twig' %}
 
 {% block title %}Boutique index{% endblock %}
 
 {% block body %}
-    <h1>Boutique index</h1>
+</br></br>
+   <div class="page-title-area">
+      <div class="container">
+        <div class="page-title-content">
+          <h2>Liste des Boutiques</h2>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li>Boutique</li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Image</th>
-                <th>Email</th>
-                <th>Lien</th>
-                <th>Description</th>
-                <th>Num_telephone</th>
-                <th>Num_fixe</th>
-                <th>Gouvernorat</th>
-                <th>Ville</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+
+    <section class="categories-banner-area pt-100 pb-70">
+      <div class="container-fluid">
+        <div class="row">
         {% for boutique in boutiques %}
-            <tr>
-                <td>{{ boutique.id }}</td>
-                <td>{{ boutique.nom }}</td>
-                <td>{{ boutique.image }}</td>
-                <td>{{ boutique.email }}</td>
-                <td>{{ boutique.lien }}</td>
-                <td>{{ boutique.description }}</td>
-                <td>{{ boutique.numTelephone }}</td>
-                <td>{{ boutique.numFixe }}</td>
-                <td>{{ boutique.gouvernorat }}</td>
-                <td>{{ boutique.ville }}</td>
-                <td>
-                    <a href="{{ path('app_boutique_show', {'id': boutique.id}) }}">show</a>
-                    <a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="single-categories-box">
+             <img src="{{ asset('uploads/brochures/' ~ boutique.image) }}" alt="image" />
+              <div class="content text-white">
+                <span>{{ boutique.description }}</span>
+                <h3>{{ boutique.nom }}</h3>
+                <a href="#" class="default-btn">Discover Now</a>
+              </div>
+              <a href="#" class="link-btn"></a>
+            </div>
+          </div>
+         {% else %}
+ <div>no records found</div>
+ {% endfor %}
+        </div>
+      </div>
+    </section>
 
-    <a href="{{ path('app_boutique_new') }}">Create new</a>
+ 
+
 {% endblock %}
+
+

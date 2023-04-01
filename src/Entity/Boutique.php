@@ -27,9 +27,8 @@ class Boutique
     )]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"image is required.")]
-    private ?string $image = null;
+    #[ORM\Column(type: 'string')]
+    private ?string $image = "test";
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Email is required.")]

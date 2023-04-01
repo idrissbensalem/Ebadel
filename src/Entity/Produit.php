@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -14,9 +16,20 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Nom is required.")]
+    #[Assert\Length(
+        min: 3,
+        max: 10,
+        minMessage: 'Your titre must be at least {{ limit }} characters long',
+        maxMessage: 'Your  titre cannot be longer than {{ limit }} characters',
+    )]
     private ?string $titre = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(
+        value:0,
+        message: 'La valeur saisie doit être supérieure à zéro',  
+    )]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255)]

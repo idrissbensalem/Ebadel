@@ -6,6 +6,8 @@ use App\Entity\Boutique;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class BoutiqueType extends AbstractType
 {
@@ -13,7 +15,24 @@ class BoutiqueType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'label' => 'Brochure (Carte CIN)',
+
+                'mapped' => false,
+
+                'required' => false,
+
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid ImageFile',
+                    ])
+                ],
+            ])
             ->add('email')
             ->add('lien')
             ->add('description')
