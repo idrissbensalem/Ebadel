@@ -217,4 +217,10 @@ class Boutique
 
         return $this;
     }
+    
+    public function __toString(): string
+    {
+        return $this->nom; // Remplacez "nom" par le nom de l'attribut que vous voulez afficher
+    }
+
 }

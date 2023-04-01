@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Form\ProduitType;
 use App\Entity\Boutique;
+use App\Entity\Produit;
+use App\Controller\ProduitController;
 use App\Form\BoutiqueType;
 use App\Repository\BoutiqueRepository;
+use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,25 +24,25 @@ class BoutiqueController extends AbstractController
             'boutiques' => $boutiqueRepository->findAll(),
         ]);
     }
-
     #[Route('/new', name: 'app_boutique_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BoutiqueRepository $boutiqueRepository): Response
+    public function new(Request $request, BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository): Response
     {
         $boutique = new Boutique();
         $form = $this->createForm(BoutiqueType::class, $boutique);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $boutiqueRepository->save($boutique, true);
-
-            return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+    
+            return $this->redirectToRoute('app_produit_new', ['boutiqueId' => $boutique->getId()], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('boutique/new.html.twig', [
             'boutique' => $boutique,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}', name: 'app_boutique_show', methods: ['GET'])]
     public function show(Boutique $boutique): Response

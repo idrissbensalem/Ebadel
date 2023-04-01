@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\BoutiqueRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,24 +22,29 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProduitRepository $produitRepository): Response
-    {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $produitRepository->save($produit, true);
-
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('produit/new.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
+    #[Route('/new/{boutiqueId}', name: 'app_produit_new', methods: ['GET', 'POST'])]
+public function new(Request $request, BoutiqueRepository $boutiqueRepository , ProduitRepository $produitRepository, int $boutiqueId = null): Response
+{
+    $produit = new Produit();
+    if ($boutiqueId) {
+        $boutique = $boutiqueRepository->find($boutiqueId);
+        $produit->setBoutique($boutique);
     }
+    $form = $this->createForm(ProduitType::class, $produit);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $produitRepository->save($produit, true);
+
+        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    return $this->renderForm('produit/new.html.twig', [
+        'produit' => $produit,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
