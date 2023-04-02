@@ -6,6 +6,8 @@ use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProduitType extends AbstractType
 {
@@ -14,7 +16,24 @@ class ProduitType extends AbstractType
         $builder
             ->add('titre')
             ->add('prix')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'label' => 'L image de Produit ',
+
+                'mapped' => false,
+
+                'required' => true,
+
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid ImageFile',
+                    ])
+                ],
+            ])
           
         ;
     }

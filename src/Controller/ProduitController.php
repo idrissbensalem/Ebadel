@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -25,19 +27,40 @@ class ProduitController extends AbstractController
     /**
  * @Route("/new/{boutiqueId}", name="app_produit_new", methods={"GET", "POST"})
  */
-public function new(Request $request, BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository, int $boutiqueId = null): Response
+public function new(Request $request,  SluggerInterface $slugger, BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository, int $boutiqueId = null): Response
 {
     $produits = [];
     if ($request->query->has('produits')) {
         $produits = unserialize(base64_decode($request->query->get('produits')));
     }
 
-    $form = $this->createForm(ProduitType::class);
+    $produit = new Produit();
+    $form = $this->createForm(ProduitType::class, $produit);
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $produit = $form->getData();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Gérer le téléchargement d'image
+        $imageFile = $form->get('image')->getData();
+        if ($imageFile) {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('brochures_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+            }
+
+            $produit->setImage($newFilename);
+        }
+
         $produits[] = $produit;
 
         if ($request->request->has('ajouter_autre_produit')) {
@@ -96,7 +119,7 @@ public function new(Request $request, BoutiqueRepository $boutiqueRepository, Pr
 
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-    {
+    {    
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $produitRepository->remove($produit, true);
         }

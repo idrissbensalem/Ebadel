@@ -16,7 +16,7 @@ class BoutiqueType extends AbstractType
         $builder
             ->add('nom')
             ->add('image', FileType::class, [
-                'label' => 'Brochure (Carte CIN)',
+                'label' => 'L image de Boutique ',
 
                 'mapped' => false,
 

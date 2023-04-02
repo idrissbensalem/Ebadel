@@ -1,48 +1,43 @@
-{% extends 'base_front.html.twig' %}
+{% extends 'base_front.html.twig' %} {% block title %}Boutique index{% endblock
+%} {% block body %}
 
-{% block title %}Boutique index{% endblock %}
-
-{% block body %}
-</br></br>
-   <div class="page-title-area">
-      <div class="container">
-        <div class="page-title-content">
-          <h2>Liste des Boutiques</h2>
-          <ul>
-          
-            <li><a href="{{ path('app_boutique_new') }}">Add boutique</a></li>
-           
-          </ul>
-        </div>
-      </div>
+<div class="page-title-area">
+  <div class="container">
+    <div class="page-title-content">
+      <h2>Liste des Boutiques</h2>
+      <ul>
+        <li><a href="{{ path('app_boutique_new') }}">Add boutique</a></li>
+      </ul>
     </div>
+  </div>
+</div>
 
-
-    <section class="categories-banner-area pt-100 pb-70">
-      <div class="container-fluid">
-        <div class="row">
-        {% for boutique in boutiques %}
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="single-categories-box">
-             <img src="{{ asset('uploads/brochures/' ~ boutique.image) }}" alt="image" />
-              <div class="content text-white">
-                <span>{{ boutique.description }}</span>
-                <h3>{{ boutique.nom }}</h3>
-                <a href="{{ path('app_boutique_show', { 'id': boutique.id }) }}"  class="default-btn">Discover Now</a>
-                
-              </div>
-              
-            </div>
+<section class="categories-banner-area pt-100 pb-70">
+  <div class="container-fluid">
+    <div class="row">
+      {% for boutique in boutiques %}
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="single-categories-box">
+          <img
+            src="{{ asset('uploads/brochures/' ~ boutique.image) }}"
+            alt="image"
+          />
+          <div class="content text-white">
+            <span>{{ boutique.description }}</span>
+            <h3>{{ boutique.nom }}</h3>
+            <a
+              href="{{ path('app_boutique_show', { id: boutique.id }) }}"
+              class="default-btn"
+              >Discover Now</a
+            >
           </div>
-         {% else %}
- <div>no records found</div>
- {% endfor %}
         </div>
       </div>
-    </section>
-
- 
+      {% else %}
+      <div>no records found</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
 {% endblock %}
-
-
