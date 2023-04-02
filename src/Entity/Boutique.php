@@ -27,12 +27,13 @@ class Boutique
     )]
     private ?string $nom = null;
 
-    #[ORM\Column(type: 'string')]
-    private ?string $image = "test";
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message:"L'image est obligatoire.")]
+    private ?string $image = 'null';
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Email is required.")]
-    #[Assert\Email(message:" The Email '{{ value }}' is not a valid email. ")]
+    //#[Assert\Email(message:" The Email '{{ value }}' is not a valid email. ")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -50,12 +51,12 @@ class Boutique
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"num_telephone is required.")]
-    #[Assert\Length(min:8,max:8,minMessage:" Votre Num Telefone est invalide. ")]
+    //#[Assert\Length(min:8,max:8,minMessage:" Votre Num Telefone est invalide. ")]
     private ?int $num_telephone = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"num_fixe is required.")]
-    #[Assert\Length(min:8,max:8,minMessage:" Votre Num fix est invalide. ")]
+    //#[Assert\Length(min:8,max:8,minMessage:" Votre Num fix est invalide. ")]
     private ?int $num_fixe = null;
 
     #[ORM\Column(length: 255)]
@@ -69,10 +70,14 @@ class Boutique
     #[ORM\OneToMany(mappedBy: 'boutique', targetEntity: Produit::class)]
     private Collection $produits;
 
+
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
+       
     }
+    
 
     public function getId(): ?int
     {

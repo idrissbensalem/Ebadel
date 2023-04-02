@@ -22,28 +22,50 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{boutiqueId}', name: 'app_produit_new', methods: ['GET', 'POST'])]
-public function new(Request $request, BoutiqueRepository $boutiqueRepository , ProduitRepository $produitRepository, int $boutiqueId = null): Response
+    /**
+ * @Route("/new/{boutiqueId}", name="app_produit_new", methods={"GET", "POST"})
+ */
+public function new(Request $request, BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository, int $boutiqueId = null): Response
 {
-    $produit = new Produit();
-    if ($boutiqueId) {
-        $boutique = $boutiqueRepository->find($boutiqueId);
-        $produit->setBoutique($boutique);
+    $produits = [];
+    if ($request->query->has('produits')) {
+        $produits = unserialize(base64_decode($request->query->get('produits')));
     }
-    $form = $this->createForm(ProduitType::class, $produit);
+
+    $form = $this->createForm(ProduitType::class);
+
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $produitRepository->save($produit, true);
+        $produit = $form->getData();
+        $produits[] = $produit;
+
+        if ($request->request->has('ajouter_autre_produit')) {
+            return $this->redirectToRoute('app_produit_new', ['boutiqueId' => $boutiqueId, 'produits' => base64_encode(serialize($produits))], Response::HTTP_SEE_OTHER);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        foreach ($produits as $p) {
+            if ($boutiqueId) {
+                $boutique = $boutiqueRepository->find($boutiqueId);
+                $p->setBoutique($boutique);
+                $entityManager->persist($boutique);
+            }
+            $entityManager->persist($p);
+        }
+        
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
     }
 
     return $this->renderForm('produit/new.html.twig', [
-        'produit' => $produit,
         'form' => $form,
     ]);
 }
+
+
 
 
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]

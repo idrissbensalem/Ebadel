@@ -9,8 +9,9 @@
         <div class="page-title-content">
           <h2>Liste des Boutiques</h2>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li>Boutique</li>
+          
+            <li><a href="{{ path('app_boutique_new') }}">Add boutique</a></li>
+           
           </ul>
         </div>
       </div>
@@ -27,9 +28,10 @@
               <div class="content text-white">
                 <span>{{ boutique.description }}</span>
                 <h3>{{ boutique.nom }}</h3>
-                <a href="#" class="default-btn">Discover Now</a>
+                <a href="{{ path('app_boutique_show', { 'id': boutique.id }) }}"  class="default-btn">Discover Now</a>
+                
               </div>
-              <a href="#" class="link-btn"></a>
+              
             </div>
           </div>
          {% else %}

@@ -33,7 +33,8 @@ class BoutiqueController extends AbstractController
     {
         $boutique = new Boutique();
         $form = $this->createForm(BoutiqueType::class, $boutique);
-        $form->handleRequest($request);
+       
+            $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -70,7 +71,9 @@ class BoutiqueController extends AbstractController
     #[Route('/{id}', name: 'app_boutique_show', methods: ['GET'])]
     public function show(Boutique $boutique): Response
     {
+        $produits = $boutique->getProduits();
         return $this->render('boutique/show.html.twig', [
+            'produits' => $produits,
             'boutique' => $boutique,
         ]);
     }
