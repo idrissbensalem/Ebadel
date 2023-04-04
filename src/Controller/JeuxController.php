@@ -69,6 +69,7 @@ class JeuxController extends AbstractController
         ]);
     }
 
+    
     #[Route('/{id}/edit', name: 'app_jeux_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Jeux $jeux, SluggerInterface $slugger , JeuxRepository $jeuxRepository): Response
     {
