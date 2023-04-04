@@ -23,13 +23,14 @@
                     </div>
                     <div class="form-group">
                         <label>image</label>
-                        {{ form_widget(form.image,{'attr':{'placeholder':'Enter your image' , 'class':"form-control" }}) }}
+                        {{ form_widget(form.image,{'attr':{'class':"custom-file-input" }}) }}
                           {{form_errors(form.image)}}
                     </div>
                     
                     
                     <button type="submit" class="default-btn"> Save </button>
-                 <button type="submit" name="ajouter_autre_produit" class="btn btn-secondary">Ajouter un autre produit</button>
+                    <br/>
+                 <button type="submit" name="ajouter_autre_produit" class="default-btn">Ajouter un autre produit</button>
 
                 {{ form_end(form) }}</div>
                 

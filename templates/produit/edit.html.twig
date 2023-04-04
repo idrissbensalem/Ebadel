@@ -1,13 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_front.html.twig' %}
 
-{% block title %}Edit Produit{% endblock %}
+{% block title %}Modifier Produit{% endblock %}
 
 {% block body %}
-    <h1>Edit Produit</h1>
+ <section class="signup-area ptb-100">
+        <div class="container">
+            <div class="signup-content">
+                <h2>Modifier Produit</h2>
+                
+                <div class="signup-form"> 
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                    <div class="form-group">
+                        <label>nom</label>
+                        {{ form_widget(form.titre,{'attr':{'placeholder':'Enter your titre' , 'class':"form-control" }}) }}
+                        {{form_errors(form.titre)}}
+                       
+                    </div>
+                    <div class="form-group">
+                        <label>prix</label>
+                        {{ form_widget(form.prix,{'attr':{'placeholder':'Enter your prix' , 'class':"form-control" }}) }}
+                        {{form_errors(form.prix)}}
+                    </div>
+                    <div class="form-group">
+                        <label>image</label>
+                        {{ form_widget(form.image,{'attr':{'class':"custom-file-input" }}) }}
+                          {{form_errors(form.image)}}
+                    </div>
+                    
+                    
+                    <button type="submit" class="default-btn"> Modifier </button>
+                    <br/>
+                
 
-    {{ include('produit/_form.html.twig', {'button_label': 'Update'}) }}
+                {{ form_end(form) }}</div>
+                
+            </div>
+        </div>
+    </section>
+    
 
-    <a href="{{ path('app_produit_index') }}">back to list</a>
-
-    {{ include('produit/_delete_form.html.twig') }}
+   
 {% endblock %}
+

@@ -80,7 +80,7 @@ public function new(Request $request,  SluggerInterface $slugger, BoutiqueReposi
         
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_boutique_show', ['id' => $produit->getBoutique()->getId()], Response::HTTP_SEE_OTHER);
     }
 
     return $this->renderForm('produit/new.html.twig', [
@@ -100,22 +100,41 @@ public function new(Request $request,  SluggerInterface $slugger, BoutiqueReposi
     }
 
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-    {
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
+    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, SluggerInterface $slugger): Response
+{
+    $form = $this->createForm(ProduitType::class, $produit);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $produitRepository->save($produit, true);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $brochureFile = $form->get('image')->getData();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        if ($brochureFile) {
+            $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+            try {
+                $brochureFile->move(
+                    $this->getParameter('brochures_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+            }
+
+            $produit->setImage($newFilename);
         }
 
-        return $this->renderForm('produit/edit.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
+        $produitRepository->save($produit, true);
+
+        return $this->redirectToRoute('app_boutique_show', ['id' => $produit->getBoutique()->getId()], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->renderForm('produit/edit.html.twig', [
+        'produit' => $produit,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response

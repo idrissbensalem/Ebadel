@@ -1,5 +1,21 @@
 {% extends 'base_front.html.twig' %} {% block title %}Boutique{% endblock %} {%
 block body %}
+
+<div class="page-title-area">
+  <div class="container">
+    <div class="page-title-content">
+      <h2>Liste des Produits</h2>
+      <ul>
+        <li>
+          <a href="{{ path('app_produit_new', { boutiqueId: boutique.id }) }}"
+            >Ajouter un produit</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <section class="products-area products-collections-area pt-100 pb-70">
   <div class="container-fluid">
     <div class="row">
@@ -109,15 +125,14 @@ block body %}
                     src="{{ asset('uploads/brochures/' ~ produit.image) }}"
                     alt="image"
                   />
-                  
                 </a>
                 <div class="products-button">
                   <ul>
                     <li>
                       <div class="wishlist-btn">
-                        <a href="#">
-                          <i class="bx bx-heart"></i>
-                          <span class="tooltip-label">Add to Wishlist</span>
+                        <a href="{{ path('app_produit_edit', { id: produit.id }) }}">
+                          <i class="bx bx-edit"></i>
+                          <span class="tooltip-label">Modifier</span>
                         </a>
                       </div>
                     </li>
@@ -164,11 +179,12 @@ block body %}
                 <h3>
                   <a href="#">{{ produit.titre }}</a>
                 </h3>
-
-                <div></div>
-                <a href="{{ path('app_produit_edit', { id: produit.id }) }}"
-                  >edit</a
-                >
+              
+                <div >
+                  <span>{{ produit.prix }} DT</span>
+                  
+                </div>
+                
               </div>
             </div>
           </div>
