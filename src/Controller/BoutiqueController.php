@@ -28,6 +28,7 @@ class BoutiqueController extends AbstractController
             'boutiques' => $boutiqueRepository->findAll(),
         ]);
     }
+    
     #[Route('/new', name: 'app_boutique_new', methods: ['GET', 'POST'])]
     public function new(Request $request,  SluggerInterface $slugger , BoutiqueRepository $boutiqueRepository, ProduitRepository $produitRepository): Response
     {
@@ -79,17 +80,35 @@ class BoutiqueController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_boutique_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Boutique $boutique, BoutiqueRepository $boutiqueRepository): Response
+    public function edit(Request $request, Boutique $boutique, BoutiqueRepository $boutiqueRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(BoutiqueType::class, $boutique);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $brochureFile = $form->get('image')->getData();
+    
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+    
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+    
+                $boutique->setImage($newFilename);
+            }
+    
             $boutiqueRepository->save($boutique, true);
-
+    
             return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
         }
-
+       
         return $this->renderForm('boutique/edit.html.twig', [
             'boutique' => $boutique,
             'form' => $form,
