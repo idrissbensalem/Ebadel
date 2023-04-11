@@ -1,0 +1,151 @@
+ {% extends "base.back.html.twig" %} 
+{% block body %}
+
+  <div>
+      <div>
+      <div class="table-responsive">
+        <div id="table_id_wrapper" class="dataTables_wrapper no-footer">
+          <div id="table_id_filter" class="dataTables_filter">
+            <label
+              >Search:<input
+                type="search"
+                class=""
+                placeholder=""
+                aria-controls="table_id"
+            /></label>
+          </div>
+          <a href="{{ path('app_user_new') }}" ><button class="btn btn-success" data-bs-original-title="" title="">ajouter</button></a>
+          
+          
+          <table
+            class="table all-package theme-table table-product dataTable no-footer"
+            id="table_id"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  Image
+                </th>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  Name
+                </th>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  prenom
+                </th>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  cin
+                </th>
+              
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  email
+                </th>
+                
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                role
+                </th>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                datenaissance
+                </th>
+                <th
+                  class="sorting_disabled"
+                  rowspan="1"
+                  colspan="1"
+                  style="width: 170px"
+                >
+                  Option
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for user in users %}
+              <tr class="odd">
+                <td>
+                  <div class="table-image">
+                    <img
+                    src="{{asset('assets/img/'~user.image)}}"
+                      class="img-fluid"
+                      alt=""
+                    />
+                  </div>
+                </td>
+
+                <td>{{ user.nom }}</td>
+
+                <td>{{user.prenom}}</td>
+
+                <td>{{ user.cin }}</td>
+               
+                <td>{{ user.email }}</td>
+               
+                <td>{{ user.role }}</td>
+
+<td>{{ user.datenaissance ? user.datenaissance|date('Y-m-d') : '' }}</td>
+                <td>
+                   <ul>
+                            <li>
+                                <a href="{{ path('app_user_show', {'idu': user.idu}) }}">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ path('app_user_edit', {'idu': user.idu}) }}">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+                </td>
+              </tr>
+              {% else %}
+              <div>no records found</div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>    
+
+
+    </div>    
+
+
+
+
+{% endblock %}

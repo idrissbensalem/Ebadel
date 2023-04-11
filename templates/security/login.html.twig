@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="{{ asset('css/test.css')}}">
+<link rel="stylesheet" href="{{ asset('css/test.js')}}">
+<h2>Sign in/up Form</h2>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        {{ form_start(form, {'attr' : {'novalidate':'novalidate','class':'form-signin'}})}}
+        <h1>Sign in</h1>
+        <div class="social-container">
+            <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <span>or use your account</span>
+        {{ form_widget(form)}}
+        <a href="#">Forgot your password?</a>
+        <button type="submit" style="background-color: yellow;">Comfirmer</button>
+        {{ form_end(form)}}
+    </div>
+    <div class="overlay-container " >
+        <div class="overlay" >
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn" style="background-color: yellow;">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <img  width="300px"src="{{asset('css/327219549_494825626194570_4624249813250472593_n.png')}}">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <a href="{{ path('security_registration') }}" class="test10" id="signUp" style="background-color: yellow;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>
+        Created with <i class="fa fa-heart" style="color: yellow;"></i> by
+        <a target="_blank" href="https://florin-pop.com" style="color: yellow;">Florin Pop</a>
+        - Read how I created this and how you can join the challenge
+        <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/" style="color: yellow;">here</a>.
+    </p>
+</footer>

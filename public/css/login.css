@@ -1,0 +1,66 @@
+body , html{	
+ 
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  opacity: 0.85;
+  height: 909px;
+	width: 100%;
+
+
+	animation: animate 20s linear infinite;
+
+	
+	
+}
+
+@keyframes animate{
+	0%{
+
+        background-image: url('https://wallpapercave.com/wp/wp9267453.jpg');
+    }
+    25%{
+
+        background-image: url('https://images4.alphacoders.com/168/thumb-1920-168614.jpg');
+    }
+    50%{
+        background-image: url('https://www.wallpaperkiss.com/wimg/b/131-1311782_big.jpg');
+    }
+	75%{
+        background-image: url('https://browsecat.net/sites/default/files/ultra-hd-4k-wallpapers-123481-512612-6741458.png');
+    }
+	100%{
+        background-image: url('https://wallpaperaccess.com/full/3428334.jpg');
+    }
+}
+#test{
+    margin-left: 60px;
+
+}
+
+.form-signin-heading{
+text-align: center;
+}
+
+.form-signin {
+	border-radius: 5%;
+  
+  padding: 15px 35px 45px;
+  
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgba(0,0,0,0.1);  
+  width: 400px;
+  height: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  
+
+
+  
+}
+
+
+
