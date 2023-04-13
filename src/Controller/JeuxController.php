@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-#[Route('/jeux')]
+#[Route('/admin')]
 class JeuxController extends AbstractController
 {
     #[Route('/', name: 'app_jeux_index', methods: ['GET'])]
-    public function index(JeuxRepository $jeuxRepository): Response
+    public function indexAdmin(JeuxRepository $jeuxRepository): Response
     {
         return $this->render('jeux/index.html.twig', [
             'jeuxes' => $jeuxRepository->findAll(),
@@ -69,7 +69,7 @@ class JeuxController extends AbstractController
         ]);
     }
 
-    
+
     #[Route('/{id}/edit', name: 'app_jeux_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Jeux $jeux, SluggerInterface $slugger , JeuxRepository $jeuxRepository): Response
     {

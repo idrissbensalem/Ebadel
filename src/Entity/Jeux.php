@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JeuxRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,6 +59,18 @@ class Jeux
     #[Assert\NotBlank(message:"price is required.")]
     #[Assert\GreaterThan(value:0, message:"Le prix doit etre supérieur à zéro.")]
     private ?float $prix = null;
+
+    #[ORM\OneToMany(mappedBy: 'jeux', targetEntity: Participation::class)]
+    private Collection $participations;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'jeux')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->participations = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,6 +157,63 @@ class Jeux
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getJeux() === $this) {
+                $participation->setJeux(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeJeux($this);
+        }
 
         return $this;
     }

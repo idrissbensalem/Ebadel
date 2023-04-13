@@ -748,7 +748,7 @@ Navbar CSS
 }
 
 .xton-nav .navbar .navbar-nav .nav-item a:hover, .xton-nav .navbar .navbar-nav .nav-item a:focus, .xton-nav .navbar .navbar-nav .nav-item a.active {
-  color: #f53f85;
+  color: #e5e812;
 }
 
 .xton-nav .navbar .navbar-nav .nav-item:last-child a {
@@ -3042,6 +3042,7 @@ Products CSS
 .single-productsBox .products-image {
   position: relative;
   overflow: hidden;
+  border-radius:5px
 }
 
 .single-productsBox .products-image a {

@@ -1,3 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+participer_jeu:
+  path: "/participer/{userId}/{jeuId}"
+  controller: 'App\Controller\DefaultController::participer'
