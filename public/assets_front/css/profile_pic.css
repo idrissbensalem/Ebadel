@@ -1,0 +1,48 @@
+.profile-pic-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 150px;
+    background-color: #fff;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px #FFFF00(0, 0, 0, 0.3);
+    display: none;
+  }
+  
+  .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown-menu li {
+    padding: 10px;
+    border-bottom: 1px solid #FFFF00;
+  }
+  
+  .dropdown-menu li:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdown-menu a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .profile-pic-container:hover .dropdown-menu {
+    display: block;
+  }
+  

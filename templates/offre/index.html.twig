@@ -1,0 +1,61 @@
+<div id="products-collections-filter" class="row">
+    {% for offre in offres %}
+    <div class="col-lg-4 col-md-6 col-sm-6 products-col-item">
+      <div class="single-products-box">
+        <div class="products-image">
+          <a href="#">
+            <img
+              src="{{ asset('uploads/brochures/' ~ offre.image) }}"
+              alt="image"
+            />
+          </a>
+          <div class="products-button">
+            <ul>
+              <li>
+                <div class="compare-btn">
+                  <a>
+                    <form
+                      method="post"
+                      action="{{
+                        path('app_offre_delete', { id:  offre.getIdOffre() })
+                      }}"
+                      onsubmit="return confirm('Are you sure you want to delete this offre?');"
+                    >
+                      <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token('delete' ~  offre.getIdOffre()) }}"
+                      />
+                      <button type="submit" class="btn">
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </form>
+
+                    <span class="tooltip-label">Delete</span>
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div class="quick-view-btn">
+                  <a href="{{ path('app_offre_show', { id: offre.getIdOffre() }) }}" >
+                    <i class="bx bx-search-alt"></i>
+                    <span class="tooltip-label">détails</span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="products-content">
+          <h3>
+            <a href="#">{{ offre.titre }}</a>
+          </h3>
+        
+          
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div>no records found</div>
+    {% endfor %}
+  </div>

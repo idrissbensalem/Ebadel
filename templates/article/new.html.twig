@@ -1,0 +1,62 @@
+{% extends 'base_front.html.twig' %} {% block title %}New Article{% endblock %}
+{% block body %}
+<section class="signup-area ptb-100">
+  <div class="container">
+    <div class="signup-content">
+      <h2>Ajouter un article</h2>
+
+      <div class="add-article-form">
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+        <div class="form-group">
+          <label>Nom de l'article</label>
+          {{ form_widget(form.nom_article,{'attr':{'placeholder':'Entrez le nom de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.nom_article) }}
+        </div>
+        <div class="form-group">
+          <label>Categorie</label>
+          {{ form_widget(form.categorie, {'attr': {'placeholder': 'Sélectionner la catégorie de l\'article', 'class': 'form-control'}}) }}
+          {{ form_errors(form.categorie) }}
+        </div>
+        
+        <div class="form-group">
+          <label>Sous categorie</label>
+          {{ form_widget(form.sous_categorie,{'attr':{'placeholder':'Entrez la sous-catégorie de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.sous_categorie) }}
+        </div>
+        <div class="form-group">
+          <label>Marque</label>
+          {{ form_widget(form.marque,{'attr':{'placeholder':'Entrez la marque de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.marque) }}
+        </div>
+        <div class="form-group">
+          <label>Période d'utilisation</label>
+          {{ form_widget(form.periode_utilisation,{'attr':{'placeholder':'Entrez la période d\'utilisation de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.periode_utilisation) }}
+        </div>
+        <div class="form-group">
+          <label>Etat</label>
+          {{ form_widget(form.etat,{'attr':{'placeholder':'Entrez l\'état de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.etat) }}
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          {{ form_widget(form.description,{'attr':{'placeholder':'Entrez la description de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.description) }}
+        </div>
+        <div class="form-group">
+          <label>Image</label>
+          {{ form_widget(form.image,{'attr':{'placeholder':'Entrez l\'URL de l\'image de l\'article' , 'class':"form-control"}}) }}
+          {{ form_errors(form.image) }}
+        </div>
+     <br></br>
+        <button type="submit" class="default-btn">Enregistrer</button>
+    
+        <a href="{{ path('app_article_index') }}" > &nbsp &nbsp &nbsp &nbsp ou Retourner aux articles</a >
+        {{ form_end(form) }}
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+{% endblock %}

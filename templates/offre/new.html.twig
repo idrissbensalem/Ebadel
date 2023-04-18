@@ -1,0 +1,75 @@
+{% extends 'base_front.html.twig' %} {% block title %}New Boutique{% endblock %}
+{% block body %}
+<section class="signup-area ptb-100">
+  <div class="container">
+    <div class="signup-content">
+      <h2>Envoyer un Offre</h2>
+      <div class="add-offre-form">
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+        <div class="form-group">
+          <label>Titre de l'offre</label>
+          {{ form_widget(form.titre,{'attr':{'placeholder':'Entrez le titre de l\'offre' , 'class':"form-control"}}) }}
+          {{ form_errors(form.titre) }}
+        </div>
+        <div class="form-group">
+          <label>Produit proposé</label>
+          {{ form_widget(form.produit_propose,{'attr':{'placeholder':'Entrez le produit proposé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.produit_propose) }}
+        </div>
+        <div class="form-group">
+          <label>Categorie</label>
+          {{ form_widget(form.categorie,{'attr':{'placeholder':'Entrez la catégorie de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.categorie) }}
+        </div>
+        <div class="form-group">
+          <label>Sous categorie</label>
+          {{ form_widget(form.sous_categorie,{'attr':{'placeholder':'Entrez la sous-catégorie de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.sous_categorie) }}
+        </div>
+        <div class="form-group">
+          <label>Marque</label>
+          {{ form_widget(form.marque,{'attr':{'placeholder':'Entrez la marque de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.marque) }}
+        </div>
+        <div class="form-group">
+          <label>Période d'utilisation</label>
+          {{ form_widget(form.periode_utilisation,{'attr':{'placeholder':'Entrez la période d\'utilisation de la produit proposé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.periode_utilisation) }}
+        </div>
+        <div class="form-group">
+          <label>Etat</label>
+          {{ form_widget(form.etat_produit_propose,{'attr':{'placeholder':'Entrez l\'état de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.etat_produit_propose) }}
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          {{ form_widget(form.description,{'attr':{'placeholder':'Entrez la description de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.description) }}
+        </div>
+        <div class="form-group">
+          <label>Bonus</label>
+          {{ form_widget(form.bonus,{'attr':{'placeholder':'Entrez un bonus s\'il y en a un' , 'class':"form-control"}}) }}
+          {{ form_errors(form.bonus) }}
+        </div>
+        <div class="form-group">
+          <label>Numéro de télephone</label>
+          {{ form_widget(form.num_tel,{'attr':{'placeholder':'Entrez la numéro de votre télephone' , 'class':"form-control"}}) }}
+          {{ form_errors(form.num_tel) }}
+        </div>
+        <div class="form-group">
+          <label>Image</label>
+          {{ form_widget(form.image,{'attr':{'placeholder':'Entrez l\'URL de l\'image de la produit propsé' , 'class':"form-control"}}) }}
+          {{ form_errors(form.image) }}
+        </div>
+     <br></br>
+     <button id="submit-btn" type="submit" class="default-btn" >Envoyer l'offre</button>
+
+     <a href="{{ path('app_article_show', { id: id_article}) }}" > &nbsp &nbsp &nbsp &nbsp ou Retourner</a >
+        {{ form_end(form) }}
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+{% endblock %}

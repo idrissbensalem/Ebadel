@@ -1,0 +1,66 @@
+{% extends 'base_front.html.twig' %} {% block title %}Article{% endblock %} {%
+block body %}
+<section>
+<div class="page-title-area">
+  <div class="container">
+  <div class="page-title-content">
+  <h2>{{nom}}</h2>
+  <ul>
+  <li><a href="{{ path('app_article_index') }}">Home</a></li>
+  <li>Article Details</li>
+  </ul>
+  </div>
+  </div>
+  </div>
+  
+  
+  <section class="product-details-area pt-100 pb-100">
+  <div class="container">
+  <div class="row">
+  <div class="col-lg-5 col-md-10">
+  <div>
+      <img
+        src="{{ asset('uploads/brochures/' ~ image) }}"
+        alt="image" width="700" height="700"/>
+        
+           
+  </div>
+  </div>
+  <div class="col-lg-7 col-md-12">
+  <div class="products-details-desc">
+  <h3>{{nom}}</h3>
+
+  <div class="products-review">
+   <div class="rating">
+  <i class='bx bx-star'></i>
+  <i class='bx bx-star'></i>
+  <i class='bx bx-star'></i>
+  <i class='bx bx-star'></i>
+  <i class='bx bx-star'></i>
+  </div>
+  <a href="#" class="rating-count">3 reviews</a>
+  </div>
+  <ul class="products-info">
+  <li><span>Catégorie:</span> <a href="#">{{categorie}}</a></li>
+  <li><span>Sous catégorie:</span> <a href="#">{{sousCategorie}}</a></li>
+  <li><span>Marque:</span> <a href="#">{{marque}}</a></li>
+  <li><span>Période d'utilisation:</span> <a href="#">{{periodeUtilisation}}</a></li>
+  <li><span>Etat:</span> <a href="#">{{etat}}</a></li>
+  <li><span>Description:</span> <a href="#">{{description}}</a></li>
+  </ul>
+  <br>
+  <a href="contact.html"><i class='bx bx-envelope'></i> Renseignez-vous sur cet article</a>
+  <br>
+  <div class="item">
+    <br></br>
+    <a href="{{ path('app_offre_new', {'id_article': id}) }}" class="default-btn">Envoyer une offre</a>
+  </div>
+
+</section>
+<div>
+  <h2>Comments</h2>
+</div>
+
+ 
+  
+{% endblock %}

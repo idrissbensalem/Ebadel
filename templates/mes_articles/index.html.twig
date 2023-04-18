@@ -1,0 +1,40 @@
+{% extends 'base_front.html.twig' %} {% block title %}Article index{% endblock
+    %} {% block body %}
+    
+    <div class="page-title-area">
+      <div class="container">
+        <div class="page-title-content">
+          <h2>Liste de mes Articles</h2>
+        </div>
+      </div>
+    </div>
+    
+    <section class="categories-banner-area pt-100 pb-70">
+      <div class="container-fluid">
+        <div class="row">
+          {% for article in mesarticles %}
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="single-categories-box">
+              <img
+                src="{{ asset('uploads/brochures/' ~ article.image) }}"
+                alt="image"
+              />
+              <div class="content text-white">
+                <span>{{ article.description }}</span>
+                <h3>{{ article.getNomArticle()}}</h3>
+                <a
+                  href="{{ path('app_mesarticles_show', { id: article.getIdArticle() }) }}"
+                  class="default-btn"
+                  >Plus de détails</a>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div>no records found</div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    
+    {% endblock %}
+    

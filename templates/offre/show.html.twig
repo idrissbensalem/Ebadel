@@ -1,0 +1,55 @@
+{% extends 'base_front.html.twig' %} {% block title %}Offre{% endblock %} {%
+block body %}
+<section>
+<div class="page-title-area">
+  <div class="container">
+  <div class="page-title-content">
+  <h2>{{titre}}</h2>
+  <ul>
+  <li><a href="{{ path('app_mesarticles_show', { id: id_article}) }}" >Home</a></li>
+  <li>Offre Details</li>
+  </ul>
+  </div>
+  </div>
+  </div>
+  
+  
+  <section class="product-details-area pt-100 pb-100">
+  <div class="container">
+  <div class="row">
+  <div class="col-lg-5 col-md-10">
+  <div>
+      <img
+        src="{{ asset('uploads/brochures/' ~ image) }}"
+        alt="image" width="700" height="700"/>
+        
+           
+  </div>
+  </div>
+  <div class="col-lg-7 col-md-12">
+  <div class="products-details-desc">
+  <h3>{{titre}}</h3>
+
+  <ul class="products-info">
+  <li><span>Produit proposé :</span> <a href="#">{{produit_propose}}</a></li>
+  <li><span>Catégorie :</span> <a href="#">{{categorie}}</a></li>
+  <li><span>Sous catégorie :</span> <a href="#">{{sousCategorie}}</a></li>
+  <li><span>Marque :</span> <a href="#">{{marque}}</a></li>
+  <li><span>Période d'utilisation :</span> <a href="#">{{periodeUtilisation}}</a></li>
+  <li><span>Etat de la produit :</span> <a href="#">{{etatpp}}</a></li>
+  <li><span>Description :</span> <a href="#">{{description}}</a></li>
+  <li><span>Bonus :</span> <a href="#">{{bonus}}</a></li>
+  <li><span>Numéro de l'expéditeur de l'offre :</span> <a href="#">{{num_tel}}</a></li>
+  </ul>
+  <div class="item">
+    <br></br>
+    <a href="#" class="default-btn">Accepter l'offre</a>
+    <a href="#" class="default-btn">Refuser l'offre</a>
+  </div>
+
+</section>
+
+
+ 
+  
+{% endblock %}
