@@ -150,18 +150,21 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
 
     #[Route('/sendsmsaccept/{id}', name: 'app_accept_offre')]
     public function sendSmsAccept(Offre $offre) : Response
-    {
+
+    {   
         $sid = 'AC03e6a61d92d0f786d521c8d810e71e06';
         $token = '533a97d8b3f285f9f42896c53b14bc38';
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+21650914133', // recipient phone number
+            '+216' . $offre->getArticle()->getUser()->getTel(), // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "
                 Your offre with Titre : {$offre->getTitre()}
-                to the article :{$offre->getArticle()->getNomArticle()}  was accepted!
+                to the article :{$offre->getArticle()->getNomArticle()}  was accepted !
+                you can contact the other client via his phone number : {$offre->getArticle()->getUser()->getTel()} 
+                or via his email : {$offre->getArticle()->getUser()->getEmail()} 
                  "
             )
         );
@@ -182,7 +185,7 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+21650914133', // recipient phone number
+            '+216' . $offre->getArticle()->getUser()->getTel(), // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "

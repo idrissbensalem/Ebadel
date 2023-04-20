@@ -100,23 +100,6 @@ class Offre
            return $this;
        }
         
-       
-    
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Idu", referencedColumnName="Idu")
-     * })
-     */
-    private $idu;
-
-
- 
-
-
     public function getIdOffre(): ?int
     {
         return $this->id_offre;

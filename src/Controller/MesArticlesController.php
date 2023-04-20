@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Form\OffreType;
 use App\Entity\Article;
 use App\Entity\Offre;
+use App\Entity\User;
 use App\Controller\OffreController;
 use App\Form\ArticleType;
 use App\Repository\MesArticlesRepository;
+use App\Repository\UserRepository;
 use App\Repository\OffreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,16 +17,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 #[Route('/mesarticles')]
 class MesArticlesController extends AbstractController
 {
 
 #[Route('/', name: 'app_mesarticles_index', methods: ['GET'])]
-public function index(MesArticlesRepository $mesarticlesRepository): Response
+public function index(MesArticlesRepository $mesarticlesRepository , EntityManagerInterface $entityManager): Response
 {
-    $userId = 1;
+    $idu = 1;
+    $user = $entityManager->getRepository(User::class)->find($idu);
     $mesarticles = $mesarticlesRepository->findAll();
+    $mesarticles = $user->getArticles();
 
     return $this->render('mes_articles/index.html.twig', [
         'mesarticles' => $mesarticles,

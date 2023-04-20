@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -48,13 +53,12 @@ class User
     private ?int $role = 0;
 
     #[ORM\Column(type:"date", nullable:true)]
-
-    private ?date $datenaissance =null;
+    private $datenaissance =null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private Collection $articles;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: offre::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
     private Collection $offres;
 
 
@@ -167,6 +171,59 @@ class User
     public function setDatenaissance(?\DateTimeInterface $datenaissance): self
     {
         $this->datenaissance = $datenaissance;
+
+        return $this;
+    }
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getOffre() === $this) {
+                $offre->setOffre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticles(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getArticle() === $this) {
+                $article->setArticle(null);
+            }
+        }
 
         return $this;
     }
