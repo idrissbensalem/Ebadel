@@ -43,13 +43,26 @@ block body %}
   </ul>
   <div class="item">
     <br></br>
-    <a href="#" class="default-btn">Accepter l'offre</a>
-    <a href="#" class="default-btn">Refuser l'offre</a>
+    {% block javascript %}
+  <script>
+    function showAlertAccept() {
+      alert("Un SMS de confirmation sera envoyé à l'autre client.");
+    }
+    function showAlertrefuse() {
+      alert("Un SMS de refusion sera envoyé à l'autre client.");
+    }
+  </script>
+{% endblock %}
+    <a href="{{ path('app_accept_offre' ,{ id: id}) }}" class="default-btn" onclick="showAlertAccept()">Accepter l'offre</a>
+    <a href="{{ path('app_refuse_offre' ,{ id: id}) }}" class="default-btn" onclick="showAlertrefuse()">Refuser l'offre</a>
+  
+    
+    
+
   </div>
 
 </section>
 
-
- 
-  
 {% endblock %}
+
+

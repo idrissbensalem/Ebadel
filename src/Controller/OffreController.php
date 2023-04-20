@@ -14,6 +14,10 @@ use App\Repository\ArticleRepository;
 use App\Repository\OffreRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Twilio\Rest\Client;
+use Twilio\Exceptions\TwilioException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 #[Route('/offre')]
 class OffreController extends AbstractController
@@ -143,4 +147,56 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
 
         return $this->redirectToRoute('app_mesarticles_show', ['id' => $offre->getArticle()->getIdArticle()], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/sendsmsaccept/{id}', name: 'app_accept_offre')]
+    public function sendSmsAccept(Offre $offre) : Response
+    {
+        $sid = 'AC03e6a61d92d0f786d521c8d810e71e06';
+        $token = '533a97d8b3f285f9f42896c53b14bc38';
+        $twilio = new Client($sid, $token);
+        try {
+        $message = $twilio->messages->create(
+            '+21650914133', // recipient phone number
+            array(
+                'from' => '+16203028593', // your Twilio phone number
+                'body' => "
+                Your offre with Titre : {$offre->getTitre()}
+                to the article :{$offre->getArticle()->getNomArticle()}  was accepted!
+                 "
+            )
+        );
+        $response = new JsonResponse(['success' => true]);
+    } catch (TwilioException $e) {
+        $response = new JsonResponse(['success' => false, 'message' => 'SMS could not be sent.']);
+    }
+   
+    return $this->redirectToRoute('app_offre_show', ['id' => $offre->getIdOffre()], Response::HTTP_SEE_OTHER);
+
+}
+
+#[Route('/sendsmsrefuse/{id}', name: 'app_refuse_offre')]
+    public function sendSmsRefuser(Offre $offre) : Response
+    {
+        $sid = 'AC03e6a61d92d0f786d521c8d810e71e06';
+        $token = '533a97d8b3f285f9f42896c53b14bc38';
+        $twilio = new Client($sid, $token);
+        try {
+        $message = $twilio->messages->create(
+            '+21650914133', // recipient phone number
+            array(
+                'from' => '+16203028593', // your Twilio phone number
+                'body' => "
+                Your offre with Titre : {$offre->getTitre()}
+                to the Article :{$offre->getArticle()->getNomArticle()}  was refused !
+                try to send a more interested offer"
+            )
+        );
+        $response = new JsonResponse(['success' => true]);
+    } catch (TwilioException $e) {
+        $response = new JsonResponse(['success' => false, 'message' => 'SMS could not be sent.']);
+    }
+   
+    return $this->redirectToRoute('app_offre_show', ['id' => $offre->getIdOffre()], Response::HTTP_SEE_OTHER);
+
+}
 }

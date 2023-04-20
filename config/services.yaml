@@ -5,21 +5,23 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
-    twilio.account_sid: 'AC03e6a61d92d0f786d521c8d810e71e06'
-    twilio.auth_token: '27d7a1949c3b4cce400701d6dee87124'
-    twilio.phone_number: '+16203028593'
+    twilio.account_sid: '%env(TWILIO_ACCOUNT_SID)%'
+    twilio.auth_token: '%env(TWILIO_AUTH_TOKEN)%'
+    twilio.phone_number: '%env(TWILIO_PHONE_NUMBER)%'
 
 services:
- twilio.client:
+    twilio.client:
         class: Twilio\Rest\Client
         arguments:
-            - '%env(AC03e6a61d92d0f786d521c8d810e71e06)%'
-            - '%env(27d7a1949c3b4cce400701d6dee87124)%'
+            - '%env(TWILIO_ACCOUNT_SID)%'
+            - '%env(TWILIO_AUTH_TOKEN)%'
     twilio.sender:
         class: App\Service\SmsSender
         arguments:
             - '@twilio.client'
-            - '%env(16203028593)%'
+            - '%env(TWILIO_PHONE_NUMBER)%'
+        autowire: false
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
