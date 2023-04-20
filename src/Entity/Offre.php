@@ -80,6 +80,10 @@ class Offre
         private ?int $num_tel =null;
 
         #[ORM\ManyToOne(inversedBy: 'offres')]
+        #[ORM\JoinColumn(name :'idu', referencedColumnName :'idu')]
+         private ?User $user = null;  
+
+        #[ORM\ManyToOne(inversedBy: 'offres')]
         #[ORM\JoinColumn(name :'id_article', referencedColumnName :'id_article')]
         private ?Article $article = null;
    

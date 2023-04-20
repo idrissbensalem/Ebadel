@@ -66,18 +66,26 @@ class Article
     #[Assert\NotBlank(message: "Le champ catégorie est obligatoire.")]
     private ?string $categorie;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Idu", referencedColumnName="Idu")
-     * })
-     */
-    private $idu;   
+   
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(name :'idu', referencedColumnName :'idu')]
+     private ?User $user = null;  
     
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Offre::class)]
     private Collection $offres;
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+     
 
     public function getIdArticle(): ?int
     {

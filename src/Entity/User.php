@@ -5,85 +5,58 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Idu", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idu;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idu =null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Cin", type="string", length=20, nullable=false)
-     */
-    private $cin;
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\NotBlank(message:"Le champ CIN est obligatoire.")]
+    private ?string $cin =null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Nom", type="string", length=20, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\NotBlank(message:"Le champ nom est obligatoire.")]
+    #[Assert\Length(max:20, maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères")]
+    private ?string  $nom =null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Prenom", type="string", length=20, nullable=false)
-     */
-    private $prenom;
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\NotBlank(message:"Le champ prénom est obligatoire.")]
+    #[Assert\Length(max:20, maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
+    private ?string  $prenom=null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Tel", type="string", length=20, nullable=false)
-     */
-    private $tel;
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\NotBlank(message:"Le champ téléphone est obligatoire.")]
+    private ?string $tel =null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Email", type="string", length=38, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message:"Le champ email est obligatoire.")]
+    #[Assert\Email(message:"L'email '{{ value }}' n'est pas valide.")]
+    private ?string $email=null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Password", type="string", length=50, nullable=false)
-     */
-    private $password;
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message:"Le champ mot de passe est obligatoire.")]
+    private ?string  $password=null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Image", type="string", length=1000, nullable=false)
-     */
-    private $image;
+    #[ORM\Column(type: 'string', nullable:true)]
+    #[Assert\NotBlank(message:"L'image est obligatoire.")]
+    private ?string $image = 'null';
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="Role", type="integer", nullable=true)
-     */
-    private $role = '0';
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $role = 0;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateNaissance", type="date", nullable=true)
-     */
-    private $datenaissance;
+    #[ORM\Column(type:"date", nullable:true)]
+
+    private ?date $datenaissance =null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
+    private Collection $articles;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: offre::class)]
+    private Collection $offres;
+
 
     public function getIdu(): ?int
     {
