@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Jeux;
+
+use App\Entity\User;
 use App\Form\JeuxType;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\JeuxRepository;
 use App\Repository\ParticipationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -122,8 +125,26 @@ class JeuxController extends AbstractController
         $participants=$participationRepository->getParticipantsByJeux($jeux);
         return $this->render('jeux/spin.html.twig', [
             'participants' => $participants,
+            'jeux'=>$jeux,
         ]);
 
        
     }
-}
+    #[Route('/gagner/{jeux}/{user}', name: 'app_jeux_gagner', methods: ['GET'])]
+    public function Gagner(Jeux $jeux, User $user, JeuxRepository $jeuxRepository,EntityManagerInterface $em): Response
+    {
+    
+        $user->addJeuxGagnee($jeux);
+        $jeux->setGagnant($user);
+        $jeuxRepository->save($jeux,false);
+        $em->persist($user);
+        $em->flush();
+     
+        return $this->redirectToRoute('app_jeux_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+       
+    }
+
+

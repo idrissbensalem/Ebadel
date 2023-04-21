@@ -18,7 +18,7 @@ class Participation
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'participations', fetch:"EAGER")]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Jeux $jeux = null;
 
     public function getId(): ?int

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\User;
 use App\Repository\JeuxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -65,6 +65,8 @@ class Jeux
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'jeux')]
     private Collection $users;
+    #[ORM\ManyToOne(inversedBy: 'jeuxGagnees', fetch:"EAGER")]
+    private User $gagnant;
 
     public function __construct()
     {
@@ -214,6 +216,17 @@ class Jeux
         if ($this->users->removeElement($user)) {
             $user->removeJeux($this);
         }
+
+        return $this;
+    }
+    public function getGagnant(): ?User
+    {
+        return $this->gagnant;
+    }
+
+    public function setGagnant(User $gagnant): self
+    {
+        $this->gagnant = $gagnant;
 
         return $this;
     }

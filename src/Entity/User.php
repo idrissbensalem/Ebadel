@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Jeux;
+
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,6 +28,10 @@ class User
 
     #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
     private Collection $jeux;
+
+    #[ORM\OneToMany(mappedBy: 'gagnant', targetEntity: Jeux::class)]
+    private Collection $jeuxGagnees;
+
 
     public function __construct()
     {
@@ -115,4 +121,35 @@ class User
 
         return $this;
     }
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getJeuxGagnees(): Collection
+    {
+        return $this->jeuxGagnees;
+    }
+
+    public function addJeuxGagnee(Jeux $jeux): self
+    {
+        if (!$this->jeuxGagnees->contains($jeux)) {
+            $this->jeuxGagnees->add($jeux);
+            $jeux->setGagnant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJeuxGagnee(Jeux $jeux): self
+    {
+        if ($this->jeuxGagnees->removeElement($jeux)) {
+            // set the owning side to null (unless already changed)
+            if ($jeux->getGagnant() === $this) {
+                $jeux->setGagnant(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
