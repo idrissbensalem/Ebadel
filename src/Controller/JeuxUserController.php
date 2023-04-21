@@ -111,6 +111,7 @@ class JeuxUserController extends AbstractController
         // Ajouter la participation à la base de données
         $entityManager->persist($participation);
         $entityManager->flush();
+        $this->addFlash('success', 'You have successfully participated!');
 
         return $this->redirectToRoute('app_user_jeux_index', ['id' => $id]);
     }

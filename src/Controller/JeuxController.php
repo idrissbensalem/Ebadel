@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Jeux;
 use App\Form\JeuxType;
 use App\Repository\JeuxRepository;
+use App\Repository\ParticipationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -114,5 +115,15 @@ class JeuxController extends AbstractController
         }
 
         return $this->redirectToRoute('app_jeux_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/spin/{id}', name: 'app_jeux_spin', methods: ['GET', 'POST'])]
+    public function Spin(Request $request, Jeux $jeux, ParticipationRepository $participationRepository): Response
+    {
+        $participants=$participationRepository->getParticipantsByJeux($jeux);
+        return $this->render('jeux/spin.html.twig', [
+            'participants' => $participants,
+        ]);
+
+       
     }
 }

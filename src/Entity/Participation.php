@@ -13,11 +13,11 @@ class Participation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participations')]
+    #[ORM\ManyToOne(inversedBy: 'participations' , fetch:"EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participations')]
+    #[ORM\ManyToOne(inversedBy: 'participations', fetch:"EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Jeux $jeux = null;
 

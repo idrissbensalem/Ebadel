@@ -1,0 +1,37 @@
+{% extends 'base_back.html.twig' %} {% block title %}Jeux Spin{% endblock %} {%
+block body %}
+<div id="wheel-container"></div>
+{% block javascripts %}
+{{ parent() }}
+<!-- Include any additional scripts here -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="/node_modules/spin-wheel/dist/spin-wheel-esm.js"></script>
+
+<script>
+  jQuery(document).ready(function () {
+    console.log("ready!");
+  });
+
+  // 1. Configure the wheel's properties:
+  const props = {
+    items: [
+      {
+        label: "one",
+      },
+      {
+        label: "two",
+      },
+      {
+        label: "three",
+      },
+    ],
+  };
+
+  // 2. Decide where you want it to go:
+  const container = document.querySelector(".wheel-container");
+
+  // 3. Create the wheel in the container and initialise it with the props:
+  const wheel = new Wheel(container, props);
+</script>
+{% endblock %} {% endblock %}

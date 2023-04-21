@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\Jeux;
 use App\Entity\Participation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +38,19 @@ class ParticipationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    
+    public function getParticipantsByJeux(Jeux $jeux):array
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p')
+           ->leftJoin('p.jeux', 'j')
+           ->where('j = :jeux')
+           ->setParameter('jeux', $jeux);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
 
 //    
 //     * @return Participation[] Returns an array of Participation objects

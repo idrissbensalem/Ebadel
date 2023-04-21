@@ -38,6 +38,7 @@ class JeuxRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
 
 //    /**
 //     * @return Jeux[] Returns an array of Jeux objects
