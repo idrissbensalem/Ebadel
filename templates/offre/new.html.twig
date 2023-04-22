@@ -62,7 +62,17 @@
           {{ form_errors(form.image) }}
         </div>
      <br></br>
-     <button id="submit-btn" type="submit" class="default-btn" >Envoyer l'offre</button>
+
+     {% block javascript %}
+     <script>
+       function showAlert() {
+         alert("Votre offre sera envoyé à l'autre client.");
+       }
+     
+     </script>
+   {% endblock %}
+     
+     <button id="submit-btn" type="submit" class="default-btn" onclick="showAlert()">Envoyer l'offre</button>
 
      <a href="{{ path('app_article_show', { id: id_article}) }}" > &nbsp &nbsp &nbsp &nbsp ou Retourner</a >
         {{ form_end(form) }}
