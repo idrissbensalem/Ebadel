@@ -17,21 +17,25 @@
         <tbody>
             {% for s in suggestion %}
             {% if s.suggC is not null %}
-            {% for u in users %}
+
             <tr>
                 <td></td>
                 <td></td>
-                <td>{{ u.Nom }}</td>
                 <td>{{ s.suggC }}</td>
                 <td>
                     <a href="{{ path("Refusersuggestion",{'id':s.idS}) }}" class="btn btn-danger deletion-button" onclick="confirmDeletion(event)">
                         <i class="fas fa-trash"></i> Refuser
-                    </a> 
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-success accept-button" onclick="acceptSuggestion(event, {{s.idS}})">
+                        <i class="fas fa-check"></i> Accepter
+                    </a>
                 </td>
 
 
             </tr>
-            {% endfor %}
+
              {% endif %}
             {% endfor %}
         </tbody>
@@ -55,6 +59,12 @@
 
 .modification-button:active {
   background-color: #007bff;
+  transform: scale(0.9);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.accept-button:active {
+  background-color: #28a745;
   transform: scale(0.9);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -83,9 +93,12 @@ function confirmDeletion(event) {
   }
 }
 
-function confirmModification(event) {
+function acceptSuggestion(event, suggestionId) {
   event.preventDefault();
-  window.location.href = event.target.href;
+  var row = event.target.closest("tr");
+  row.style.backgroundColor = "#d4edda";
+  alert("Suggestion acceptée !");
+  // vous pouvez ajouter du code ici pour envoyer une requête AJAX pour marquer la suggestion comme acceptée dans la base de données
 }
 </script>
 {% endblock %}

@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\UserRepository;
 use App\Repository\SuggestionRepository;
 
+
 class SuggestionController extends AbstractController
 {
 
@@ -40,7 +41,7 @@ class SuggestionController extends AbstractController
         $sugg= new Suggestion();
         
         $form =$this->createForm(SuggestionFormType::class, $sugg);
-        $form->add("Ajouter",SubmitType::class);
+        $form->add("Envoyer",SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
         $entityManager = $this->getDoctrine()->getManager();

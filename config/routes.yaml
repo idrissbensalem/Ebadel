@@ -1,6 +1,3 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-suggestion_afficherSugg:
-    path: /suggestion/afficherSugg
-    controller: App\Controller\SuggestionController::afficherSugg
