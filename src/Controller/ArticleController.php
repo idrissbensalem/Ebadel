@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use App\Form\ContactType;
+use Google\Client;
+use Google_Service_Gmail;
+use Google_Service_Gmail_Message;
 
 
 
@@ -97,7 +97,7 @@ class ArticleController extends AbstractController
             'image' => $image,
         ]);
     }
-
+/*
     #[Route('/send-mail/{id}', name: 'app_send_mail', methods: ['GET'])]
     public function sendEmail(Request $request, MailerInterface $mailer): Response
     {
@@ -117,6 +117,27 @@ try{
         return $this->json(['error' => 'An error occurred while sending the email.']);
     }
 }
+*/
 
+#[Route('/send-email', name: 'app_send_email')]
+public function sendEmail(Client $googleClient): Response
+{
+    $service = new Google_Service_Gmail($googleClient);
+    $message = new Google_Service_Gmail_Message();
+    $email = 'tn.ebadel@gmail.com'; // use your own email address here
+    $to = 'azaiez.allela@esprit.tn'; // use recipient's email address here
+    $subject = 'Test Email';
+    $body = 'This is a test email sent from Symfony using Gmail API.';
+    $rawMessage = "To: $to\r\n" .
+                  "Subject: $subject\r\n\r\n" .
+                  "$body";
+    $encodedMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
+    $message->setRaw($encodedMessage);
+    $send = $service->users_messages->send($email, $message);
+    if ($send) {
+        return $this->json(['success' => true]);
+    } else {
+        return $this->json(['error' => 'An error occurred while sending the email.']);
 }
-
+    }
+}
