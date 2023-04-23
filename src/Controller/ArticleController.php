@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use App\Form\ContactType;
 
 
 
@@ -95,7 +98,25 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/send-mail/{id}', name: 'app_send_mail', methods: ['GET'])]
+    public function sendEmail(Request $request, MailerInterface $mailer): Response
+    {
+       // $to = $request->request->get('to');
+        //$subject = $request->request->get('subject');
+        //$body = $request->request->get('body');
+try{
+        $email = (new Email())
+            ->from('tn.ebadel@gmail.com')
+            ->to('azaiez.allela@esprit.tn')
+            ->subject('test')
+            ->html('test');
 
-    
+        $mailer->send($email);
+        return $this->json(['success' => true]);
+    } catch (TransportExceptionInterface $e) {
+        return $this->json(['error' => 'An error occurred while sending the email.']);
+    }
+}
+
 }
 

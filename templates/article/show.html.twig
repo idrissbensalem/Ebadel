@@ -49,7 +49,7 @@ block body %}
   <li><span>Description:</span> <a href="#">{{description}}</a></li>
   </ul>
   <br>
-  <a href="contact.html"><i class='bx bx-envelope'></i> Renseignez-vous sur cet article</a>
+  <a href="{{ path('app_send_mail', {'id': id}) }}"><i class='bx bx-envelope'></i> Renseignez-vous sur cet article</a>
   <br>
   <div class="item">
     <br></br>
