@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
 
 #[Route('/admin')]
 class JeuxController extends AbstractController
@@ -130,8 +133,8 @@ class JeuxController extends AbstractController
 
        
     }
-    #[Route('/gagner/{jeux}/{user}', name: 'app_jeux_gagner', methods: ['GET'])]
-    public function Gagner(Jeux $jeux, User $user, JeuxRepository $jeuxRepository,EntityManagerInterface $em): Response
+    #[Route('/gagner/{jeux}/{user}', name: 'app_jeux_gagner', options: ["expose" => true], methods: ['GET'])]
+    public function Gagner(Jeux $jeux, User $user, JeuxRepository $jeuxRepository,EntityManagerInterface $em,MailerInterface $mailer): Response
     {
     
         $user->addJeuxGagnee($jeux);
@@ -139,6 +142,19 @@ class JeuxController extends AbstractController
         $jeuxRepository->save($jeux,false);
         $em->persist($user);
         $em->flush();
+        $email = (new TemplatedEmail())
+        ->from('ahmed.chouchene@esprit.tn')
+        ->to($user->getEmail())
+        ->subject('EBADEL JEUXX')
+        ->htmlTemplate('jeux/email_gagnant.html.twig')
+
+        // pass variables (name => value) to the template
+        ->context([
+            'jeux' => $jeux 
+     
+        ]);
+
+    $mailer->send($email);
      
         return $this->redirectToRoute('app_jeux_index', [], Response::HTTP_SEE_OTHER);
     }
