@@ -64,6 +64,11 @@ class ArticleController extends AbstractController
             }
 
             $articleRepository->save($article, true);
+            $transport = new EsmtpTransport('smtp.gmail.com', 587);
+            $transport->setUsername('tn.ebadel@gmail.com');
+            $transport->setPassword('iixxcjrhvqhymado');
+            $mailer = new Mailer($transport);
+            $this->sendEmailAjouterArticle($mailer);
     
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
 
@@ -103,15 +108,18 @@ class ArticleController extends AbstractController
     
     
     #[Route('/sendemail/{id}', name: 'app_send_email', methods: ['GET'])]
-    public function sendEmail(MailerInterface $mailer, Article $article): Response
+    public function sendEmailAjouterArticle(MailerInterface $mailer):Response
     {
         $to = 'allala.azaiz@gmail.com';
-        $subject = 'Test Email';
-        $body = 'This is a test email';
+        $subject = 'Article ajouté avec succès !!';
+        $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
+        . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>donner une seconde vie a vos article ! au lieu de le jetter </h4></center></br></html>"
+        . "<html><center><h2>Votre Article a été ajouté avec succès</h2></center></html>";
+/*
         $transport = new EsmtpTransport('smtp.gmail.com', 587);
         $transport->setUsername('tn.ebadel@gmail.com');
         $transport->setPassword('iixxcjrhvqhymado');
-        $mailer = new Mailer($transport);
+        $mailer = new Mailer($transport);*/
         try {
             $email = (new Email())
                 ->from('tn.ebadel@gmail.com')
@@ -125,7 +133,7 @@ class ArticleController extends AbstractController
             $response = new JsonResponse(['success' => false, 'message' => 'email could not be sent.']);
         }
     
-        return $this->redirectToRoute('app_article_show', ['id' => $article->getIdArticle()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
 }
     

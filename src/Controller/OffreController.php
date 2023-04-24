@@ -16,7 +16,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Twilio\Rest\Client;
 use Twilio\Exceptions\TwilioException;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mailer\Transport\Smtp\Stream\TlsClientStream;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\MailerInterface;
 
 
 #[Route('/offre')]
@@ -86,6 +91,13 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
             $entityManager->flush();
         
             $this->addFlash('success', 'Votre offre a été envoyée à l\'autre client" .');
+        
+             $transport = new EsmtpTransport('smtp.gmail.com', 587);
+             $transport->setUsername('tn.ebadel@gmail.com');
+             $transport->setPassword('iixxcjrhvqhymado');
+             $mailer = new Mailer($transport);
+             $this->sendEmailEnvoyerOffre($mailer,$id_article);
+
         
             return $this->redirectToRoute('app_article_show', ['id' => $id_article], Response::HTTP_SEE_OTHER);
         }
@@ -202,4 +214,30 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
     return $this->redirectToRoute('app_offre_show', ['id' => $offre->getIdOffre()], Response::HTTP_SEE_OTHER);
 
 }
+#[Route('/sendemail/{id}', name: 'app_send_email', methods: ['GET'])]
+public function sendEmailEnvoyerOffre(MailerInterface $mailer , int $id_article):Response
+{
+    $to = 'allala.azaiz@gmail.com';
+    $subject = 'Votre offre a été envoyé avec succès !!';
+    $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
+    . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>donner une seconde vie a vos article ! au lieu de le jetter </h4></center></br></html>"
+    . "<html><center><h2>Votre offre a été envoyé avec succès</h2></center></html>";
+
+    try {
+        $email = (new Email())
+            ->from('tn.ebadel@gmail.com')
+            ->to($to)
+            ->subject($subject)
+            ->html($body);
+
+        $mailer->send($email);
+        $response = new JsonResponse(['success' => true]);
+    }  catch (\Exception $e) {
+        $response = new JsonResponse(['success' => false, 'message' => 'email could not be sent.']);
+    }
+
+    return $this->redirectToRoute('app_article_show', ['id' => $id_article], Response::HTTP_SEE_OTHER);
+}
+
+
 }
