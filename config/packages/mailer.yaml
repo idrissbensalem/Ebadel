@@ -1,5 +1,6 @@
 framework:
     mailer:
-        dsn: 'smtp://smtp.gmail.com:587?encryption=tls&auth_mode=login&username=tn.ebadel@gmail.com&password=iixxcjrhvqhymado'
+        dsn: 'smtp://tn.ebadel@gmail.com:iixxcjrhvqhymado@smtp.gmail.com:587'
+        
        
 
