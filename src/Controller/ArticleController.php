@@ -83,6 +83,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
+        $iduser = $article->getUser()->getIdu();
         $id = $article->getIdArticle();
         $nom = $article->getNomArticle();
         $categorie = $article->getCategorie();
@@ -94,6 +95,7 @@ class ArticleController extends AbstractController
         $image = $article->getImage();
     
         return $this->render('article/show.html.twig', [
+            'iduser' =>$iduser,
             'id' => $id,
             'nom' => $nom,
             'categorie' => $categorie,

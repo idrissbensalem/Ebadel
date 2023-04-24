@@ -69,7 +69,7 @@ class Article
    
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(name :'idu', referencedColumnName :'idu')]
-     private ?User $user = null;  
+     private ?User $user = null; 
     
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Offre::class)]
     private Collection $offres;
