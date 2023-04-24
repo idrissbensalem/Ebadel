@@ -68,7 +68,7 @@ class ArticleController extends AbstractController
             $transport->setUsername('tn.ebadel@gmail.com');
             $transport->setPassword('iixxcjrhvqhymado');
             $mailer = new Mailer($transport);
-            $this->sendEmailAjouterArticle($mailer);
+            $this->sendEmailAjouterArticle($mailer , $article);
     
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
 
@@ -108,18 +108,13 @@ class ArticleController extends AbstractController
     
     
     #[Route('/sendemail/{id}', name: 'app_send_email', methods: ['GET'])]
-    public function sendEmailAjouterArticle(MailerInterface $mailer):Response
+    public function sendEmailAjouterArticle(MailerInterface $mailer ,Article $article):Response
     {
         $to = 'allala.azaiz@gmail.com';
-        $subject = 'Article ajouté avec succès !!';
-        $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
+        $subject = "Votre Article est ajouté avec succès !!";
+        $body = "<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
         . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>donner une seconde vie a vos article ! au lieu de le jetter </h4></center></br></html>"
-        . "<html><center><h2>Votre Article a été ajouté avec succès</h2></center></html>";
-/*
-        $transport = new EsmtpTransport('smtp.gmail.com', 587);
-        $transport->setUsername('tn.ebadel@gmail.com');
-        $transport->setPassword('iixxcjrhvqhymado');
-        $mailer = new Mailer($transport);*/
+        . "<html><center><h2>Votre Article de nom : {$article->getNomArticle()} est ajouté avec succès</h2></center></html>";
         try {
             $email = (new Email())
                 ->from('tn.ebadel@gmail.com')

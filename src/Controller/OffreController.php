@@ -96,7 +96,7 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
              $transport->setUsername('tn.ebadel@gmail.com');
              $transport->setPassword('iixxcjrhvqhymado');
              $mailer = new Mailer($transport);
-             $this->sendEmailEnvoyerOffre($mailer,$id_article);
+             $this->sendEmailEnvoyerOffre($mailer,$offre);
 
         
             return $this->redirectToRoute('app_article_show', ['id' => $id_article], Response::HTTP_SEE_OTHER);
@@ -215,13 +215,14 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
 
 }
 #[Route('/sendemail/{id}', name: 'app_send_email', methods: ['GET'])]
-public function sendEmailEnvoyerOffre(MailerInterface $mailer , int $id_article):Response
+public function sendEmailEnvoyerOffre(MailerInterface $mailer , Offre $offre):Response
 {
     $to = 'allala.azaiz@gmail.com';
     $subject = 'Votre offre a été envoyé avec succès !!';
     $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
     . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>donner une seconde vie a vos article ! au lieu de le jetter </h4></center></br></html>"
-    . "<html><center><h2>Votre offre a été envoyé avec succès</h2></center></html>";
+    . "<html><center><h2>Votre offre de titre : {$offre->getTitre()} a été envoyé avec succès a l'article de nom : {$offre->getArticle()->getNomArticle()} </h2></center></html>"
+    . "<html><center><h3>vous recevrez la réponse par SMS de l'autre client dans les plus brefs délais</h3></center></html>";
 
     try {
         $email = (new Email())
@@ -236,7 +237,7 @@ public function sendEmailEnvoyerOffre(MailerInterface $mailer , int $id_article)
         $response = new JsonResponse(['success' => false, 'message' => 'email could not be sent.']);
     }
 
-    return $this->redirectToRoute('app_article_show', ['id' => $id_article], Response::HTTP_SEE_OTHER);
+    return $this->redirectToRoute('app_article_show', ['id' => $offre->getArticle()->getIdArticle()], Response::HTTP_SEE_OTHER);
 }
 
 
