@@ -85,8 +85,8 @@ class Produit
      *
      * @ORM\ManyToOne(targetEntity="Marque")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="nomM", referencedColumnName="id_m"),
-     *   @ORM\JoinColumn(name="nomM", referencedColumnName="nom_m")
+
+     *   @ORM\JoinColumn(name="nom_m", referencedColumnName="nom_m")
      * })
      */
     private $nomM;

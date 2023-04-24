@@ -27,12 +27,12 @@
                     <td>{{ c.nomSC }}</td>
                     <td>{{ c.nomM }}</td>
                 <td>
-                    <a href="{{ path("SupprimerMarque",{'nom' :c.nomM,'idm':c.IdM}) }}" class="btn btn-danger deletion-button" onclick="confirmDeletion(event)">
-                        <i class="fas fa-trash"></i> Supprimer
+                    <a href="{{ path("SupprimerMarque",{'nom' :c.nomM,'idm' :c.idM}) }}" class="btn btn-danger deletion-button" onclick="confirmDeletion(event)">
+                        <i class="fas fa-trash-alt"></i> Supprimer
                     </a> 
                 </td>
                 <td>
-                    <a href="{{ path("modifierMarque",{'nom' :c.nomM,'idm':c.IdM}) }}" class="btn btn-primary modification-button" onclick="confirmModification(event)">
+                    <a href="{{ path("modifierMarque",{'nom' :c.nomM,'idm' :c.idM}) }}" class="btn btn-primary modification-button" onclick="confirmModification(event)">
                         <i class="fas fa-edit"></i> Modifier
                     </a>
                 </td>

@@ -103,4 +103,3 @@ class Categorie
         return $this;
     }
 }
-

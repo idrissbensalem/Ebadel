@@ -1,0 +1,53 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Suggestion</th>
+            <th>Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in suggestion %}
+            {% if s.suggC is not null %}
+                <tr {% if s.etatc == 'Accepté' %}class="accepte"{% endif %}>
+                    <td>{{s.IdClient.Nom}}</td>
+                    <td>{{s.IdClient.Prenom}}</td>
+                    <td>{{ s.suggC }}</td>
+                    <td{% if s.etatc == 'Accepté' %} class="accepte"{% endif %}>{{ s.etatc }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+
+    <style type="text/css">
+    /* Définir la police et la taille de texte */
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+    
+    /* Définir les bordures de la table */
+    table {
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+    
+    /* Définir les bordures des cellules */
+    th, td {
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    
+    /* Définir la couleur de fond pour les lignes avec l'état Accepté */
+    tr.accepte {
+        background-color: #d4edda;
+    }
+    
+    /* Définir la couleur de texte pour l'état Accepté */
+    td.accepte {
+        color: green;
+    }
+</style>

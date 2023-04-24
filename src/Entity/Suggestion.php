@@ -8,9 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Suggestion
  *
  * @ORM\Table(name="suggestion", indexes={@ORM\Index(name="id_client", columns={"id_client"})})
-
-* @ORM\Entity(repositoryClass="App\Repository\SuggestionRepository")
-
+ * @ORM\Entity
  */
 class Suggestion
 {
@@ -24,25 +22,46 @@ class Suggestion
     private $idS;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="sugg_c", type="string", length=100, nullable=true)
      */
     private $suggC;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="sugg_s", type="string", length=100, nullable=true)
      */
     private $suggS;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="sugg_m", type="string", length=100, nullable=true)
      */
     private $suggM;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etatC", type="string", length=20, nullable=false, options={"default"="pas vu"})
+     */
+    private $etatc = 'pas vu';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etatS", type="string", length=20, nullable=false, options={"default"="pas vu"})
+     */
+    private $etats = 'pas vu';
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="etatM", type="string", length=20, nullable=true, options={"default"="pas vue"})
+     */
+    private $etatm = 'pas vue';
 
     /**
      * @var \User
@@ -153,5 +172,42 @@ public function setIdClient($idClient)
 
     return $this;
 }
+
+public function getEtatc(): ?string
+{
+    return $this->etatc;
+}
+
+public function setEtatc(string $etatc): self
+{
+    $this->etatc = $etatc;
+
+    return $this;
+}
+
+public function getEtats(): ?string
+{
+    return $this->etats;
+}
+
+public function setEtats(string $etats): self
+{
+    $this->etats = $etats;
+
+    return $this;
+}
+
+public function getEtatm(): ?string
+{
+    return $this->etatm;
+}
+
+public function setEtatm(?string $etatm): self
+{
+    $this->etatm = $etatm;
+
+    return $this;
+}
+
 
 }

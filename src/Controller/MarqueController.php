@@ -22,10 +22,10 @@ class MarqueController extends AbstractController
             'marque' => $Marques,
         ]);
     }
-    #[Route('/SupprimerMarque/{nom}/{idm}', name: 'SupprimerMarque')]
-    public function SupprimerMarque(MarqueRepository $rep, $nom,$idm): Response
+    #[Route('/SupprimerMarque/{nom}', name: 'SupprimerMarque')]
+    public function SupprimerMarque(MarqueRepository $rep, $nom): Response
     {  
-        $marque = $rep ->find(['nomM' => $nom,'idM'=>$idm]);
+        $marque = $rep ->find(['nomM' => $nom]);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($marque);
@@ -34,10 +34,10 @@ class MarqueController extends AbstractController
     }
 
 
-    #[Route('/modifierMarque/{nom}/{idm}', name: 'modifierMarque')]
-    public function modifierMarque(Request $request,MarqueRepository $rep, $nom,$idm): Response
+    #[Route('/modifierMarque/{nom}', name: 'modifierMarque')]
+    public function modifierMarque(Request $request,MarqueRepository $rep, $nom): Response
     {
-        $marque = $rep ->find(['nomM' => $nom,'idM'=>$idm]);
+        $marque = $rep ->find(['nomM' => $nom]);
         $form =$this->createForm(MarqueType::class, $marque);
 //$form->add("Modifier",SubmitType::class);
 $form->handleRequest($request);

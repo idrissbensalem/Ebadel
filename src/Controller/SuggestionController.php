@@ -11,10 +11,37 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\UserRepository;
 use App\Repository\SuggestionRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Dompdf\Dompdf;
+
 
 
 class SuggestionController extends AbstractController
 {
+    #[Route('/suggestion', name: 'suggestion')]
+    public function suggestion(SuggestionRepository $rep): Response
+    {
+
+        return $this->render('suggestion/index.html.twig');
+    }
+
+    #[Route('/accepterSuggestion/{id}', name: 'accepterSuggestion')]
+    public function accepterSuggestion(SuggestionRepository $rep, $id): JsonResponse
+    {
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtatc('Accepté');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($suggestion);
+        $entityManager->flush();
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
+    }
+    
 
     #[Route('/suggestionList', name: 'suggestionList')]
     public function suggestionList(SuggestionRepository $rep): Response
@@ -49,10 +76,30 @@ class SuggestionController extends AbstractController
         $sugg->setIdClient($user);
             $entityManager->persist($sugg);
             $entityManager->flush();
-            return $this->redirectToRoute('app_suggestion');
+            return $this->redirectToRoute('suggestion');
     }
         return $this->render('suggestion/addSuggestion.html.twig', [
             'formSuggestion' =>  $form->createView(),
         ]);
+    }
+
+
+    #[Route('/suggestion/gpdf', name: 'pdf_suggestion')]
+
+    public function generatePDF(SuggestionRepository $rep): Response
+    {
+         
+        $suggestion = $rep->findAll();
+        $html =  $this->renderView('pdf.html.twig', [
+            'suggestion' => $suggestion,
+        ]);
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdf']
+        );
     }
 }

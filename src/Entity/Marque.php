@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Marque
  *
- * @ORM\Table(name="marque", indexes={@ORM\Index(name="nom_m", columns={"nom_m"}), @ORM\Index(name="nom_c", columns={"nom_c"}), @ORM\Index(name="nom_s_c", columns={"nom_s_c"})})
+ 
  * @ORM\Entity(repositoryClass="App\Repository\MarqueRepository")
  * @UniqueEntity(fields={"nomM","nomSC","nomC"},message="Le nom de la marque existe déja!")
  */
@@ -19,7 +19,7 @@ class Marque
      * @var int
      *
      * @ORM\Column(name="id_m", type="integer", nullable=false)
-* @ORM\Id
+
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $idM;
@@ -110,3 +110,4 @@ class Marque
 
 
 }
+
