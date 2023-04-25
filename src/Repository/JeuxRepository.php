@@ -21,6 +21,15 @@ class JeuxRepository extends ServiceEntityRepository
         parent::__construct($registry, Jeux::class);
     }
 
+    public function search($mots){
+        $query = $this->createQueryBuilder('a');
+        if($mots != null){
+            $query->Where('MATCH_AGAINST(a.titre, a.type) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        return $query->getQuery()->getResult();
+    }
+
     public function save(Jeux $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

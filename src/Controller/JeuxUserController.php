@@ -84,7 +84,7 @@ class JeuxUserController extends AbstractController
         }
 
         return $this->render('JeuxUser/index.html.twig', [
-            'jeuxes' => $jeuxRepository->findAll(),
+            'jeux' => $jeuxRepository->findAll(),
             'user' => $user,
             'form' => $form->createView(),
         ]);

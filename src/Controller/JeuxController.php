@@ -6,12 +6,14 @@ use App\Entity\Jeux;
 
 use App\Entity\User;
 use App\Form\JeuxType;
+use App\Form\SearchJeuxType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\JeuxRepository;
 use App\Repository\ParticipationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -22,12 +24,55 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 #[Route('/admin')]
 class JeuxController extends AbstractController
 {
-    #[Route('/', name: 'app_jeux_index', methods: ['GET'])]
-    public function indexAdmin(JeuxRepository $jeuxRepository): Response
+    #[Route('/', name: 'app_jeux_index', methods: ['GET', 'POST'
+    ])]
+    public function indexAdmin(Request $request2 , Request $request , JeuxRepository $jeuxRepository): Response
     {
+        
+        $form = $this->createForm(SearchJeuxType::class);
+        $search = $form->handleRequest($request2);
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository(Jeux::class)
+            ->createQueryBuilder('u');
+
+        //$desc= $jeuxRepository->findBy([],['date_jeux'=>'DESC']);
+        $jeux  = new Paginator($query);
+        $currentPage = $request->query->getInt('page', 1);
+
+        $itemsPerPage = 3;
+        $jeux
+
+
+            ->getQuery()
+            ->setFirstResult($itemsPerPage * ($currentPage - 1))
+            ->setMaxResults($itemsPerPage);
+        $totalItems = count($jeux);
+        $pagesCount = ceil($totalItems / $itemsPerPage);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $jeux =  $jeuxRepository->search($search->get('mots')->getData());
+            // $jeux = new Paginator($jeuxRepository->findBy([], ['date_jeux' => 'DESC']));
+            $currentPage = $request->query->getInt('page', 1);
+            $totalItems = count($jeux);
+            $pagesCount = ceil($totalItems / $itemsPerPage);
+            return $this->render('jeux/index.html.twig', [
+                'form' => $form->createView(),
+                'jeux' => $jeux,
+
+                'currentPage' => $currentPage,
+                'pagesCount' => $pagesCount,
+            ]);
+        }
         return $this->render('jeux/index.html.twig', [
-            'jeuxes' => $jeuxRepository->findAll(),
+            'form' => $form->createView(),
+            'jeux' => $jeux,
+            //'desc' => $desc,
+            'currentPage' => $currentPage,
+            'pagesCount' => $pagesCount,
+
+
         ]);
+        
     }
 
     #[Route('/new', name: 'app_jeux_new', methods: ['GET', 'POST'])]
