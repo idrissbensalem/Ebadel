@@ -16,20 +16,20 @@
         </thead>
         <tbody>
 {% for s in suggestion %}
-    {% if s.suggC is not null %}
-        <tr {% if s.etatc == 'Accepté' %}style="background-color: #d4edda;"{% elseif s.etatc == 'Refusé' %}style="background-color: #f8d7da;"{% endif %}>
+    {% if s.suggM is not null %}
+        <tr {% if s.etatm == 'Accepté' %}style="background-color: #d4edda;"{% elseif s.etatm == 'Refusé' %}style="background-color: #f8d7da;"{% endif %}>
             <td>{{s.IdClient.Nom}}</td>
             <td>{{s.IdClient.Prenom}}</td>
-            <td>{{ s.suggC }}</td>
-            <td{% if s.etatc == 'Accepté' %} style="color: green;"{% elseif s.etatc == 'Refusé' %} style="color: red;"{% endif %}>{{ s.etatc }}</td>
-            {% if s.etatc != 'Accepté' and s.etatc != 'Refusé' %}
+            <td>{{ s.suggM }}</td>
+            <td{% if s.etatm == 'Accepté' %} style="color: green;"{% elseif s.etatm == 'Refusé' %} style="color: red;"{% endif %}>{{ s.etatm }}</td>
+            {% if s.etatm != 'Accepté' and s.etatm != 'Refusé' %}
             <td>
-                <a href="{{ path("Refusersuggestion",{'id':s.idS}) }}" class="btn btn-danger deletion-button" onclick="refuseSuggestion(event, {{ s.idS }})">
+                <a href="{{ path("RefusersuggestionM",{'id':s.idS}) }}" class="btn btn-danger deletion-button" onclick="refuseSuggestion(event, {{ s.idS }})">
                     <i class="fas fa-trash-alt"></i> Refuser
                 </a>
             </td>
             <td>
-                <a href="{{ path('accepterSuggestion', {'id': s.idS}) }}" class="btn btn-success accept-button" onclick="acceptSuggestion(event, {{ s.idS }})">
+                <a href="{{ path('accepterSuggestionM', {'id': s.idS}) }}" class="btn btn-success accept-button" onclick="acceptSuggestion(event, {{ s.idS }})">
                     <i class="far fa-check-square"></i>
  Accepter
                 </a>
@@ -170,11 +170,10 @@ function refuseSuggestion(event, suggestionId) {
       console.error('Une erreur s\'est produite:', error);
     });
 }
-
   var pdfButton = document.getElementById('pdf-button');
   pdfButton.addEventListener('click', function(event) {
     event.preventDefault();
-    fetch('/suggestion/gpdf')
+    fetch('/suggestion/gpdfm')
       .then(response => response.blob())
       .then(blob => {
         var url = window.URL.createObjectURL(blob);

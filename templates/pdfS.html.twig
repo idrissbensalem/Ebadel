@@ -51,12 +51,12 @@
             </thead>
             <tbody>
                 {% for s in suggestion %}
-                    {% if s.suggC is not null %}
-                        <tr {% if s.etatc == 'Accepté' %}style="background-color: #d4edda;"{% elseif s.etatc == 'Refusé' %}style="background-color: #f8d7da;"{% endif %}>
+                    {% if s.suggS is not null %}
+                        <tr {% if s.etats == 'Accepté' %}style="background-color: #d4edda;"{% elseif s.etats == 'Refusé' %}style="background-color: #f8d7da;"{% endif %}>
                             <td style="text-align: center;">{{s.IdClient.Nom}}</td>
                             <td style="text-align: center;">{{s.IdClient.Prenom}}</td>
-                            <td>{{ s.suggC }}</td>
-                            <td{% if s.etatc == 'Accepté' %} style="color: green; text-align: center;"{% elseif s.etatc == 'Refusé' %} style="color: red; text-align: center;"{% endif %}>{{ s.etatc }}</td>
+                            <td>{{ s.suggS }}</td>
+                            <td{% if s.etats == 'Accepté' %} style="color: green; text-align: center;"{% elseif s.etats == 'Refusé' %} style="color: red; text-align: center;"{% endif %}>{{ s.etats }}</td>
                         </tr>
                     {% endif %}
                 {% endfor %}

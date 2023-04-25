@@ -3,6 +3,9 @@
 {% block body %}
 
 <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+    <a href="{{ path("suggestionListM") }}" class="suggestion-button" role="button">
+       <i class="fa fa-comments"></i> Suggestion
+    </a> 
     <a href="{{ path("ajoutMarque") }}" class="btn btn-info add-category-button" role="button">
         <i class="fas fa-plus"></i> Ajouter une marque
     </a>
@@ -77,6 +80,31 @@
 
 .table-responsive {
     overflow-x: auto;
+}
+.suggestion-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+  background-color: transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.suggestion-button:hover {
+  background-color: #4CAF50;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.suggestion-button:active {
+  background-color: #3e8e41;
+  transform: scale(0.9);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 </style>
 <script>

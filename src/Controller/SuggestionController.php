@@ -41,6 +41,40 @@ class SuggestionController extends AbstractController
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
     }
+
+    #[Route('/accepterSuggestionS/{id}', name: 'accepterSuggestionS')]
+    public function accepterSuggestionS(SuggestionRepository $rep, $id): JsonResponse
+    {
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtats('Accepté');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($suggestion);
+        $entityManager->flush();
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
+    }
+
+    #[Route('/accepterSuggestionM/{id}', name: 'accepterSuggestionM')]
+    public function accepterSuggestionM(SuggestionRepository $rep, $id): JsonResponse
+    {
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtatm('Accepté');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($suggestion);
+        $entityManager->flush();
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
+    }
     
 
     #[Route('/suggestionList', name: 'suggestionList')]
@@ -51,15 +85,70 @@ class SuggestionController extends AbstractController
             'suggestion' => $suggestions,
         ]);
     }
+    #[Route('/suggestionListS', name: 'suggestionListS')]
+    public function suggestionListS(SuggestionRepository $rep): Response
+    {
+        $suggestions = $rep ->findAll();
+        return $this->render('suggestion/afficherSuggS.html.twig', [
+            'suggestion' => $suggestions,
+        ]);
+    }
+    #[Route('/suggestionListM', name: 'suggestionListM')]
+    public function suggestionListM(SuggestionRepository $rep): Response
+    {
+        $suggestions = $rep ->findAll();
+        return $this->render('suggestion/afficherSuggM.html.twig', [
+            'suggestion' => $suggestions,
+        ]);
+    }
 
     #[Route('/Refusersuggestion/{id}', name: 'Refusersuggestion')]
     public function Refusersuggestion(SuggestionRepository $rep, $id): Response
     {  
-        $suggestion = $rep ->find(['idS' => $id]);
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtatc('Refusé');
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($suggestion);
+        $entityManager->persist($suggestion);
         $entityManager->flush();
-        return $this->redirectToRoute('suggestionList');
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'la suggestion a été refusée !']);
+    }
+    #[Route('/RefusersuggestionS/{id}', name: 'RefusersuggestionS')]
+    public function RefusersuggestionS(SuggestionRepository $rep, $id): Response
+    {  
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtats('Refusé');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($suggestion);
+        $entityManager->flush();
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'la suggestion a été refusée !']);
+    }
+    #[Route('/RefusersuggestionM/{id}', name: 'RefusersuggestionM')]
+    public function RefusersuggestionM(SuggestionRepository $rep, $id): Response
+    {  
+        $suggestion = $rep->find($id);
+        if (!$suggestion) {
+            throw $this->createNotFoundException('Suggestion non trouvée pour l\'id '.$id);
+        }
+        
+        $suggestion->setEtatm('Refusé');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($suggestion);
+        $entityManager->flush();
+    
+        // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
+        return new JsonResponse(['message' => 'la suggestion a été refusée !']);
     }
 
     #[Route('/addSuggestion', name: 'addSuggestion')]
@@ -68,7 +157,7 @@ class SuggestionController extends AbstractController
         $sugg= new Suggestion();
         
         $form =$this->createForm(SuggestionFormType::class, $sugg);
-        $form->add("Envoyer",SubmitType::class);
+        //$form->add("Envoyer",SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
         $entityManager = $this->getDoctrine()->getManager();
@@ -100,6 +189,44 @@ class SuggestionController extends AbstractController
             $dompdf->stream('resume', ["Attachment" => false]),
             Response::HTTP_OK,
             ['Content-Type' => 'application/pdf']
+        );
+    }
+
+    #[Route('/suggestion/gpdfs', name: 'pdfs_suggestion')]
+
+    public function generatePDFS(SuggestionRepository $rep): Response
+    {
+         
+        $suggestion = $rep->findAll();
+        $html =  $this->renderView('pdfS.html.twig', [
+            'suggestion' => $suggestion,
+        ]);
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdfS']
+        );
+    }
+
+    #[Route('/suggestion/gpdfm', name: 'pdfm_suggestion')]
+
+    public function generatePDFM(SuggestionRepository $rep): Response
+    {
+         
+        $suggestion = $rep->findAll();
+        $html =  $this->renderView('pdfM.html.twig', [
+            'suggestion' => $suggestion,
+        ]);
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdfM']
         );
     }
 }
