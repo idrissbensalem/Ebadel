@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  * @ORM\Entity
  * @Vich\Uploadable
   *@UniqueEntity("cin",message="cin est deja exist") 
-    *@UniqueEntity("tel",message="cin est deja exist") 
+    *@UniqueEntity("tel",message="tel est deja exist") 
  */
 class User implements UserInterface , \Serializable
 

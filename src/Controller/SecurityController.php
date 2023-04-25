@@ -107,10 +107,10 @@ if($form->isSubmitted() && $form->isValid()) {
 
                         if($VarName->getRole()==0){
 
-                            return $this->redirectToRoute('voyagelist',['session'=>$session]);
+                            return $this->redirectToRoute('',['session'=>$session]);
                         }
                         else{
-                            return $this->redirectToRoute('app_user_index',['session'=>$session]);
+                            return $this->redirectToRoute('',['session'=>$session]);
                         }
                   
                         /*echo "<script >localStorage.setItem('email', '$email');</script>";
@@ -123,23 +123,7 @@ if($form->isSubmitted() && $form->isValid()) {
                         echo "<script >  console.log('ghalta')</script>";
                             return $this->redirectToRoute('security_login');
                     }
-                #    echo "<script >  console.log('$encoded')</script>";
-                  #  echo "<script >  console.log('$pass')</script>";
-                 #   $bar = substr($encoded,0,7) ;
-                   # $bar2 = substr($pass,0,7) ;
-                  #  echo "<script >  console.log('$bar')</script>";
-                   # echo "<script >  console.log('$bar2')</script>";
-                   /* if($bar==$bar2){
-                        echo "<script >localStorage.setItem('email', '$email');</script>";
-                        echo "<script >localStorage.setItem('Role', '$Role');</script>";             
-                        $ok=true;
-                        echo "<script >  console.log('welcome')</script>";
-                       # return $this->redirectToRoute('indexAdmin');
-                    }else{
-                       # return $this->redirectToRoute('security_login');
-                    
-                    } 
-                    */
+     
                     }
                 }
             
