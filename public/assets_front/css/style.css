@@ -3072,7 +3072,6 @@ Categories Banner CSS
   padding: 10px 20px;
   outline: none;
   white-space: nowrap;
-  -webkit-user-select: none;
   cursor: pointer;
   font-weight: 300;
   border-radius: 4px;

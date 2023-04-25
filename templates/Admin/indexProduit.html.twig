@@ -101,7 +101,7 @@
                           <a>
                             <form
                               method="post"
-                              action="{{ path('app_produit_admin_delete', { id: produit.id }) }}"
+                              action="{{ path('app_produit_admin_delete', { id_produit: produit.id }) }}"
                               onsubmit="return confirm('Are you sure you want to delete this item?');"
                             >
                               <input

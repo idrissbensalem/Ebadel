@@ -38,6 +38,15 @@ class ProduitRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findProduitById($id)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

@@ -143,6 +143,6 @@ public function new(Request $request,  SluggerInterface $slugger, BoutiqueReposi
             $produitRepository->remove($produit, true);
         }
 
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
     }
 }
