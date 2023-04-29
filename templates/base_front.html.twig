@@ -1,267 +1,338 @@
 <!DOCTYPE html>
-<html
-	lang="zxx">
-	<!-- Mirrored from templates.hibootstrap.com/xton/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Mar 2023 23:17:13 GMT -->
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-		{% block stylesheets %}
-			<link rel="stylesheet" href="{{asset('assets_front/css/bootstrap.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/animate.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/boxicons.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/flaticon.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/magnific-popup.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/nice-select.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/slick.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/owl.carousel.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/meanmenu.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/rangeSlider.min.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/style.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/dark.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/responsive.css')}}"/>
-			<link rel="stylesheet" href="{{asset('assets_front/css/profile_pic.css')}}"/>
+<html lang="zxx">
+<!-- Mirrored from templates.hibootstrap.com/xton/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Mar 2023 23:17:13 GMT -->
 
-			<title>Ebadel</title>
-			<link rel="icon" type="image/png" href="{{asset('assets_front/img/favicon.png')}}"/>
-		{% endblock %}
-	</head>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets_front/css/bootstrap.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/animate.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/boxicons.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/flaticon.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/magnific-popup.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/nice-select.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/slick.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/owl.carousel.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/meanmenu.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/rangeSlider.min.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/style.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/dark.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/responsive.css')}}" />
+	<link rel="stylesheet" href="{{asset('assets_front/css/profile_pic.css')}}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+		integrity="sha512-5b5VZBxH5b8V7iL/XX2nV7wHiz+ItGtrOze/q0vQTR9X+tOxHNe8jKLEFgYyJqwyyHtlaLs8sC1fK63utZ9XJg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-	<div class="xton-nav">
-		<div class="container">
-			<nav class="navbar navbar-expand-md navbar-light">
-				<a class="navbar-brand" href="/article">
-					<img src="{{asset('assets_front/img/logo2.png')}}" style="width: 70%; height: auto;" class="main-logo" alt="logo"/>
+	<title>Ebadel</title>
+	<link rel="icon" type="image/png" href="{{asset('assets_front/img/favicon.png')}}" />
+	{% endblock %}
+</head>
 
-				</a>
-				<div class="collapse navbar-collapse mean-menu">
-					<ul class="navbar-nav">
-						<li class="nav-item megamenu">
-							<a href="/article" class="nav-link active">Articles
-								
-							</a>
-							
-						</li>
+<div class="xton-nav">
+	<div class="container">
+		<nav class="navbar navbar-expand-md navbar-light">
+			<a class="navbar-brand" href="/home">
+				<img src="{{asset('assets_front/img/logo2.png')}}" style="width: 70%; height: auto;" class="main-logo"
+					alt="logo" />
 
-						<li class="nav-item megamenu">
-							<a href="/boutique" class="nav-link active">Boutiques
-								
-							</a>
-							
-						</li>
-						
-						<li class="nav-item megamenu">
-							<a href="#" class="nav-link">#####
-								<i class="bx bx-chevron-down"></i>
-							</a>
-							
-						</li>
-						<li class="nav-item megamenu">
-							<a href="#" class="nav-link">#####
-								<i class="bx bx-chevron-down"></i>
-							</a>
-							
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">#####
-								<i class="bx bx-chevron-down"></i>
-							</a>
-							
-						</li>
-					</ul>
+			</a>
+			<div class="collapse navbar-collapse mean-menu">
+				<ul class="navbar-nav">
+					<li class="nav-item megamenu">
+						<a href="/article" class="nav-link active">Articles
 
-					<div class="profile-pic-container">
-						<img src="{{asset('assets_front/img/bg.jpg')}}" alt="Profile Picture" class="profile-pic" id="profile-pic">
-						<div class="dropdown-menu" id="dropdown-menu">
-						  <ul>
-							<li><a href="/article">Mon profil</a></li>
-							<li><a href="/message">Mes messages</a></li>
-							<li><a href="/mesarticles">Mes articles</a></li>
-							<li><a href="/article">Mes boutiques</a></li>
-						  </ul>
+						</a>
+
+					</li>
+
+					<li class="nav-item megamenu">
+						<a href="/boutique" class="nav-link active">Boutiques
+
+						</a>
+
+					</li>
+
+					<li class="nav-item megamenu">
+						<a href="#" class="nav-link">#####
+							<i class="bx bx-chevron-down"></i>
+						</a>
+
+					</li>
+					<li class="nav-item megamenu">
+						<a href="#" class="nav-link">#####
+							<i class="bx bx-chevron-down"></i>
+						</a>
+
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">#####
+							<i class="bx bx-chevron-down"></i>
+						</a>
+
+					</li>
+				</ul>
+
+
+				<div class="others-option">
+					{% if app.user %}
+					<div class="option-item">
+						<div>
+							<div>
+								<style>
+									.avatar {
+										vertical-align: middle;
+										width: 35px;
+										height: 35px;
+										border-radius: 50%;
+									}
+								</style>
+
+								<a href="{{ path('profile', { id: app.user.id }) }}">
+									<img src="{{ asset('/uploads/'~app.user.image) }}" alt="Avatar" class="avatar">
+								</a>
+
+							</div>
 						</div>
-					  </div>
-					  
+					</div>
+					{% else %}
+					<div class="others-options  lg-none">
+						<div class="header-btn lg-none">
+							<a href="{{ path('app_login') }}" class="btn style1">Login</a>
+						</div>
+					</div>
+					{% endif %}
+					<div class="option-item">
+						<div class="burger-menu" data-bs-toggle="modal" data-bs-target="#sidebarModal">
+							<span class="top-bar"></span>
+							<span class="middle-bar"></span>
+							<span class="bottom-bar"></span>
+						</div>
 					</div>
 				</div>
-			</nav>
+
+
+			</div>
+	</div>
+	</nav>
+</div>
+</div>
+<div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true"><i class="bx bx-x"></i></span>
+			</button>
+			<div class="modal-body">
+				<h3>About</h3>
+
+				<div class="products-cart-btn">
+					{% if app.user %}
+					<a href="{{ path('profile', { id: app.user.id }) }}" class="optional-btn">Mon profil</a>
+					</br></br>
+					<a href="{{ path('app_message_index', { id_user: app.user.id }) }}" class="optional-btn">Mes messages</a>
+					</br></br>
+					<a href="{{ path('app_mesarticles_index', { id_user: app.user.id }) }}" class="optional-btn">Mes articles</a>
+					</br></br>
+					<a href="#" class="optional-btn">Mes boutiques</a>
+					</br></br>
+					
+					<a href="{{ path('app_logout') }}" class="optional-btn">logout</a>
+					{% endif %}
+
+				</div>
+			</div>
 		</div>
 	</div>
-	{% block body %}{% endblock %}
-	{% block footer %}
-		<div class="footer-area">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<h3>About The Store</h3>
-							<div class="about-the-store">
-								<p>One of the most popular on the web is shopping.</p>
-								<ul class="footer-contact-info">
-									<li>
-										<i class="bx bx-map"></i>
-										<a href="#" target="_blank">Wonder Street, USA, New York</a>
-									</li>
-									<li>
-										<i class="bx bx-phone-call"></i>
-										<a href="tel:+01321654214">+01 321 654 214</a>
-									</li>
-									<li>
-										<i class="bx bx-envelope"></i>
-										<a href="https://templates.hibootstrap.com/cdn-cgi/l/email-protection#3058555c5c5f7048445f5e1e535f5d">
-											<span class="__cf_email__" data-cfemail="89e1ece5e5e6c9f1fde6e7a7eae6e4">[email&#160;protected]</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<ul class="social-link">
-								<li>
-									<a href="#" class="d-block" target="_blank">
-										<i class="bx bxl-facebook"></i>
-									</a>
-								</li>
-								<li>
-									<a href="#" class="d-block" target="_blank">
-										<i class="bx bxl-twitter"></i>
-									</a>
-								</li>
-								<li>
-									<a href="#" class="d-block" target="_blank">
-										<i class="bx bxl-instagram"></i>
-									</a>
-								</li>
-								<li>
-									<a href="#" class="d-block" target="_blank">
-										<i class="bx bxl-linkedin"></i>
-									</a>
-								</li>
-								<li>
-									<a href="#" class="d-block" target="_blank">
-										<i class="bx bxl-pinterest-alt"></i>
-									</a>
-								</li>
-							</ul>
-						</div>
+</div>
+{% block body %}{% endblock %}
+{% block footer %}
+
+<div class="footer-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="single-footer-widget">
+					<h3>About The Store</h3>
+					<div class="about-the-store">
+						<p>One of the most popular on the web is shopping.</p>
+						<ul class="footer-contact-info">
+							<li>
+								<i class="bx bx-map"></i>
+								<a href="#" target="_blank">Wonder Street, USA, New York</a>
+							</li>
+							<li>
+								<i class="bx bx-phone-call"></i>
+								<a href="tel:+01321654214">+01 321 654 214</a>
+							</li>
+							<li>
+								<i class="bx bx-envelope"></i>
+								<a
+									href="https://templates.hibootstrap.com/cdn-cgi/l/email-protection#3058555c5c5f7048445f5e1e535f5d">
+									<span class="__cf_email__"
+										data-cfemail="89e1ece5e5e6c9f1fde6e7a7eae6e4">[email&#160;protected]</span>
+								</a>
+							</li>
+						</ul>
 					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget pl-4">
-							<h3>Quick Links</h3>
-							<ul class="quick-links">
-								<li>
-									<a href="about.html">About Us</a>
-								</li>
-								<li>
-									<a href="products-left-sidebar.html">Shop Now!</a>
-								</li>
-								<li>
-									<a href="products-left-sidebar-2.html">Woman's</a>
-								</li>
-								<li>
-									<a href="faqs.html">FAQ's</a>
-								</li>
-								<li>
-									<a href="contact.html">Contact Us</a>
-								</li>
-								<li>
-									<a href="customer-service.html">Customer Services</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<h3>Customer Support</h3>
-							<ul class="customer-support">
-								<li>
-									<a href="login.html">My Account</a>
-								</li>
-								<li>
-									<a href="checkout.html">Checkout</a>
-								</li>
-								<li>
-									<a href="cart.html">Cart</a>
-								</li>
-								<li>
-									<a href="faqs.html">FAQ's</a>
-								</li>
-								<li>
-									<a href="track-order.html">Order Tracking</a>
-								</li>
-								<li>
-									<a href="contact.html">Help & Support</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<h3>Newsletter</h3>
-							<div class="footer-newsletter-box">
-								<p>To get the latest news and latest updates from us.</p>
-								<form class="newsletter-form" data-bs-toggle="validator">
-									<label>Your E-mail Address:</label>
-									<input type="email" class="input-newsletter" placeholder="Enter your email" name="EMAIL" required autocomplete="off"/>
-									<button type="submit">Subscribe</button>
-									<div id="validator-newsletter" class="form-result"></div>
-								</form>
-							</div>
-						</div>
-					</div>
+					<ul class="social-link">
+						<li>
+							<a href="#" class="d-block" target="_blank">
+								<i class="bx bxl-facebook"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="d-block" target="_blank">
+								<i class="bx bxl-twitter"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="d-block" target="_blank">
+								<i class="bx bxl-instagram"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="d-block" target="_blank">
+								<i class="bx bxl-linkedin"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="d-block" target="_blank">
+								<i class="bx bxl-pinterest-alt"></i>
+							</a>
+						</li>
+					</ul>
 				</div>
-				<div class="footer-bottom-area">
-					<div class="row align-items-center">
-						<div class="col-lg-6 col-md-6">
-							<p>
-								© Xton is Proudly Owned by
-								<a href="https://hibootstrap.com/" target="_blank">HiBootstrap</a>
-							</p>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<ul class="payment-types">
-								<li>
-									<a href="#" target="_blank"><img src="{{asset('assets_front/img/payment/visa.png')}}" alt="image"/></a>
-								</li>
-								<li>
-									<a href="#" target="_blank"><img src="{{asset('assets_front/img/payment/mastercard.png')}}" alt="image"/></a>
-								</li>
-								<li>
-									<a href="#" target="_blank"><img src="assets_front/img/payment/mastercard2.png" alt="image"/></a>
-								</li>
-								<li>
-									<a href="#" target="_blank"><img src="assets_front/img/payment/visa2.png" alt="image"/></a>
-								</li>
-								<li>
-									<a href="#" target="_blank"><img src="assets_front/img/payment/expresscard.png" alt="image"/></a>
-								</li>
-							</ul>
-						</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="single-footer-widget pl-4">
+					<h3>Quick Links</h3>
+					<ul class="quick-links">
+						<li>
+							<a href="about.html">About Us</a>
+						</li>
+						<li>
+							<a href="products-left-sidebar.html">Shop Now!</a>
+						</li>
+						<li>
+							<a href="products-left-sidebar-2.html">Woman's</a>
+						</li>
+						<li>
+							<a href="faqs.html">FAQ's</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact Us</a>
+						</li>
+						<li>
+							<a href="customer-service.html">Customer Services</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="single-footer-widget">
+					<h3>Customer Support</h3>
+					<ul class="customer-support">
+						<li>
+							<a href="login.html">My Account</a>
+						</li>
+						<li>
+							<a href="checkout.html">Checkout</a>
+						</li>
+						<li>
+							<a href="cart.html">Cart</a>
+						</li>
+						<li>
+							<a href="faqs.html">FAQ's</a>
+						</li>
+						<li>
+							<a href="track-order.html">Order Tracking</a>
+						</li>
+						<li>
+							<a href="contact.html">Help & Support</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="single-footer-widget">
+					<h3>Newsletter</h3>
+					<div class="footer-newsletter-box">
+						<p>To get the latest news and latest updates from us.</p>
+						<form class="newsletter-form" data-bs-toggle="validator">
+							<label>Your E-mail Address:</label>
+							<input type="email" class="input-newsletter" placeholder="Enter your email" name="EMAIL"
+								required autocomplete="off" />
+							<button type="submit">Subscribe</button>
+							<div id="validator-newsletter" class="form-result"></div>
+						</form>
 					</div>
 				</div>
 			</div>
-
 		</div>
-	{% endblock %}
+		<div class="footer-bottom-area">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-6">
+					<p>
+						© Xton is Proudly Owned by
+						<a href="https://hibootstrap.com/" target="_blank">HiBootstrap</a>
+					</p>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<ul class="payment-types">
+						<li>
+							<a href="#" target="_blank"><img src="{{asset('assets_front/img/payment/visa.png')}}"
+									alt="image" /></a>
+						</li>
+						<li>
+							<a href="#" target="_blank"><img src="{{asset('assets_front/img/payment/mastercard.png')}}"
+									alt="image" /></a>
+						</li>
+						<li>
+							<a href="#" target="_blank"><img src="assets_front/img/payment/mastercard2.png"
+									alt="image" /></a>
+						</li>
+						<li>
+							<a href="#" target="_blank"><img src="assets_front/img/payment/visa2.png" alt="image" /></a>
+						</li>
+						<li>
+							<a href="#" target="_blank"><img src="assets_front/img/payment/expresscard.png"
+									alt="image" /></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
 
 
-	{% block javascripts %}
+{% block javascripts %}
 
-		<script src="{{asset('assets_front/js/jquery.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/popper.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/bootstrap.bundle.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/owl.carousel.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/magnific-popup.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/parallax.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/rangeSlider.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/nice-select.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/meanmenu.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/isotope.pkgd.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/slick.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/sticky-sidebar.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/wow.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/form-validator.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/contact-form-script.js')}}"></script>
-		<script src="{{asset('assets_front/js/ajaxchimp.min.js')}}"></script>
-		<script src="{{asset('assets_front/js/main.js')}}"></script>
-		<script src="{{asset('assets_front/js/profile_pic.js')}}"></script>
-	{% endblock %}
-	<!-- Mirrored from templates.hibootstrap.com/xton/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Mar 2023 23:18:33 GMT -->
-</html></html>
+
+<script src="{{asset('assets_front/js/jquery.min.js')}}"></script>
+<script src="{{asset('assets_front/js/popper.min.js')}}"></script>
+<script src="{{asset('assets_front/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets_front/js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('assets_front/js/magnific-popup.min.js')}}"></script>
+<script src="{{asset('assets_front/js/parallax.min.js')}}"></script>
+<script src="{{asset('assets_front/js/rangeSlider.min.js')}}"></script>
+<script src="{{asset('assets_front/js/nice-select.min.js')}}"></script>
+<script src="{{asset('assets_front/js/meanmenu.min.js')}}"></script>
+<script src="{{asset('assets_front/js/isotope.pkgd.min.js')}}"></script>
+<script src="{{asset('assets_front/js/slick.min.js')}}"></script>
+<script src="{{asset('assets_front/js/sticky-sidebar.min.js')}}"></script>
+<script src="{{asset('assets_front/js/wow.min.js')}}"></script>
+<script src="{{asset('assets_front/js/form-validator.min.js')}}"></script>
+<script src="{{asset('assets_front/js/contact-form-script.js')}}"></script>
+<script src="{{asset('assets_front/js/ajaxchimp.min.js')}}"></script>
+<script src="{{asset('assets_front/js/main.js')}}"></script>
+<script src="{{asset('assets_front/js/profile_pic.js')}}"></script>
+{% endblock %}
+<!-- Mirrored from templates.hibootstrap.com/xton/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Mar 2023 23:18:33 GMT -->
+
+</html>
+
+</html>

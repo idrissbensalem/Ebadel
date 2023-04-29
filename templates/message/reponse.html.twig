@@ -1,0 +1,28 @@
+{# templates/message/new.html.twig #}
+
+{% extends 'base_front.html.twig' %} {% block title %}New Message{% endblock %}
+
+{% block body %}
+
+<section class="signup-area ptb-100">
+    <div class="container">
+      <div class="signup-content">
+        <h2>Envoyer un Réponse</h2>
+        <div class="add-message-form">
+          {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+          <div class="form-group">
+            <label>Objet de message</label>
+            {{ form_widget(form.objet,{'attr':{'placeholder':'Entrez votre objet de message' , 'class':"form-control" , 'rows': 2}}) }}
+            {{ form_errors(form.objet) }}
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            {{ form_widget(form.content,{'attr':{'placeholder':'Entrez votre message' , 'class':"form-control" , 'rows': 6}}) }}
+            {{ form_errors(form.content) }}
+          </div>
+          <br></br>
+    <button type="submit" class="default-btn">Envoyer</button>
+    <a href="{{ path('app_message_show', { id: id}) }}" > &nbsp &nbsp &nbsp &nbsp ou Retourner</a>
+    {{ form_end(form) }}
+</section>
+{% endblock %}

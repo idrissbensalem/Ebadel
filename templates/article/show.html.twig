@@ -53,7 +53,7 @@ block body %}
   <br>
   <div class="item">
     <br></br>
-    <a href="{{ path('app_offre_new', {'id_article': id}) }}" class="default-btn">Envoyer une offre</a>
+    <a href="{{ path('app_offre_new', {'id_article': id,  id_user: app.user.id }) }}" class="default-btn">Envoyer une offre</a>
   </div>
 
 </section>

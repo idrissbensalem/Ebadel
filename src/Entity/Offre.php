@@ -80,13 +80,16 @@ class Offre
         private ?int $num_tel =null;
 
         #[ORM\ManyToOne(inversedBy: 'offres')]
-        #[ORM\JoinColumn(name :'idu', referencedColumnName :'idu')]
+        #[ORM\JoinColumn(name :'id', referencedColumnName :'id')]
          private ?User $user = null;  
 
         #[ORM\ManyToOne(inversedBy: 'offres')]
         #[ORM\JoinColumn(name :'id_article', referencedColumnName :'id_article')]
         private ?Article $article = null;
    
+
+
+        
      
        public function getArticle(): ?Article
        {
@@ -103,6 +106,18 @@ class Offre
     public function getIdOffre(): ?int
     {
         return $this->id_offre;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getTitre(): ?string
@@ -237,14 +252,14 @@ class Offre
         return $this;
     }
 
-    public function getIdu(): ?User
+    public function getId(): ?User
     {
-        return $this->idu;
+        return $this->id;
     }
 
-    public function setIdu(?User $idu): self
+    public function setIdu(?User $id): self
     {
-        $this->idu = $idu;
+        $this->id = $id;
 
         return $this;
     }

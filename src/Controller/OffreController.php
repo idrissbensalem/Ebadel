@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\OffreType;
 use App\Entity\Article;
+use App\Entity\User;
+
 use App\Entity\Offre;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
@@ -22,6 +24,8 @@ use Symfony\Component\Mailer\Transport\Smtp\Stream\TlsClientStream;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mailer\MailerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 
 #[Route('/offre')]
@@ -35,15 +39,17 @@ class OffreController extends AbstractController
         ]);
     }
 
-   #[Route('/new/{id_article}', name: 'app_offre_new', methods: ['GET', 'POST'])] 
-public function new(Request $request,  SluggerInterface $slugger, ArticleRepository $articleRepository, OffreRepository $offreRepository,int $id_article): Response
+   #[Route('/new/{id_user}/{id_article}', name: 'app_offre_new', methods: ['GET', 'POST'])] 
+public function new(int $id_user, Request $request, EntityManagerInterface $entityManager , SluggerInterface $slugger, ArticleRepository $articleRepository, OffreRepository $offreRepository,int $id_article): Response
 {
+    $user = $entityManager->getRepository(User::class)->find($id_user);
     $offres = [];
     if ($request->query->has('offres')) {
         $offres = unserialize(base64_decode($request->query->get('offres')));
     }
 
     $offre = new Offre();
+    $offre ->setUser($user);
     $form = $this->createForm(OffreType::class, $offre);
 
     $form->handleRequest($request);
@@ -169,13 +175,13 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+216' . $offre->getArticle()->getUser()->getTel(), // recipient phone number
+            '+216' . $offre->getArticle()->getUser()->getTelephone(), // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "
                 Your offre with Titre : {$offre->getTitre()}
                 to the article :{$offre->getArticle()->getNomArticle()}  was accepted !
-                you can contact the other client via his phone number : {$offre->getArticle()->getUser()->getTel()} 
+                you can contact the other client via his phone number : {$offre->getArticle()->getUser()->getTelephone()} 
                 or via his email : {$offre->getArticle()->getUser()->getEmail()} 
                  "
             )
@@ -197,7 +203,7 @@ public function new(Request $request,  SluggerInterface $slugger, ArticleReposit
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+216' . $offre->getArticle()->getUser()->getTel(), // recipient phone number
+            '+216' . $offre->getArticle()->getUser()->getTelephone(), // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "

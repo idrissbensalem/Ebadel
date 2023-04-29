@@ -1,0 +1,36 @@
+{% extends 'base_front.html.twig' %} {% block title %}Message{% endblock %} {%
+    block body %}
+    <section>
+    <div class="page-title-area">
+      <div class="container">
+      <div class="page-title-content">
+      <h2>{{objet}}</h2>
+      <ul>
+      <li><a href="{{ path('app_message_index', { id_user: app.user.id }) }}">Home</a></li>
+      <li>Message</li>
+      </ul>
+      </div>
+      </div>
+      </div>
+      <section class="product-details-area pt-100 pb-100">
+      <div class="container">
+      <div class="row">
+      <div class="col-lg-7 col-md-12">
+      <div class="products-details-desc">
+      <ul class="products-info">
+      <li><span>Nom de l'article concerné:</span> <a href="#">{{nomArticle}}</a></li>
+      <li><span>Nom et prénom de l'expéditeur du message:</span> <a href="#">{{NomSender}}&nbsp{{PrenomSender}}</a></li>
+      <li><span>Objet de message:</span> <a href="#">{{objet}}</a></li>
+      <li><span>Message:</span> <a href="#">{{content}}</a></li>
+      <li><span>date de message:</span> <a href="#">{{time}}</a></li>
+      </ul>
+
+      <br></br>
+      <a href="{{ path('app_reponse_new', {'recipient': iduser, 'article': id_article , 'message': idmessage}) }}" class="default-btn">Répondre</a>
+      <a href="{{ path('app_message_index', { id_user: app.user.id }) }}" > &nbsp &nbsp &nbsp &nbsp ou Retourner</a>
+    </section>
+   
+     
+      
+    {% endblock %}
+    

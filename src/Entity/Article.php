@@ -68,11 +68,14 @@ class Article
 
    
     #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(name :'idu', referencedColumnName :'idu')]
+    #[ORM\JoinColumn(name :'id', referencedColumnName :'id')]
      private ?User $user = null; 
     
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Offre::class)]
     private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'message', targetEntity: Offre::class)]
+    private Collection $messages;
 
     public function getUser(): ?User
     {
@@ -177,14 +180,14 @@ class Article
         return $this;
     }
 
-    public function getIdu(): ?User
+    public function getId(): ?User
     {
-        return $this->idu;
+        return $this->id;
     }
 
-    public function setIdu(?User $idu): self
+    public function setIdu(?User $id): self
     {
-        $this->idu = $idu;
+        $this->id = $id;
 
         return $this;
     }
@@ -199,6 +202,11 @@ class Article
         $this->periode_utilisation = $periodeUtilisation;
 
         return $this;
+    }
+
+    public function getMessages(): Collection
+    {
+        return $this->messages;
     }
 
     public function getOffres(): Collection

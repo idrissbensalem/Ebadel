@@ -17,16 +17,14 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-
-
 #[Route('/message')]
 class MessageController extends AbstractController
 {
-    #[Route('/', name: 'app_message_index', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/{id_user}', name: 'app_message_index', methods: ['GET'])]
+    public function index(int $id_user): Response
     {
        // $user = $this->getUser();
-       $user = $this->getDoctrine()->getRepository(User::class)->find(1);
+       $user = $this->getDoctrine()->getRepository(User::class)->find($id_user);
 
         // get all messages received by the user
         $receivedMessages = $this->getDoctrine()
@@ -48,9 +46,10 @@ class MessageController extends AbstractController
     public function new(Request $request, User $recipient ,Article $article): Response
     {
         $message = new Message();
-       //$message->setSender($this->getUser());
-        $message->setSender($recipient);
+        $message->setSender($this->getUser());
+        //$message->setSender($recipient);
         $message->setReceiver($recipient);
+        $message->setArticle($article);
         $message->setTimestamp(new DateTimeImmutable());
 
         $form = $this->createForm(MessageFormType::class, $message);
@@ -66,6 +65,35 @@ class MessageController extends AbstractController
 
         return $this->render('message/new.html.twig', [
             'message' => $message,
+            'id' => $article->getIdArticle(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/message/new/{recipient}/{article}/{message}', name: 'app_reponse_new', methods: ['GET', 'POST'])]
+    public function newReponse(Request $request, User $recipient ,Article $article, Message $message): Response
+    {
+        $message_reponse = new Message();
+        //$message->setSender($this->getUser());
+        $message_reponse->setSender($recipient);
+        $message_reponse->setReceiver($recipient);
+        $message_reponse->setArticle($article);
+        $message_reponse->setTimestamp(new DateTimeImmutable());
+
+        $form = $this->createForm(MessageFormType::class, $message_reponse);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($message_reponse);
+            $entityManager->flush();
+
+         return $this->redirectToRoute('app_message_show', ['id' => $message->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('message/reponse.html.twig', [
+            'message' => $message_reponse,
+            'id' => $article->getIdArticle(),
             'form' => $form->createView(),
         ]);
     }
@@ -73,8 +101,28 @@ class MessageController extends AbstractController
     #[Route('/message/{id}}', name: 'app_message_show', methods: ['GET'])]
     public function show(Message $message): Response
     {
+        $idmessage = $message->getId();
+        $iduser = $message->getSender()->getId();
+        $id_article = $message->getArticle()->getIdArticle();
+        $nomArticle = $message->getArticle()->getNomArticle();
+        $NomSender = $message->getSender()->getNom();
+        $PrenomSender = $message->getSender()->getPrenom();
+        $objet = $message->getObjet();
+        $content = $message->getContent();
+        $time = $message->getTimestamp()->getTimestamp();
+        $time_string = date('Y-m-d H:i:s', $time);
+        
+
         return $this->render('message/show.html.twig', [
-            'message' => $message,
+            'idmessage' =>$idmessage,
+            'iduser' =>$iduser,
+            'id_article' =>$id_article,
+            'nomArticle' =>$nomArticle,
+            'NomSender' => $NomSender,
+            'PrenomSender' => $PrenomSender,
+            'objet' => $objet,
+            'content' => $content,
+            'time' => $time_string,
         ]);
     }
 

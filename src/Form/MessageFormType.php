@@ -16,14 +16,17 @@ class MessageFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextareaType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['max' => 1000]),
-                ],
-            ])
-        ;
-    }
+        ->add('content', TextareaType::class, [
+            'constraints' => [
+                new Length(['max' => 1000]),
+            ],
+        ])
+        ->add('objet', TextareaType::class, [
+            'constraints' => [
+                new Length(['max' => 200]),
+            ],
+        ]);
+        }
 
     public function configureOptions(OptionsResolver $resolver)
     {

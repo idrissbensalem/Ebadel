@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Form\OffreType;
 use App\Entity\Article;
 use App\Entity\Offre;
+use App\Entity\User;
 use App\Controller\OffreController;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\OffreRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,10 +37,12 @@ class ArticleController extends AbstractController
         ]);
     }
     
-    #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,  SluggerInterface $slugger , ArticleRepository $articleRepository, OffreRepository $offreRepository): Response
+    #[Route('/new/{id_user}', name: 'app_article_new', methods: ['GET', 'POST'])]
+    public function new(int $id_user,Request $request,  SluggerInterface $slugger ,EntityManagerInterface $entityManager, ArticleRepository $articleRepository, OffreRepository $offreRepository): Response
     {
         $article = new Article();
+        $user = $entityManager->getRepository(User::class)->find($id_user);
+        $article ->setUser($user);
         $form = $this->createForm(ArticleType::class, $article);
        
             $form->handleRequest($request);
@@ -83,7 +87,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
-        $iduser = $article->getUser()->getIdu();
+        $iduser = $article->getUser()->getId();
         $id = $article->getIdArticle();
         $nom = $article->getNomArticle();
         $categorie = $article->getCategorie();

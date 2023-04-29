@@ -24,14 +24,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class MesArticlesController extends AbstractController
 {
 
-#[Route('/', name: 'app_mesarticles_index', methods: ['GET'])]
-public function index(MesArticlesRepository $mesarticlesRepository , EntityManagerInterface $entityManager): Response
+#[Route('/{id_user}', name: 'app_mesarticles_index', methods: ['GET'])]
+public function index(int $id_user,MesArticlesRepository $mesarticlesRepository , EntityManagerInterface $entityManager): Response
 {
-    $idu = 1;
-    $user = $entityManager->getRepository(User::class)->find($idu);
+  
+    $user = $entityManager->getRepository(User::class)->find($id_user);
     $mesarticles = $mesarticlesRepository->findAll();
     $mesarticles = $user->getArticles();
-
+    
     return $this->render('mes_articles/index.html.twig', [
         'mesarticles' => $mesarticles,
     ]);
@@ -52,9 +52,10 @@ public function index(MesArticlesRepository $mesarticlesRepository , EntityManag
         ]);
     }*/
 
-    #[Route('/{id}', name: 'app_mesarticles_show', methods: ['GET'])]
-    public function show(Article $article): Response
+    #[Route('/show/{id}', name: 'app_mesarticles_show', methods: ['GET'])]
+    public function show( Article $article, EntityManagerInterface $entityManager): Response
     {
+        // $user = $entityManager->getRepository(User::class)->find($id_user);
         $id = $article->getIdArticle();
         $nom = $article->getNomArticle();
         $categorie = $article->getCategorie();
@@ -112,7 +113,7 @@ public function index(MesArticlesRepository $mesarticlesRepository , EntityManag
     
             $mesarticlesRepository->save($article, true);
     
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_mesarticles_index', [], Response::HTTP_SEE_OTHER);
         }
        
         return $this->renderForm('mes_articles/edit.html.twig', [
@@ -121,7 +122,7 @@ public function index(MesArticlesRepository $mesarticlesRepository , EntityManag
         ]);
     }
 
-    #[Route('/{id}', name: 'app_mesarticles_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_mesarticles_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, MesArticlesRepository $mesarticlesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getIdArticle(), $request->request->get('_token'))) {
