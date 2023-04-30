@@ -1,0 +1,57 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Hello ReviewController!{% endblock %}
+
+{% block body %}
+
+{% for review in reviews %}
+    <div class="review">
+        <h3>{{review.comment}}</h3>
+        <div class="rating">
+    {% for i in 1..5 %}
+        {% if i <= review.rate %}
+            <span class="star filled">&#9733;</span>
+        {% else %}
+            <span class="star empty">&#9734;</span>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<style>
+    .star {
+        color: yellow;
+    }
+    .filled {
+        color: yellow;
+    }
+    .empty {
+        color: lightgray;
+    }
+</style>
+
+    </div>
+    <a class="btn btn-sm btn-info" href="{{path ('ajouter.review', {id:review.id}) }}">update</a>
+	<a class="btn btn-sm btn-danger" href="{{path ('delete.review', {id:review.id}) }}">delete</a></td>
+
+
+    <p>Likes: {{ review.likes }}</p>
+    <p>Dislikes: {{ review.dislikes }}</p>
+
+    <a href="{{ path('review_like', {'id': review.id}) }}">Like</a>
+    <a href="{{ path('review_dislike', {'id': review.id}) }}">Dislike</a>
+     <hr>
+{% endfor %}
+le rate de cette article est {{ average_rating }}
+
+    {% if (average_rating ) < 2 %}
+       donc bad article
+    {% elseif  (average_rating) >= 2 and (average_rating) < 4 %}
+        good article
+    {% else %}
+        excellent article
+    {% endif %}
+
+
+
+
+{% endblock %}

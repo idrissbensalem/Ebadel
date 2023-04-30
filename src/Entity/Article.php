@@ -77,6 +77,15 @@ class Article
     #[ORM\OneToMany(mappedBy: 'message', targetEntity: Offre::class)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Review::class)]
+    private Collection $reviews;
+
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -185,7 +194,7 @@ class Article
         return $this->id;
     }
 
-    public function setIdu(?User $id): self
+    public function setId(?User $id): self
     {
         $this->id = $id;
 
@@ -236,6 +245,35 @@ class Article
         return $this;
     }
 
+     /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getArticle() === $this) {
+                $review->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
     
     public function toString(): string
     {

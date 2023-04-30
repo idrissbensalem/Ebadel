@@ -1,0 +1,12 @@
+
+
+{% extends 'base_back.html.twig' %}
+
+{% block body %}
+    <h1>New Response</h1>
+
+    {{ form(form) }}
+      
+    <a href="{{ path('listes.reclamations', {'id': reclamation.id}) }}">Back to the reclamation</a>
+{% endblock %}
+

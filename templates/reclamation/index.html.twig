@@ -1,0 +1,224 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block body %}
+
+   {{ form_start(filterForm) }}
+   {{ form_row(filterForm.destinataire, {'label': false}) }}
+        
+        
+    {{ form_end(filterForm) }}
+
+
+	
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table">
+        <div class="card-body">
+          
+          <div>
+            <div class="table-responsive">
+              <div id="table_id_wrapper" class="dataTables_wrapper no-footer">
+                
+                <table
+                  class="table all-package theme-table table-product dataTable no-footer"
+                  id="table_id"
+                >
+                  <thead>
+                    <tr>
+                      
+
+					  <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                       Contact
+                      </th>
+                      
+
+
+
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                       Contact
+                      </th>
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                        Destinataire
+                      </th>
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                        Type
+                      </th>
+
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                        Description
+                      </th>
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                       status
+                      </th>
+                      <th
+                        class="sorting_disabled"
+                        rowspan="1"
+                        colspan="1"
+                        style="width: 170px"
+                      >
+                       Action
+                      </th>
+                      <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      CreatedAt
+                    </th>
+					 <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      Detail
+                    </th>
+					 <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      Delete
+                    </th>
+					 <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      Reponse
+                    </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    {% for rec in reclamations %}
+								<tr>
+								     {% if rec.user is not null %}
+       							    
+         							    <td>{{ rec.user.email }}</td>
+
+       								 {% endif %}
+
+									  {% if rec.user is not null %}
+       							    
+         							    <td>{{ rec.user.email }}</td>
+
+       								 {% endif %}
+									<td>{{rec.destinataire}}</td>
+									<td>{{rec.Type}}</td>
+								
+									
+                                    <td>{{rec.description}}</td>
+									 
+									<td>{{ rec.treated ? 'Traité' : 'En cours' }}</td>
+    							    <td>
+          							<a href="{{ path('reclamation_traiter', {id: rec.id}) }}">Traiter</a> |
+           							<a href="{{ path('reclamation_untraiter', {id: rec.id}) }}"> en cours</a>
+        							</td>
+									
+                	            
+                                    <td>{{rec.createdAt |date('d-m-Y')}}</td>
+									<td><a class="btn btn-sm btn-info" href="{{ path ('reclamation.detail', {id: rec.id}) }}">detail</a></td>
+									
+					                <td><a class="btn btn-sm btn-danger" href="{{path ('delete.reclamation', {id:rec.id}) }}">delete</a></td>
+									<td><a class="btn btn-sm btn-info" href="{{path ('ajouter.response', {id:rec.id}) }}" >Reponse</a></td>
+								</tr>
+                   
+                    {% else %}
+                    <tr>
+                      <td colspan="9">no records found</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  
+
+				{% if isPaginated is defined and  isPaginated %}
+				<nav aria-label="Page navigation example">
+  				 <ul class="pagination">
+
+				    {% if  page != 1  %} 
+
+  				   		<li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:page - 1, nbre:nbre}) }}">Previous</a></li>
+				    
+					{% endif %}
+                    {% for i in range (1, nbrePages) %}
+   				   	    <li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:i, nbre:nbre}) }}">{{i}}</a></li>
+				    {% endfor %}		
+   				    
+					{% if   page != nbrePages %}
+    			   		<li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:page + 1, nbre:nbre}) }}">Next</a></li>
+ 			        {% endif %}
+				 </ul>
+			    </nav>
+				{% endif %}
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+  {% block title %}
+   Reclamations
+  {% endblock %}
+
+
+
+ 
+
+              

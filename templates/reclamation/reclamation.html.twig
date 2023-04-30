@@ -1,0 +1,81 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block body %}
+
+
+<div class="row">
+					<div class="col-md">
+						<div class="card card-body">
+							<table class="table table-sm">
+								<tr>
+									<th>contact</th>
+									<th>destinataire</th>
+									<th>Type</th>
+									
+    							    <th>description</th>
+								
+									<th>createdAt</th>
+									
+									<th>update</th>
+									<th>delete</th>
+									<th>responses</th>
+									
+									
+								</tr>
+								{% for rec in reclamations %}
+								<tr>
+								     {% if rec.user is not null %}
+       							    
+         							    <td>{{ rec.user.email }}</td>
+
+       								 {% endif %}
+									<td>{{rec.destinataire}}</td>
+									<td>{{rec.Type}}</td>
+									
+                                    <td>{{rec.description}}</td>
+									
+                	            
+                                    <td>{{rec.createdAt |date('Y-m-d H:i:s')}}</td>
+									
+									<td><a class="btn btn-sm btn-info" href="{{path ('ajouter.reclamation', {id:rec.id}) }}">update</a></td>
+					                <td><a class="btn btn-sm btn-danger" href="{{path ('delete.reclamation', {id:rec.id}) }}">delete</a></td>
+									 <td><a class="btn btn-sm btn-info" href="{{path ('list.responses', {'idreclamation': rec.id}) }}">responses</a></td>
+									
+								</tr>
+
+								{% endfor %}
+
+							</table>
+						</div>
+					</div>
+				</div>
+				{% if isPaginated is defined and  isPaginated %}
+				<nav aria-label="Page navigation example">
+  				 <ul class="pagination">
+
+				    {% if  page != 1  %} 
+
+  				   		<li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:page - 1, nbre:nbre}) }}">Previous</a></li>
+				    
+					{% endif %}
+                    {% for i in range (1, nbrePages) %}
+   				   	    <li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:i, nbre:nbre}) }}">{{i}}</a></li>
+				    {% endfor %}		
+   				    
+					{% if   page != nbrePages %}
+    			   		<li class="page-item"><a class="page-link" href="{{ path('listes.reclamations', {page:page + 1, nbre:nbre}) }}">Next</a></li>
+ 			        {% endif %}
+				 </ul>
+			    </nav>
+				{% endif %}
+
+{% endblock %}
+
+
+
+
+  {% block title %}
+   Reclamations
+  {% endblock %}
+  

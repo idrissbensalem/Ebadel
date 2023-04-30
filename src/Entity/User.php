@@ -93,6 +93,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
     private Collection $offres;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class)]
+    private Collection $reclamations;
 
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy:"sender")]
     private $sentMessages;
@@ -219,7 +221,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sentMessages = new ArrayCollection();
         $this->receivedMessages = new ArrayCollection();
-        $this->created_at = new \DateTime();}
+        $this->created_at = new \DateTime();
+        $this->reclamations = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations;
+    }
+
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->reclamations->contains($reclamation)) {
+            $this->reclamations->add($reclamation);
+            $reclamation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->reclamations->removeElement($reclamation)) {
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getUser() === $this) {
+                $reclamation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function setImageFile(File $image = null)
     {
@@ -457,4 +491,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function __ToString(): string
+    {
+       
+        $this->email;
+        $this->name;
+        
+        return $this;
+
+    }
+
 }
