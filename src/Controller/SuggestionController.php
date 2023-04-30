@@ -14,6 +14,12 @@ use App\Repository\SuggestionRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Dompdf\Dompdf;
 
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mailer\Transport\Smtp\Stream\TlsClientStream;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\MailerInterface;
+
 
 
 class SuggestionController extends AbstractController
@@ -37,6 +43,12 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+             $transport->setUsername('tn.ebadel@gmail.com');
+             $transport->setPassword('iixxcjrhvqhymado');
+             $mailer = new Mailer($transport);
+             $this->sendEmail($mailer);
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
@@ -54,6 +66,12 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+        $transport->setUsername('tn.ebadel@gmail.com');
+        $transport->setPassword('iixxcjrhvqhymado');
+        $mailer = new Mailer($transport);
+        $this->sendEmail($mailer);
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
@@ -71,6 +89,12 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+        $transport->setUsername('tn.ebadel@gmail.com');
+        $transport->setPassword('iixxcjrhvqhymado');
+        $mailer = new Mailer($transport);
+        $this->sendEmail($mailer);
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'La suggestion a été acceptée avec succès !']);
@@ -114,6 +138,13 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+        $transport->setUsername('tn.ebadel@gmail.com');
+        $transport->setPassword('iixxcjrhvqhymado');
+        $mailer = new Mailer($transport);
+        $this->sendEmailRefuse($mailer);
+        
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'la suggestion a été refusée !']);
@@ -130,6 +161,12 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+        $transport->setUsername('tn.ebadel@gmail.com');
+        $transport->setPassword('iixxcjrhvqhymado');
+        $mailer = new Mailer($transport);
+        $this->sendEmailRefuse($mailer);
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'la suggestion a été refusée !']);
@@ -146,6 +183,12 @@ class SuggestionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($suggestion);
         $entityManager->flush();
+
+        $transport = new EsmtpTransport('smtp.gmail.com', 587);
+        $transport->setUsername('tn.ebadel@gmail.com');
+        $transport->setPassword('iixxcjrhvqhymado');
+        $mailer = new Mailer($transport);
+        $this->sendEmailRefuse($mailer);
     
         // renvoyer une réponse JSON pour indiquer que la suggestion a été acceptée
         return new JsonResponse(['message' => 'la suggestion a été refusée !']);
@@ -193,23 +236,33 @@ class SuggestionController extends AbstractController
     }
 
     #[Route('/suggestion/gpdfs', name: 'pdfs_suggestion')]
-
     public function generatePDFS(SuggestionRepository $rep): Response
     {
-         
+        // Récupérer toutes les suggestions de la base de données
         $suggestion = $rep->findAll();
+        
+        // Générer le code HTML de la page à partir du fichier twig
         $html =  $this->renderView('pdfS.html.twig', [
             'suggestion' => $suggestion,
         ]);
+        
+        // Créer une instance de Dompdf
         $dompdf = new Dompdf();
+        
+        // Charger le code HTML dans Dompdf
         $dompdf->loadHtml($html);
+        
+        // Générer le PDF
         $dompdf->render();
+        
+        // Retourner une réponse avec le PDF en tant que contenu
         return new Response (
             $dompdf->stream('resume', ["Attachment" => false]),
             Response::HTTP_OK,
             ['Content-Type' => 'application/pdfS']
         );
     }
+    
 
     #[Route('/suggestion/gpdfm', name: 'pdfm_suggestion')]
 
@@ -229,4 +282,61 @@ class SuggestionController extends AbstractController
             ['Content-Type' => 'application/pdfM']
         );
     }
+
+    #[Route('/sendemail', name: 'app_send_email', methods: ['GET'])]
+    public function sendEmail(MailerInterface $mailer)
+    {
+        // Adresse email de destination
+        $to = 'trabelsimedamine999@gmail.com';
+    
+        // Sujet du message
+        $subject = 'suggestion acceptée!!';
+    
+        // Corps du message en HTML
+        $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
+        . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>.. </h4></center></br></html>"
+        . "<html><center><h3>Merci pour votre suggestion. Votre suggestion a été acceptée avec succès.</h3></center></html>";
+    
+        try {
+            // Création d'un objet Email
+            $email = (new Email())
+                ->from('tn.ebadel@gmail.com') // Adresse email de l'expéditeur
+                ->to($to) // Adresse email du destinataire
+                ->subject($subject) // Sujet du message
+                ->html($body); // Corps du message en HTML
+    
+            // Envoi de l'email avec le service Mailer
+            $mailer->send($email);
+            $response = new JsonResponse(['success' => true]); // Réponse JSON en cas de succès
+        }  catch (\Exception $e) {
+            $response = new JsonResponse(['success' => false, 'message' => 'email could not be sent.']); // Réponse JSON en cas d'erreur
+        }
+    
+    }
+    
+
+
+#[Route('/sendemailRefuse', name: 'app_send_email', methods: ['GET'])]
+public function sendEmailRefuse(MailerInterface $mailer)
+{
+    $to = 'trabelsimedamine999@gmail.com';
+    $subject = 'suggestion refusée!!';
+    $body = "'<html><center><a href='https://ibb.co/gv67FFT'><img src='https://i.ibb.co/5Y29xx8/logo-removebg.png' height=20%;width=20%></a></center></html>"
+    . "<html><center><h2>bienvenue sur notre site  Ebadel</h2> <br><h4>.. </h4></center></br></html>"
+    . "<html><center><h3>Désolé, votre suggestion a été refusée.</h3></center></html>";
+
+    try {
+        $email = (new Email())
+            ->from('tn.ebadel@gmail.com')
+            ->to($to)
+            ->subject($subject)
+            ->html($body);
+
+        $mailer->send($email);
+        $response = new JsonResponse(['success' => true]);
+    }  catch (\Exception $e) {
+        $response = new JsonResponse(['success' => false, 'message' => 'email could not be sent.']);
+    }
+
+}
 }
