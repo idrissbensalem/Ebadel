@@ -1,66 +1,199 @@
-{% extends 'base_front.html.twig' %} {% block title %}Article{% endblock %} {%
-block body %}
-<section>
-<div class="page-title-area">
-  <div class="container">
-  <div class="page-title-content">
-  <h2>{{nom}}</h2>
-  <ul>
-  <li><a href="{{ path('app_article_index') }}">Home</a></li>
-  <li>Article Details</li>
-  </ul>
-  </div>
-  </div>
-  </div>
-  
-  
-  <section class="product-details-area pt-100 pb-100">
-  <div class="container">
-  <div class="row">
-  <div class="col-lg-5 col-md-10">
-  <div>
-      <img
-        src="{{ asset('uploads/brochures/' ~ image) }}"
-        alt="image" width="700" height="700"/>
-        
-           
-  </div>
-  </div>
-  <div class="col-lg-7 col-md-12">
-  <div class="products-details-desc">
-  <h3>{{nom}}</h3>
-
-  <div class="products-review">
-   <div class="rating">
-  <i class='bx bx-star'></i>
-  <i class='bx bx-star'></i>
-  <i class='bx bx-star'></i>
-  <i class='bx bx-star'></i>
-  <i class='bx bx-star'></i>
-  </div>
-  <a href="#" class="rating-count">3 reviews</a>
-  </div>
-  <ul class="products-info">
-  <li><span>Catégorie:</span> <a href="#">{{categorie}}</a></li>
-  <li><span>Sous catégorie:</span> <a href="#">{{sousCategorie}}</a></li>
-  <li><span>Marque:</span> <a href="#">{{marque}}</a></li>
-  <li><span>Période d'utilisation:</span> <a href="#">{{periodeUtilisation}}</a></li>
-  <li><span>Etat:</span> <a href="#">{{etat}}</a></li>
-  <li><span>Description:</span> <a href="#">{{description}}</a></li>
-  </ul>
-  <br>
-  <a href="{{ path('app_message_new', {'recipient': iduser , 'article': id})}}"><i class='bx bx-envelope'></i> Renseignez-vous sur cet article</a>
-  <br>
-  <div class="item">
-    <br></br>
-    <a href="{{ path('app_offre_new', {'id_article': id,  id_user: app.user.id }) }}" class="default-btn">Envoyer une offre</a>
-  </div>
-
-</section>
-<div>
-  <h2>Comments</h2>
-</div>
-
- 
-  
+{% extends 'base_front.html.twig' %}
+{% block title %}Article
 {% endblock %}
+{% block body %}
+	<section>
+		<div class="page-title-area">
+			<div class="container">
+				<div class="page-title-content">
+					<h2>{{nom}}</h2>
+					<ul>
+						<li>
+							<a href="{{ path('app_article_index') }}">Home</a>
+						</li>
+						<li>Article Details</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<section class="product-details-area pt-100 pb-100">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-5 col-md-10">
+						<div>
+							<img src="{{ asset('uploads/brochures/' ~ image) }}" alt="image" width="700" height="700"/>
+
+
+						</div>
+					</div>
+					<div class="col-lg-7 col-md-12">
+						<div class="products-details-desc">
+							<h3>{{nom}}</h3>
+
+							<p>la note de cette article est
+								{{ average_rating }}
+								donc</p>
+
+							{% if average_rating < 2 %}
+								<p>Bad article</p>
+							{% elseif average_rating >= 2 and average_rating < 4 %}
+								<p>Good article</p>
+							{% else %}
+								<p>Excellent article</p>
+							{% endif %}
+
+							<div class="products-review">
+								<div class="rating">
+									{% for i in 1..5 %}
+										{% if i <= average_rating %}
+											<span class="star filled">&#9733;</span>
+										{% else %}
+											<span class="star empty">&#9734;</span>
+										{% endif %}
+									{% endfor %}
+								</div>
+								<a href="#" class="rating-count">reviews</a>
+							</div>
+							<ul class="products-info">
+								<li>
+									<span>Catégorie:</span>
+									<a href="#">{{categorie}}</a>
+								</li>
+								<li>
+									<span>Sous catégorie:</span>
+									<a href="#">{{sousCategorie}}</a>
+								</li>
+								<li>
+									<span>Marque:</span>
+									<a href="#">{{marque}}</a>
+								</li>
+								<li>
+									<span>Période d'utilisation:</span>
+									<a href="#">{{periodeUtilisation}}</a>
+								</li>
+								<li>
+									<span>Etat:</span>
+									<a href="#">{{etat}}</a>
+								</li>
+								<li>
+									<span>Description:</span>
+									<a href="#">{{description}}</a>
+								</li>
+							</ul>
+							<br>
+							<a href="{{ path('app_message_new', {'recipient': iduser , 'article': id})}}">
+								<i class='bx bx-envelope'></i>
+								Renseignez-vous sur cet article</a>
+							<br>
+							<div class="item">
+								<br></br>
+							<a href="{{ path('app_offre_new', {'id_article': id, id_user: app.user.id }) }}" class="default-btn">Envoyer une offre</a>
+						</div>
+
+					</section>
+					<div>
+						<h2>Leave a Review</h2>
+					</div>
+
+
+					<section class="blog-details-area ptb-100">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-8 col-md-12">
+									<div class="blog-details-desc">
+
+										<div class="comments-area">
+											<h3 class="comments-title">Comments:</h3>
+											<ol class="comment-list">
+												<li class="comment">
+													<article class="comment-body">
+														<footer class="comment-meta">
+															<div class="comment-author vcard">
+
+																<b class="fn">{{app.user.nom}}</b>
+																<span class="says">says:</span>
+															</div>
+
+														</footer>
+														{% for review in reviews %}
+															<div class="comment-content">
+																<p>{{review.comment}}</p>
+															</div>
+															<div class="review">
+																<div class="rating">
+																	{% for i in 1..5 %}
+																		{% if i <= review.rate %}
+																			<span class="star filled">&#9733;</span>
+																		{% else %}
+																			<span class="star empty">&#9734;</span>
+																		{% endif %}
+																	{% endfor %}
+																</div>
+
+																<style>
+																	.star {
+																		color: yellow;
+																	}
+																	.filled {
+																		color: yellow;
+																	}
+																	.empty {
+																		color: lightgray;
+																	}
+																</style>
+
+																<a class="btn btn-sm btn-info" href="{{path ('ajouter.review', {id:review.id}) }}">update</a>
+																<a class="btn btn-sm btn-danger" href="{{path ('delete.review', {id:review.id}) }}">delete</a>
+
+																<p>Likes:
+																	{{ review.likes }}</p>
+																<p>Dislikes:
+																	{{ review.dislikes }}</p>
+
+																<a href="{{ path('review_like', {'id': review.id}) }}">Like</a>
+																<a href="{{ path('review_dislike', {'id': review.id}) }}">Dislike</a>
+																<hr>
+															</div>
+														{% endfor %}
+													</article>
+
+												</li>
+
+											</ol>
+											<div class="comment-respond">
+												<h3 class="comment-reply-title">Leave a Comment</h3>
+												<div class="comment-form">
+													{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}
+													) }}
+
+													<p class="comment-form-comment">
+														<label>Comment</label>
+														{{ form_widget(form.comment,{'attr':{'placeholder':'Your Comment...' }}) }}
+														{{ form_errors(form.comment) }}
+													</p>
+													<p class="comment-form-comment">
+														<label>Rate</label>
+														{{ form_label(form.rate) }}
+														{{ form_widget(form.rate, {'attr': {'class': 'rating-field'}}) }}
+													</p>
+
+
+													<p class="form-submit">
+														<input type="submit" name="submit" id="submit" class="submit" value="Post A Comment">
+													</p>
+													{{ form_end(form) }}
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</section>
+
+
+				{% endblock %}

@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Index(name: 'article', columns: ['nom_article'], flags: ['fulltext'])]
+
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
@@ -20,7 +22,7 @@ class Article
 
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"Nom de l'article est requis.")]
+    #[Assert\NotBlank(message: "Nom de l'article est requis.")]
     #[Assert\Length(
         min: 3,
         max: 50,
@@ -50,27 +52,17 @@ class Article
     private ?string $description = null;
 
 
-    #[ORM\Column(type: 'string', nullable:true)]
-    #[Assert\NotBlank(message:"L'image est obligatoire.")]
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\NotBlank(message: "L'image est obligatoire.")]
     private ?string $image = 'null';
 
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank(message: "Le champ marque est obligatoire.")]
-    private ?string $marque;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank(message: "Le champ sous-catégorie est obligatoire.")]
-    private ?string $sous_categorie;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank(message: "Le champ catégorie est obligatoire.")]
-    private ?string $categorie;
 
-   
     #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(name :'id', referencedColumnName :'id')]
-     private ?User $user = null; 
-    
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id')]
+    private ?User $user = null;
+
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Offre::class)]
     private Collection $offres;
 
@@ -80,11 +72,24 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[ORM\ManyToOne(inversedBy: 'article')]
+    private ?Categorie $categorie = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Marque $marque = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Souscategorie $sousCategorie = null;
+
+  
+
 
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
     }
+
+   
 
     public function getUser(): ?User
     {
@@ -97,7 +102,7 @@ class Article
 
         return $this;
     }
-     
+
 
     public function getIdArticle(): ?int
     {
@@ -153,41 +158,9 @@ class Article
         return $this;
     }
 
-    public function getMarque(): ?string
-    {
-        return $this->marque;
-    }
 
-    public function setMarque(?string $marque): self
-    {
-        $this->marque = $marque;
 
-        return $this;
-    }
 
-    public function getSousCategorie(): ?string
-    {
-        return $this->sous_categorie;
-    }
-
-    public function setSousCategorie(?string $sousCategorie): self
-    {
-        $this->sous_categorie = $sousCategorie;
-
-        return $this;
-    }
-
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?string $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
 
     public function getId(): ?User
     {
@@ -245,7 +218,7 @@ class Article
         return $this;
     }
 
-     /**
+    /**
      * @return Collection<int, Review>
      */
     public function getReviews(): Collection
@@ -274,10 +247,45 @@ class Article
 
         return $this;
     }
-    
+
     public function toString(): string
     {
         return $this->nom_article; // Remplacez "nom" par le nom de l'attribut que vous voulez afficher
     }
 
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getMarque(): ?Marque
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?Marque $marque): self
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?Souscategorie
+    {
+        return $this->sousCategorie;
+    }
+
+    public function setSousCategorie(?Souscategorie $sousCategorie): self
+    {
+        $this->sousCategorie = $sousCategorie;
+
+        return $this;
+    }
 }

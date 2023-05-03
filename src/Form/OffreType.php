@@ -2,14 +2,18 @@
 
 namespace App\Form;
 
+use App\Entity\Categorie;
+use App\Entity\Marque;
 use App\Entity\Offre;
+use App\Entity\Souscategorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class OffreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -17,37 +21,41 @@ class OffreType extends AbstractType
         $builder
             ->add('titre')
             ->add('produit_propose')
-            ->add('categorie', ChoiceType::class, [
-                'choices' => [
-                    'Téléphonie et tablette' => 'Téléphonie et tablette',
-                    'Informatique' => 'Informatique',
-                    'Voitures' => 'Voitures',
-                    'Mode' => 'Mode',
-                    'Mode et beauté' => 'Mode et beauté',
+            ->add('categorie', EntityType::class, [
+                'label' => 'Categorie',
+                'class' => Categorie::class,
+                'choice_label' => 'nomC',
+                'placeholder' => 'Selectionnez une catégorie',
+                'attr' => [
+                    
+                    'class' => 'form-control animate__animated animate__fadeInDown',
+                ], 'constraints'=>[
+                    new Assert\Valid(),
                 ],
-                'placeholder' => 'Sélectionner la catégorie de la produit proposé',
-                'required' => true,
             ])
-            ->add('sous_categorie', ChoiceType::class, [
-                'choices' => [
-                    'Smartphone' => 'Smartphone',
-                    'Iphone' => 'Iphone',
-                    'iPad' => 'iPad',
-                    'les voitures de sport' => 'les voitures de sport'
+            ->add('sous_categorie', EntityType::class, [
+                'label' => 'Categorie',
+                'class' => Souscategorie::class,
+                'choice_label' => 'nom_s_c',
+                'placeholder' => 'Selectionnez une sous catégorie',
+                'attr' => [
+                    
+                    'class' => 'form-control animate__animated animate__fadeInDown',
+                ], 'constraints'=>[
+                    new Assert\Valid(),
                 ],
-                'placeholder' => 'Sélectionner la sous catégorie de la produit proposé',
-                'required' => true,
             ])
-            ->add('marque', ChoiceType::class, [
-                'choices' => [
-                    'Samsung' => 'Samsung',
-                    'Xiaomi ' => 'Xiaomi ',
-                    'Sony' => 'Sony',
-                    'Apple' => 'Apple',
-                    'Peugeot' => 'Peugeot',
+            ->add('marque',EntityType::class, [
+                'label' => 'Categorie',
+                'class' => Marque::class,
+                'choice_label' => 'nomM',
+                'placeholder' => 'Selectionnez une marque',
+                'attr' => [
+                    
+                    'class' => 'form-control animate__animated animate__fadeInDown',
+                ], 'constraints'=>[
+                    new Assert\Valid(),
                 ],
-                'placeholder' => 'Sélectionner la marque de la produit proposé',
-                'required' => true,
             ])
             ->add('periode_utilisation')
             ->add('etat_produit_propose', ChoiceType::class, [

@@ -24,7 +24,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class MesArticlesController extends AbstractController
 {
 
-#[Route('/{id_user}', name: 'app_mesarticles_index', methods: ['GET'])]
+#[Route('/{id_user?0}', name: 'app_mesarticles_index', methods: ['GET'])]
 public function index(int $id_user,MesArticlesRepository $mesarticlesRepository , EntityManagerInterface $entityManager): Response
 {
   
@@ -58,9 +58,10 @@ public function index(int $id_user,MesArticlesRepository $mesarticlesRepository 
         // $user = $entityManager->getRepository(User::class)->find($id_user);
         $id = $article->getIdArticle();
         $nom = $article->getNomArticle();
-        $categorie = $article->getCategorie();
-        $sousCategorie = $article->getSousCategorie();
-        $marque = $article->getMarque();
+        $categorie = $article->getCategorie()->getNomC();
+        $sousCategorie = $article->getSousCategorie()->getnom_s_c();
+        $marque = $article->getMarque()->getNomM();
+       
         $periodeUtilisation = $article-> getPeriodeUtilisation();
         $etat = $article->getEtat();
         $description = $article->getDescription();
@@ -87,7 +88,7 @@ public function index(int $id_user,MesArticlesRepository $mesarticlesRepository 
 
 
     #[Route('/{id}/edit', name: 'app_mesarticles_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, MesArticlesRepository $mesarticlesRepository, SluggerInterface $slugger): Response
+    public function edit( int $id_user ,Request $request, Article $article, EntityManagerInterface $entityManager ,MesArticlesRepository $mesarticlesRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);

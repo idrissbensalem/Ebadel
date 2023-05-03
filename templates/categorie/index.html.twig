@@ -1,0 +1,122 @@
+{% extends 'base_back.html.twig' %}
+
+{% block body %}
+
+<div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+    <a href="{{ path("suggestionList") }}" class="suggestion-button" role="button">
+       <i class="fa fa-comments"></i> Suggestion
+    </a> 
+    <a href="{{ path("ajoutCategorie") }}" class="btn btn-info add-category-button" role="button">
+        <i class="fas fa-plus"></i> Ajouter une catégorie
+    </a>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Catégorie</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in categorie %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{{ c.nomC }}</td>
+                <td>
+                    <a href="{{ path("SupprimerCategorie",{'id':c.id,'nom' :c.nomC}) }}" class="btn btn-danger deletion-button" onclick="confirmDeletion(event)">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </a> 
+                </td>
+                <td>
+                    <a href="{{ path("modifierCategorie",{'id':c.id,'nom' :c.nomC}) }}" class="btn btn-primary modification-button" onclick="confirmModification(event)">
+                        <i class="fas fa-edit"></i> Modifier
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+.deletion-button, .modification-button, .add-category-button {
+  transition: all 0.3s ease-in-out;
+}
+
+.deletion-button:hover, .modification-button:hover, .add-category-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.deletion-button:active {
+  background-color: #dc3545;
+  transform: scale(0.9);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.modification-button:active {
+  background-color: #007bff;
+  transform: scale(0.9);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table-hover tbody td {
+    vertical-align: middle;
+}
+
+.table-hover thead th {
+    text-align: center;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.suggestion-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+  background-color: transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.suggestion-button:hover {
+  background-color: #4CAF50;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.suggestion-button:active {
+  background-color: #3e8e41;
+  transform: scale(0.9);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+</style>
+<script>
+function confirmDeletion(event) {
+  event.preventDefault();
+  if (confirm("Êtes-vous sûr de vouloir supprimer cette catégorie?")) {
+    window.location.href = event.target.href;
+  }
+}
+
+function confirmModification(event) {
+  event.preventDefault();
+  window.location.href = event.target.href;
+}
+</script>
+{% endblock %}

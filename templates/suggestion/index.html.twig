@@ -1,0 +1,18 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block body %}
+	<br>
+	<br>
+	<br>
+
+	<a href="{{path('addSuggestion', { id_user: app.user.id })}}">
+
+		<img src="{{ asset('sugg.png') }}" style="width: 100%; max-height: 500px;">
+	</a>
+	<br>
+	<br>
+	<br>
+
+{% endblock %}
+{% block footer %}{% endblock %}

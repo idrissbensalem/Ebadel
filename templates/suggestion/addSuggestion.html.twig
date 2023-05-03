@@ -1,0 +1,44 @@
+{% extends 'base_front.html.twig' %}
+
+{% block body %}
+
+	<section class="signup-area ptb-100">
+		<div class="container">
+			<div class="signup-content">
+				<h2>Envoyer une Suggestion</h2>
+
+				<div class="signup-form">
+					{{ form_start(formSuggestion,{'attr': {'novalidate': 'novalidate'}}
+					) }}
+					<div class="form-group">
+						<label>Suggestion pour une catégorie :</label>
+						{{ form_widget(formSuggestion.suggC,{'attr':{'placeholder':'Enter your catégorie' , 'class':"form-control"
+
+          }}) }}
+						{{ form_errors(formSuggestion.suggC) }}
+					</div>
+					<div class="form-group">
+						<label>Suggestion pour une sous-catégorie :</label>
+						{{ form_widget(formSuggestion.suggS,{'attr':{'placeholder':'Enter your sous-catégorie' , 'class':"form-control"
+
+          }}) }}
+						{{ form_errors(formSuggestion.suggS) }}
+					</div>
+					<div class="form-group">
+						<label>Suggestion pour une marque :</label>
+						{{ form_widget(formSuggestion.suggM,{'attr':{'placeholder':'Enter your marque' , 'class':"form-control"
+
+          }}) }}
+						{{ form_errors(formSuggestion.suggM) }}
+					</div>
+
+
+					<button type="submit" class="default-btn">Envoyer</button>
+
+
+					{{ form_end(formSuggestion) }}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

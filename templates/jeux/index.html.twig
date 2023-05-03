@@ -1,0 +1,160 @@
+{% extends 'base_back.html.twig' %}
+{% block title %}Jeux index
+{% endblock %}
+{%
+block body %}
+
+	<div class="container-fluid">
+
+
+		{{form_start(form,{'attr':{'class':'form-inline'}})}}
+		{# <form class="form-inline"> #}
+		<div class="input-group input-group-sm">
+			{{form_widget(form.mots,{'attr':{'class':'form-control form-control-navbar'}})}}
+			<div class="input-group-append">
+				{{form_widget(form.Rechercher,{'attr':{'class':'btn btn-navbar'}})}}
+			</div>
+		</div>
+		{{form_end(form)}}
+
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card card-table">
+					<div class="card-body">
+						<div class="title-header option-title d-sm-flex d-block">
+							<h5>Jeux Lists</h5>
+							<div class="right-options">
+								<ul>
+
+
+									<li><a class="btn btn-solid"href="{{ path('app_jeux_new') }}">Ajouter un jeu</a></li>
+								</ul>
+							</div>
+						</div>
+						<div>
+							<div class="table-responsive">
+								<div id="table_id_wrapper" class="dataTables_wrapper no-footer">
+									<div id="table_id_filter" class="dataTables_filter">
+										<label>Search:<input type="search" class="" placeholder="" aria-controls="table_id"/></label>
+									</div>
+									<table class="table all-package theme-table table-product dataTable no-footer" id="table_id">
+										<thead>
+											<tr>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Image Jeu
+												</th>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Titre Jeu
+												</th>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Type Jeu
+												</th>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Produit
+												</th>
+
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Prix Jeu
+												</th>
+
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Date fin Jeu
+												</th>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Jeu
+												</th>
+												<th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px">
+													Option
+												</th>
+											</tr>
+										</thead>
+
+										<tbody>
+
+											{% for jeux in jeux %}
+												<tr class="odd">
+													<td>
+														<div class="table-image">
+															<img src="{{ asset('uploads/brochures/' ~ jeux.image) }}" class="img-fluid" alt="">
+														</div>
+
+													</td>
+
+													<td>{{ jeux.titre }}</td>
+
+													<td>{{ jeux.type }}</td>
+
+													<td>{{ jeux.produit }}</td>
+
+													<td class="td-price">{{ jeux.prix }}</td>
+
+
+													<td>{{ jeux.dateFin ? jeux.dateFin|date('Y-m-d') : '' }}</td>
+													<td>
+														<a href="{{ path('app_jeux_spin', { id: jeux.id }) }}">Jeux
+														</a>
+													</td>
+													<td>
+														<ul>
+															<li>
+																<a href="{{ path('app_jeux_show', { id: jeux.id }) }}">
+																	<i class="ri-eye-line"></i>
+																</a>
+															</li>
+
+															<li>
+																<a href="{{ path('app_jeux_edit', { id: jeux.id }) }}">
+																	<i class="ri-pencil-line"></i>
+																</a>
+															</li>
+
+															<li>
+																{{ include('jeux/_delete_form.html.twig') }}
+																<i class="ri-delete-bin-line"></i>
+															</li>
+														</a>
+													</td>
+
+												</tr>
+											</li>
+										</tbody>
+									</ul>
+								</td>
+
+							</tr>
+
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div></div></div></div><nav aria-label="Page navigation example"><ul class="pagination justify-content-center">{% if currentPage > 1 %}
+<li class="page-item">
+	<a hidden class="page-link" href="{{ path('app_jeux_index', { 'page': currentPage - 1 }) }}">Précédent</a>
+	<a class="page-link" href="{{ path('app_jeux_index', { 'page': currentPage - 1 }) }}" aria-label="Previous">
+		<span aria-hidden="true">&laquo;</span>
+		<span class="sr-only">Previous</span>
+	</a>
+</li>{% endif %}{% for page in 1..pagesCount %}
+{% if page == currentPage %}
+	<li class="page-item active">
+		<span class="page-link">{{ page }}</span>
+	</li>
+{% else %}
+	<li class="page-item">
+		<a class="page-link" href="{{ path('app_jeux_index', {'page': page}) }}">{{ page }}</a>
+	</li>
+{% endif %}{% endfor %}{% if currentPage < pagesCount %}
+<li class="page-item">
+	<a hidden class="page-link" href="{{ path('app_jeux_index', { 'page': currentPage + 1 }) }}">Next</a>
+	<a class="page-link" href="{{ path('app_jeux_index', { 'page': currentPage + 1 }) }}" aria-label="Next">
+		<span aria-hidden="true">&raquo;</span>
+		<span class="sr-only">Next</span>
+	</a>
+</li>{% endif %}</ul></nav></div>{% endblock %}

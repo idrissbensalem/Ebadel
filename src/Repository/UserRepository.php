@@ -5,7 +5,10 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * @extends ServiceEntityRepository<User>
  *
@@ -15,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,6 +42,67 @@ class UserRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+     /**
+     * Used to upgrade (rehash) the userrrr's password automatically over time.
+     */
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newHashedPassword);
+
+        $this->save($user, true);
+    }
+
+    public function findByPage(int $page = 1, int $perPage = 4): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC');
+
+        return $this->paginate($qb, $page, $perPage);
+    }
+    public function findAllAgents()
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('COUNT(u.id)')
+            ->Where('u.roles = :role')
+            ->setParameter('role', '["ROLE_AGENT"]');
+        $query = $qb->getQuery();
+        return (int) $query->getSingleScalarResult();
+    }
+    public function countUsersCreatedLast7Days(): int
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('COUNT(u.id)')
+            ->where('u.created_at >= :date')
+            ->setParameter('date', new \DateTime('-7 days'));
+        $query = $qb->getQuery();
+        return (int) $query->getSingleScalarResult();
+    }
+    public function countBannedUsers(): int
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.isbanned = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    private function paginate(QueryBuilder $qb, int $page, int $perPage): array
+    {
+        $offset = ($page - 1) * $perPage;
+        $qb->setFirstResult($offset)
+            ->setMaxResults($perPage);
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 //    /**
 //     * @return User[] Returns an array of User objects

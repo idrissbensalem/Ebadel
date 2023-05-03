@@ -1,0 +1,135 @@
+{% extends 'base_back.html.twig' %} {% block title %}Boutique index{% endblock
+    %} {% block body %}
+    
+    <div class="card card-table">
+      <div class="card-body">
+        <div class="title-header option-title d-sm-flex d-block">
+          <h5>Liste des produits</h5>
+          
+        </div>
+        <div>
+          <div class="table-responsive">
+            <div id="table_id_wrapper" class="dataTables_wrapper no-footer">
+              <div id="table_id_filter" class="dataTables_filter">
+                <label
+                  >Search:<input
+                    type="search"
+                    class=""
+                    placeholder=""
+                    aria-controls="table_id"
+                /></label>
+              </div>
+              <table
+                class="table all-package theme-table table-product dataTable no-footer"
+                id="table_id"
+              >
+                <thead>
+                  <tr>
+                    <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      Image
+                    </th>
+                    <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                     Boutique Name
+                    </th>
+                    <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                    titre
+                    </th>
+                    <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                    prix
+                    </th>
+                    <th
+                      class="sorting_disabled"
+                      rowspan="1"
+                      colspan="1"
+                      style="width: 170px"
+                    >
+                      Option
+                    </th>
+                  </tr>
+                </thead>
+    
+                <tbody>
+                    {% for produit in produits %}
+                  <tr class="odd">
+                    <td>
+                      <div class="table-image">
+                        <img
+                        src="{{ asset('uploads/brochures/' ~ produit.image) }}"
+                          class="img-fluid"
+                          alt=""
+                        />
+                      </div>
+                    </td>
+
+                    <td>{{ produit.boutique.nom }}</td>
+
+                    <td>{{ produit.titre }}</td>
+    
+                    <td>{{produit.prix}}</td>
+    
+                   
+    
+                    <td>
+                      <ul>
+                        <li>
+                          <a href="order-detail.html">
+                            <i class="ri-eye-line"></i>
+                          </a>
+                         
+                        </li>
+                        <li>
+                          <a>
+                            <form
+                              method="post"
+                              action="{{ path('app_produit_admin_delete', { id_produit: produit.id }) }}"
+                              onsubmit="return confirm('Are you sure you want to delete this item?');"
+                            >
+                              <input
+                                type="hidden"
+                                name="_token"
+                                value="{{ csrf_token('delete' ~ produit.id) }}"
+                              />
+                              <button type="submit" class="btn">
+                                <i class="ri-delete-bin-line"></i>
+                              </button>
+                            </form>
+                          </a>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                  {% else %}
+                  <div>no records found</div>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    {% endblock %}
+    

@@ -96,11 +96,121 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class)]
     private Collection $reclamations;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Boutique::class)]
+    private Collection $boutiques;
+
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy:"sender")]
     private $sentMessages;
 
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy:"receiver")]
     private $receivedMessages;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Participation::class)]
+    private Collection $participations;
+
+    #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
+    private Collection $jeux;
+
+    #[ORM\OneToMany(mappedBy: 'gagnant', targetEntity: Jeux::class)]
+    private Collection $jeuxGagnees;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Suggestion::class)]
+    private Collection $suggestions;
+
+    public function __construct()
+    {
+        $this->sentMessages = new ArrayCollection();
+        $this->receivedMessages = new ArrayCollection();
+        $this->created_at = new \DateTime();
+        $this->reclamations = new ArrayCollection();
+        $this->boutiques = new ArrayCollection();
+        $this->participations = new ArrayCollection();
+        $this->jeux = new ArrayCollection();
+        $this->suggestions = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getUser() === $this) {
+                $participation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Jeux>
+     */
+    public function getJeux(): Collection
+    {
+        return $this->jeux;
+    }
+
+    public function addJeux(Jeux $jeux): self
+    {
+        if (!$this->jeux->contains($jeux)) {
+            $this->jeux->add($jeux);
+        }
+
+        return $this;
+    }
+
+    public function removeJeux(Jeux $jeux): self
+    {
+        $this->jeux->removeElement($jeux);
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getJeuxGagnees(): Collection
+    {
+        return $this->jeuxGagnees;
+    }
+
+    public function addJeuxGagnee(Jeux $jeux): self
+    {
+        if (!$this->jeuxGagnees->contains($jeux)) {
+            $this->jeuxGagnees->add($jeux);
+            $jeux->setGagnant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJeuxGagnee(Jeux $jeux): self
+    {
+        if ($this->jeuxGagnees->removeElement($jeux)) {
+            // set the owning side to null (unless already changed)
+            if ($jeux->getGagnant() === $this) {
+                $jeux->setGagnant(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getOffres(): Collection
     {
@@ -217,14 +327,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __construct()
-    {
-        $this->sentMessages = new ArrayCollection();
-        $this->receivedMessages = new ArrayCollection();
-        $this->created_at = new \DateTime();
-        $this->reclamations = new ArrayCollection();
-    }
-
+  
     /**
      * @return Collection<int, Reclamation>
      */
@@ -249,6 +352,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($reclamation->getUser() === $this) {
                 $reclamation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+     /**
+     * @return Collection<int, Boutique>
+     */
+    public function getBoutiques(): Collection
+    {
+        return $this->boutiques;
+    }
+
+    public function addBoutique(Boutique $boutiques): self
+    {
+        if (!$this->boutiques->contains($boutiques)) {
+            $this->boutiques->add($boutiques);
+            $boutiques->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoutique(Boutique $boutiques): self
+    {
+        if ($this->boutiques->removeElement($boutiques)) {
+            // set the owning side to null (unless already changed)
+            if ($boutiques->getUser() === $this) {
+                $boutiques->setUser(null);
             }
         }
 
@@ -500,6 +633,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         
         return $this;
 
+    }
+
+    /**
+     * @return Collection<int, Suggestion>
+     */
+    public function getSuggestions(): Collection
+    {
+        return $this->suggestions;
+    }
+
+    public function addSuggestion(Suggestion $suggestion): self
+    {
+        if (!$this->suggestions->contains($suggestion)) {
+            $this->suggestions->add($suggestion);
+            $suggestion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSuggestion(Suggestion $suggestion): self
+    {
+        if ($this->suggestions->removeElement($suggestion)) {
+            // set the owning side to null (unless already changed)
+            if ($suggestion->getUser() === $this) {
+                $suggestion->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

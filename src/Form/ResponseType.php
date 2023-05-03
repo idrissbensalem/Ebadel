@@ -19,10 +19,7 @@ class ResponseType extends AbstractType
               
                 'attr' => ['rows' => 5],
          
-            ])
-            ->add('createdAt')
-            ->add('envoyer',SubmitType::class);
-        
+            ]);        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

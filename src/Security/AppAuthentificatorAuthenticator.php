@@ -58,6 +58,7 @@ class AppAuthentificatorAuthenticator extends AbstractLoginFormAuthenticator
             return  new RedirectResponse($this->urlGenerator->generate('404'));
         elseif (in_array("ROLE_ADMIN", $roles))
             return new RedirectResponse($this->urlGenerator->generate('admin'));
+        
         elseif (in_array("ROLE_USER", $roles))
             return new RedirectResponse($this->urlGenerator->generate('home'));
     }

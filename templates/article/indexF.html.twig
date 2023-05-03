@@ -1,0 +1,98 @@
+{% extends 'base_front.html.twig' %}
+{% block title %}Article index
+{% endblock
+%}
+
+
+{% block body %}
+
+
+	<div class="page-title-area">
+		<div class="container">
+			<div class="page-title-content">
+				<h2>Liste des Articles</h2>
+				<ul>
+					<li><a href="{{path('app_article_new',{id_user:app.user.id})}}">Ajouter un article</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="xton-nav">
+		<div class="container">
+			<nav class="navbar navbar-expand-md navbar-light">
+
+				<div class="collapse navbar-collapse mean-menu" style="display: block;">
+					<ul class="navbar-nav">
+
+
+						<li class="nav-item">
+							<a href="#" class="nav-link">Categorie
+								<i class="bx bx-chevron-down"></i>
+							</a>
+							<ul class="dropdown-menu">
+								{% for c in categories %}
+									<li class="nav-item">
+										<a href="#" class="nav-link">{{ c.nomC }}
+											{% if c.souscategories|length > 0 %}
+												<i class="bx bx-chevron-left"></i>
+											{% endif %}
+										</a>
+										<ul class="dropdown-menu ">
+											{% for souscategories in c.souscategories %}
+												<li class="nav-item">
+													<a href="#" class="nav-link">{{ souscategories.NomSC }}
+														{% if souscategories.Marques|length > 0 %}
+															<i class="bx bx-chevron-left"></i>
+														{% endif %}
+													</a>
+													<ul class="dropdown-menu ">
+														{% for marque in souscategories.Marques %}
+															<li class="nav-item">
+																{# <a href="{{ path("getByMarque",{'marque' :marque.id,'sousCateg':souscategories.id}) }}" class="nav-link">{{ marque.nomM }}</a> #}
+															</li>
+														{% endfor %}
+													</ul>
+												</li>
+											{% endfor %}
+										</ul>
+									</li>
+								{% endfor %}
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+			</nav>
+		</div>
+	</div>
+
+
+	<section class="categories-banner-area pt-100 pb-70">
+		<div class="container-fluid">
+			<div class="row">
+
+				{% for article in articlesF %}
+
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="single-categories-box">
+
+							<img src="{{ asset('uploads/brochures/' ~ article.image) }}" alt="image" style="width: 500px; height: 500px;">
+
+							<div class="content text-white">
+								<span>{{ article.description }}</span>
+								<h3>{{ article.getNomArticle()}}</h3>
+								<a href="{{ path('app_article_show', { id: article.getIdArticle() }) }}" class="default-btn">Plus de détails</a>
+							</div>
+						</div>
+					</div>
+				
+				{% else %}
+					<div>no records found</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base_front.html.twig' %}
+{% block categories %}active{%endblock%}
+
+{% block navitems %}
+
+<ul class="dropdown-menu">
+	{% for categorie in categories%}
+		<li class="nav-item">
+			<a href="#" class="nav-link">{{categorie.nomC}}
+
+				{% if categorie.sousCategories|length > 0 %}
+					<i class="bx bx-chevron-right"></i>
+				{% endif %}
+			</a>
+			<ul class="dropdown-menu ">
+				{% for sousCategorie in categorie.sousCategories %}
+					<li class="nav-item">
+						<a href="#" class="nav-link">{{sousCategorie.NomSC}}
+							{% if sousCategorie.Marques|length > 0 %}
+								<i class="bx bx-chevron-right"></i>
+							{% endif %}
+						</a>
+						<ul class="dropdown-menu ">
+							{% for marque in sousCategorie.Marques %}
+								<li class="nav-item">
+									{# <a href="{{ path("getByMarque",{'marque' :marque.nomM,'sousCateg':sousCategorie.NomSC}) }}" class="nav-link">{{marque.nomM}}</a> #}
+								</li>
+							{% endfor %}
+						</ul>
+					</li>
+				{% endfor %}
+			</ul>
+
+		</li>
+	{% endfor %}
+</ul>
+
+
+{%endblock%}
+{% block body %}
+
+	{% if produits|length > 0 %}
+		{% for p in produits%}
+			{{p.Titre}}
+			|
+			{{p.nomM}}
+			|
+			{{p.nomSC}}
+			|
+			{{p.nomC}}
+			<br>
+			{% endfor%}
+		{% else %}
+			Pas de produits
+			{% endif%}
+
+		{% endblock %}
+		{% block footer %}
+			<style>
+
+				.dropdown-content {
+					display: none;
+					position: absolute;
+					left: 100%;
+					top: 0;
+					background-color: #f9f9f9;
+					min-width: 160px;
+					box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+					z-index: 1;
+				}
+			</style>
+		{% endblock %}

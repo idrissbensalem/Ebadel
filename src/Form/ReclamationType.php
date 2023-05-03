@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Reclamation;
 use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,16 +14,39 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class ReclamationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+
+    
+    private $security;
+
+    public function __construct(Security $security)
     {
+        $this->security = $security;
+    }
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {  
+
+      
         $builder
            
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'email' ])
+        ->add('user', EntityType::class, [
+            'class' => User::class,
+            'query_builder' => function (UserRepository $er) {
+                
+                $user = $this->security->getUser();
+                if ($user instanceof User && $user !== null) {
+                    $qb = $er->createQueryBuilder('u');
+                    $qb->where('u.id = :user_id')->setParameter('user_id', $user->getId());
+                }
+               
+               
+                return $qb;
+            },
+            'choice_label' => 'email'
+        ])
             ->add('destinataire', ChoiceType::class, [
                 'choices' => [
                     'Service client' => 'Service client',
@@ -41,25 +66,14 @@ class ReclamationType extends AbstractType
             ])
           
             ->add('description')
-            ->add('createdAt')
+            ->add('createdAt');
            
-            ->add('envoyer',SubmitType::class);
             $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $data = $event->getData();
-                $badWords = ['nigga',
-                'nigger',
-                'nig nog',
-                'nimphomania',
-                'nipple',
-                'nipples',
-                'mound of venus',
-                'mr hands','honkey',
-                
-                'hot carl',
-                'hot chick',
-                'how to kill','bad service']; // Array of bad words
+                $badWords = [
+                'bad service'];
     
-                // Check if the description contains any bad words
+               
                 foreach ($badWords as $badWord) {
                     if (strpos($data['description'], $badWord) !== false) {
                         $data['description'] = str_replace($badWord, '', $data['description']);

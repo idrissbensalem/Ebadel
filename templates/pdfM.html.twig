@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Liste des suggestions</title>
+        <style type="text/css">
+            /* Définir la police et la taille de texte */
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+
+            /* Définir les bordures de la table */
+            table {
+                border-collapse: collapse;
+                border: 1px solid #ccc;
+                margin-top: 20px;
+            }
+
+            /* Définir les bordures des cellules */
+            th, td {
+                border: 1px solid #ccc;
+                padding: 5px;
+            }
+
+            /* Définir les styles pour l'en-tête de la table */
+            table thead tr {
+                background-color: #007bff;
+                color: #fff;
+                text-align: center;
+            }
+            table {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    width: 100%; /* Ajout de la propriété width */
+}
+
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align:center; font-family: cursive;">E-badel.tn</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Nom</th>
+                    <th style="text-align: center;">Prénom</th>
+                    <th style="text-align: center;">Suggestion</th>
+                    <th style="text-align: center;">Etat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in suggestion %}
+                    {% if s.suggM is not null %}
+                        <tr {% if s.etatm == 'Accepté' %}style="background-color: #d4edda;"{% elseif s.etatm == 'Refusé' %}style="background-color: #f8d7da;"{% endif %}>
+                            <td style="text-align: center;">{{s.IdClient.Nom}}</td>
+                            <td style="text-align: center;">{{s.IdClient.Prenom}}</td>
+                            <td>{{ s.suggM }}</td>
+                            <td{% if s.etatm == 'Accepté' %} style="color: green; text-align: center;"{% elseif s.etatm == 'Refusé' %} style="color: red; text-align: center;"{% endif %}>{{ s.etatm }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,187 @@
+{% extends 'base_back.html.twig' %}
+
+{% block body %}
+
+
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Suggestion</th>
+					<th>Etat</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for s in suggestion %}
+					{% if s.suggM is not null %}
+						<tr {% if s.etatm == 'Accepté' %} style="background-color: #d4edda;" {% elseif s.etatm == 'Refusé' %} style="background-color: #f8d7da;" {% endif %}>
+							<td>{{s.user.nom}}</td>
+							<td>{{s.user.prenom}}</td>
+							<td>{{ s.suggM }}</td>
+							<td {% if s.etatm == 'Accepté' %} style="color: green;" {% elseif s.etatm == 'Refusé' %} style="color: red;" {% endif %}>{{ s.etatm }}</td>
+							{% if s.etatm != 'Accepté' and s.etatm != 'Refusé' %}
+								<td>
+									<a href="{{ path("RefusersuggestionM",{'id':s.id}) }}" class="btn btn-danger deletion-button" onclick="refuseSuggestion(event, {{ s.id }})">
+										<i class="fas fa-trash-alt"></i>
+										Refuser
+									</a>
+								</td>
+								<td>
+									<a href="{{ path('accepterSuggestionM', {'id': s.id}) }}" class="btn btn-success accept-button" onclick="acceptSuggestion(event, {{ s.id }})">
+										<i class="far fa-check-square"></i>
+										Accepter
+									</a>
+								</td>
+							{% endif %}
+						</tr>
+					{% endif %}
+				{% endfor %}
+
+
+			</tbody>
+		</table>
+	</div>
+
+	<button id="pdf-button" class="btn btn-primary action-button pdf-button">
+		<i class="fas fa-file-pdf"></i>
+		PDF
+	</button>
+
+	<style>
+		.deletion-button,
+		.modification-button,
+		.add-category-button {
+			transition: all 0.3s ease-in-out;
+		}
+
+		.deletion-button:hover,
+		.accept-button:hover {
+			transform: scale(1.1);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.deletion-button:active {
+			background-color: #dc3545;
+			transform: scale(0.9);
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.modification-button:active {
+			background-color: #007bff;
+			transform: scale(0.9);
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.accept-button:active {
+			background-color: #28a745;
+			transform: scale(0.9);
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.table-hover tbody tr:hover {
+			background-color: #f8f9fa;
+		}
+
+		.table-hover tbody td {
+			vertical-align: middle;
+		}
+
+		.table-hover thead th {
+			text-align: center;
+		}
+
+		.table-responsive {
+			overflow-x: auto;
+		}
+		.action-button {
+			transition: all 0.3s ease-in-out;
+		}
+
+		.action-button:hover {
+			transform: scale(1.1);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.action-button:active {
+			background-color: #28a745;
+			transform: scale(0.9);
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		/* styles pour le bouton PDF */
+		.pdf-button {
+			margin-top: 10px;
+			animation: pulse 2s infinite;
+		}
+		.pdf-button:hover {
+			animation: none;
+			transform: scale(1.1);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+		.pdf-button:active {
+			background-color: #007bff;
+			transform: scale(0.9);
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+		/* animation pour le bouton PDF */
+		@keyframes pulse {
+			0% {
+				transform: scale(1);
+			}
+			50% {
+				transform: scale(1.05);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+	</style>
+	<script>
+
+		function acceptSuggestion(event, suggestionId) {
+event.preventDefault();
+var row = event.target.closest("tr");
+row.style.backgroundColor = "#d4edda";
+
+// envoyer une requête AJAX pour accepter la suggestion
+fetch(event.target.href).then(response => response.json()).then(data => {
+alert(data.message);
+window.location.reload(); // recharger la page pour mettre à jour l'état de la suggestion
+}).catch(error => {
+console.error('Une erreur s\'est produite:', error);
+});
+}
+
+function refuseSuggestion(event, suggestionId) {
+event.preventDefault();
+var row = event.target.closest("tr");
+row.style.backgroundColor = "#f8d7da";
+
+// envoyer une requête AJAX pour accepter la suggestion
+fetch(event.target.href).then(response => response.json()).then(data => {
+alert(data.message);
+window.location.reload(); // recharger la page pour mettre à jour l'état de la suggestion
+}).catch(error => {
+console.error('Une erreur s\'est produite:', error);
+});
+}
+var pdfButton = document.getElementById('pdf-button');
+pdfButton.addEventListener('click', function (event) {
+event.preventDefault();
+fetch('/suggestion/gpdfm').then(response => response.blob()).then(blob => {
+var url = window.URL.createObjectURL(blob);
+var a = document.createElement('a');
+a.href = url;
+a.download = 'suggestions.pdf';
+document.body.appendChild(a);
+a.click();
+a.remove();
+}).catch(error => {
+console.error('Une erreur s\'est produite:', error);
+});
+});
+	</script>
+{% endblock %}

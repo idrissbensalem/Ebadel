@@ -30,6 +30,14 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function search($mots){
+        $query = $this->createQueryBuilder('a');
+        if($mots != null){
+            $query->Where('MATCH_AGAINST(a.nom_article) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        return $query->getQuery()->getResult();
+    }
 
     public function remove(Article $entity, bool $flush = false): void
     {

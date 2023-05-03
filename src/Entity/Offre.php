@@ -57,17 +57,11 @@ class Offre
         #[Assert\NotBlank(message:"L'image est obligatoire.")]
         private ?string $image = 'null';
     
-        #[ORM\Column(type: 'string', length: 50)]
-        #[Assert\NotBlank(message: "Le champ marque est obligatoire.")]
-        private ?string $marque;
+ 
     
-        #[ORM\Column(type: 'string', length: 50)]
-        #[Assert\NotBlank(message: "Le champ sous-catégorie est obligatoire.")]
-        private ?string $sous_categorie;
+      
     
-        #[ORM\Column(type: 'string', length: 50)]
-        #[Assert\NotBlank(message: "Le champ catégorie est obligatoire.")]
-        private ?string $categorie;
+       
 
         #[ORM\Column(type: 'string', length: 100 , nullable:true)]
         private ?string $bonus = null;
@@ -87,7 +81,15 @@ class Offre
         #[ORM\JoinColumn(name :'id_article', referencedColumnName :'id_article')]
         private ?Article $article = null;
    
-
+        #[ORM\ManyToOne(inversedBy: 'offres')]
+        private ?Categorie $categorie = null;
+    
+        #[ORM\ManyToOne(inversedBy: 'offres')]
+        private ?Marque $marque = null;
+    
+        #[ORM\ManyToOne(inversedBy: 'offres')]
+        private ?Souscategorie $sousCategorie = null;
+    
 
         
      
@@ -132,41 +134,8 @@ class Offre
         return $this;
     }
 
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
+    
 
-    public function setCategorie(string $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getSousCategorie(): ?string
-    {
-        return $this->sous_categorie;
-    }
-
-    public function setSousCategorie(string $sousCategorie): self
-    {
-        $this->sous_categorie = $sousCategorie;
-
-        return $this;
-    }
-
-    public function getMarque(): ?string
-    {
-        return $this->marque;
-    }
-
-    public function setMarque(string $marque): self
-    {
-        $this->marque = $marque;
-
-        return $this;
-    }
 
     public function getProduitPropose(): ?string
     {
@@ -254,12 +223,48 @@ class Offre
 
     public function getId(): ?User
     {
-        return $this->id;
+        return $this->id_offre;
     }
 
-    public function setIdu(?User $id): self
+    public function setId(?User $id): self
     {
-        $this->id = $id;
+        $this->id_offre = $id;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getMarque(): ?Marque
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?Marque $marque): self
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?Souscategorie
+    {
+        return $this->sousCategorie;
+    }
+
+    public function setSousCategorie(?Souscategorie $sousCategorie): self
+    {
+        $this->sousCategorie = $sousCategorie;
 
         return $this;
     }

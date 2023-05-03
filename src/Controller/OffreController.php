@@ -127,9 +127,9 @@ public function new(int $id_user, Request $request, EntityManagerInterface $enti
         $id = $offre->getIdOffre();
         $titre = $offre->getTitre();
         $produit_propose = $offre->getProduitPropose();
-        $categorie = $offre->getCategorie();
-        $sousCategorie = $offre->getSousCategorie();
-        $marque = $offre->getMarque();
+        $categorie = $offre->getCategorie()->getNomC();
+        $sousCategorie = $offre->getSousCategorie()->getnom_s_c();
+        $marque = $offre->getMarque()->getNomM();
         $periodeUtilisation = $offre-> getPeriodeUtilisation();
         $etatpp = $offre->getEtatProduitPropose();
         $description = $offre->getDescription();
@@ -175,7 +175,7 @@ public function new(int $id_user, Request $request, EntityManagerInterface $enti
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+216' . $offre->getArticle()->getUser()->getTelephone(), // recipient phone number
+            '+21650914133'  , // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "
@@ -203,7 +203,7 @@ public function new(int $id_user, Request $request, EntityManagerInterface $enti
         $twilio = new Client($sid, $token);
         try {
         $message = $twilio->messages->create(
-            '+216' . $offre->getArticle()->getUser()->getTelephone(), // recipient phone number
+            '+21650914133' , // recipient phone number
             array(
                 'from' => '+16203028593', // your Twilio phone number
                 'body' => "
