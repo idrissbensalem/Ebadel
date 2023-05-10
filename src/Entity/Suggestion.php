@@ -33,6 +33,7 @@ class Suggestion
 
     #[ORM\ManyToOne(inversedBy: 'suggestions')]
     private ?User $user = null;
+    
 
     public function getId(): ?int
     {

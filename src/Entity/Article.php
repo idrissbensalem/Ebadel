@@ -60,26 +60,31 @@ class Article
 
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?User $user = null;
-
+    
+    
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Offre::class)]
     private Collection $offres;
-
+    
     #[ORM\OneToMany(mappedBy: 'message', targetEntity: Offre::class)]
     private Collection $messages;
-
+    
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Review::class)]
     private Collection $reviews;
-
+    
     #[ORM\ManyToOne(inversedBy: 'article')]
+    #[ORM\JoinColumn(name: 'categorie_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Categorie $categorie = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(name: 'marque_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Marque $marque = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(name: 'sous_categorie_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Souscategorie $sousCategorie = null;
+    
 
   
 

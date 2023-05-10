@@ -15,19 +15,20 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"sentMessages")]
-    #[ORM\JoinColumn(name :'idu_sender', referencedColumnName :'id' ,nullable:false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "sentMessages")]
+    #[ORM\JoinColumn(name: 'idu_sender', referencedColumnName: 'id', nullable: false ,onDelete: 'CASCADE')]
     #[Assert\NotBlank]
     private $sender;
-
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"receivedMessages")]
-    #[ORM\JoinColumn(name :'idu_receiver', referencedColumnName :'id' ,nullable:false)]
+    
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "receivedMessages")]
+    #[ORM\JoinColumn(name: 'idu_receiver', referencedColumnName: 'id', nullable: false,onDelete: 'CASCADE')]
     #[Assert\NotBlank]
     private $receiver;
-
+    
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(name :'id_article', referencedColumnName :'id_article')]
+    #[ORM\JoinColumn(name: 'id_article', referencedColumnName: 'id_article',onDelete: 'CASCADE')]
     private ?Article $article = null;
+    
 
     #[ORM\Column(type:"text")]
     #[Assert\NotBlank(message:"L'objet de message est requis.")]

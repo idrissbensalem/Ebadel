@@ -67,12 +67,14 @@ class ClientRegistrationController extends AbstractController
                 // instead of its contents
                 $user->setImage($newFilename);
             // encode the plain password
+            
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
+
                     $form->get('plainPassword')->getData()
-                )
+              
             );
+                // $user->setPassword($form->get('plainPassword')->getData());
+
                 $signatureComponents = $this->verifyEmailHelper->generateSignature(
                     'app_verify_email',
                     $user->getId(),

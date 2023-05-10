@@ -61,13 +61,16 @@ class Jeux
     #[Assert\GreaterThan(value:0, message:"Le prix doit etre supérieur à zéro.")]
     private ?float $prix = null;
 
+   
     #[ORM\OneToMany(mappedBy: 'jeux', targetEntity: Participation::class)]
     private Collection $participations;
-
+    
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'jeux')]
     private Collection $users;
-    #[ORM\ManyToOne(inversedBy: 'jeuxGagnees', fetch:"EAGER")]
+    
+    #[ORM\ManyToOne(inversedBy: 'jeuxGagnees', fetch: 'EAGER')]
     private User $gagnant;
+    
 
     public function __construct()
     {

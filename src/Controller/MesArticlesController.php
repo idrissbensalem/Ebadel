@@ -82,14 +82,10 @@ public function index(int $id_user,MesArticlesRepository $mesarticlesRepository 
         ]);
     }
 
-
-
-
-
-
     #[Route('/{id}/edit', name: 'app_mesarticles_edit', methods: ['GET', 'POST'])]
-    public function edit( int $id_user ,Request $request, Article $article, EntityManagerInterface $entityManager ,MesArticlesRepository $mesarticlesRepository, SluggerInterface $slugger): Response
+    public function edit( Request $request, Article $article, EntityManagerInterface $entityManager ,MesArticlesRepository $mesarticlesRepository, SluggerInterface $slugger): Response
     {
+        $id = $article->getIdArticle();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -114,23 +110,31 @@ public function index(int $id_user,MesArticlesRepository $mesarticlesRepository 
     
             $mesarticlesRepository->save($article, true);
     
-            return $this->redirectToRoute('app_mesarticles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_mesarticles_show', [ 'id' => $id], Response::HTTP_SEE_OTHER);
         }
        
         return $this->renderForm('mes_articles/edit.html.twig', [
+           
             'article' => $article,
             'form' => $form,
         ]);
     }
 
+
+
+
+    
+
     #[Route('/{id}/delete', name: 'app_mesarticles_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, MesArticlesRepository $mesarticlesRepository): Response
     {
+        $id = $article->getUser()->getId();
+
         if ($this->isCsrfTokenValid('delete'.$article->getIdArticle(), $request->request->get('_token'))) {
             $mesarticlesRepository->remove($article, true);
         }
 
-        return $this->redirectToRoute('app_mesarticles_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_mesarticles_index', ['id_user' => $id ], Response::HTTP_SEE_OTHER);
     }
     
 }

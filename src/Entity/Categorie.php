@@ -19,15 +19,14 @@ class Categorie
     private ?string $nomC = null;
 
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Article::class)]
-    private Collection $article;
-
-  
-
+    private Collection $articles;
+    
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Souscategorie::class)]
     private Collection $souscategories;
-
+    
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Marque::class)]
     private Collection $marques;
+    
 
     public function __construct()
     {

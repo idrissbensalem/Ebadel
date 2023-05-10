@@ -22,9 +22,10 @@ class Response
     //@Gedmo\Timestampable(no="create)
     private $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'responses' )]
-
+    #[ORM\ManyToOne(inversedBy: 'responses')]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Reclamation $reclamation = null;
+    
 
 
     

@@ -19,13 +19,14 @@ class Souscategorie
     private ?string $nom_s_c = null;
 
     #[ORM\ManyToOne(inversedBy: 'souscategories')]
+    #[ORM\JoinColumn(name: 'categorie_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Categorie $categorie = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'souscategorie', targetEntity: Marque::class)]
     private Collection $marques;
-
+    
     #[ORM\OneToMany(mappedBy: 'sousCategorie', targetEntity: Article::class)]
-    private Collection $articles;
+private Collection $articles;
 
     public function __construct()
     {

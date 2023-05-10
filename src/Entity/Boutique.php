@@ -70,9 +70,11 @@ class Boutique
 
     #[ORM\OneToMany(mappedBy: 'boutique', targetEntity: Produit::class)]
     private Collection $produits;
-
-     #[ORM\ManyToOne(inversedBy: 'boutiques')]
-     private ?User $user = null;
+    
+    #[ORM\ManyToOne(inversedBy: 'boutiques')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private ?User $user = null;
+    
 
     public function __construct()
     {

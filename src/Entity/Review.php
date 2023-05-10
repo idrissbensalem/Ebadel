@@ -37,8 +37,9 @@ class Review
     private ?string $comment = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
-    #[ORM\JoinColumn(name: "article_id", referencedColumnName: "id_article")]
+    #[ORM\JoinColumn(name: "article_id", referencedColumnName: "id_article",onDelete: 'CASCADE')]
     private ?Article $article = null;
+    
 
     #[ORM\Column(nullable: true)]
     private ?int $likes = null;

@@ -42,6 +42,7 @@ class Reclamation
    
     #[ORM\ManyToOne(inversedBy: 'reclamations')]
     private ?User $user = null;
+    
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     //@Gedmo\Timestampable(no="create)

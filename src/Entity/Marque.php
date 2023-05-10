@@ -18,14 +18,17 @@ class Marque
     #[ORM\Column(length: 255)]
     private ?string $nomM = null;
 
-    #[ORM\ManyToOne(inversedBy: 'marques')]
+    #[ORM\ManyToOne(inversedBy: 'marques', cascade: ['persist', 'remove', 'merge', 'refresh', 'detach'])]
+    #[ORM\JoinColumn(name: 'souscategorie_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Souscategorie $souscategorie = null;
-
-    #[ORM\ManyToOne(inversedBy: 'marques')]
+    
+    #[ORM\ManyToOne(inversedBy: 'marques', cascade: ['persist', 'remove', 'merge', 'refresh', 'detach'])]
+    #[ORM\JoinColumn(name: 'categorie_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Categorie $categorie = null;
-
-    #[ORM\OneToMany(mappedBy: 'marque', targetEntity: Article::class)]
+    
+    #[ORM\OneToMany(mappedBy: 'marque', targetEntity: Article::class, cascade: ['persist', 'remove', 'merge', 'refresh', 'detach'])]
     private Collection $articles;
+    
 
     public function __construct()
     {

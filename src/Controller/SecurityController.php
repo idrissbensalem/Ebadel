@@ -15,11 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 class SecurityController extends AbstractController
 {
+
+    
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, UserRepository $userRepository): Response
     {
 
         // get the login error if there is one
@@ -29,6 +33,32 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
+    // #[Route(path: '/login', name: 'app_login')]
+    // public function login(Request $request, UserRepository $userRepository, TranslatorInterface $translator): Response
+    // {
+    //     // Retrieve the email and password entered by the user
+    //     $email = $request->request->get('email');
+    //     $password = $request->request->get('password');
+    
+    //     // Find the user by their email
+    //     $user = $userRepository->findOneBy(['email' => $email]);
+    
+    //     // Check if the user exists and the password matches
+    //     if ($user && $user->getPassword() === $password) {
+    //         // Authentication successful, redirect to a secure area
+    //         // (e.g., homepage or user dashboard)
+    //         return $this->redirectToRoute('home');
+    //     }
+    
+    //     // Authentication failed, show an error message
+    //     $error = $translator->trans('Invalid email or password');
+    
+    //     return $this->render('security/login.html.twig', [
+    //         'last_username' => $email,
+    //         'error' => $error
+    //     ]);
+    // }
+
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

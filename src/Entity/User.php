@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //#[Assert\Length(min:8,minMessage:" Votre mot de passe ne contient pas {{ limit }} caractères. ")]
     private ?int $telephone = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column]
@@ -72,13 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $imageFile;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $gender = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?int $age = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $isVerified = false;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
@@ -88,34 +88,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $created_at;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
-    private Collection $articles;
+private Collection $articles;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
-    private Collection $offres;
+#[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
+private Collection $offres;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class)]
-    private Collection $reclamations;
+#[ORM\OneToMany(mappedBy: 'user', targetEntity: Reclamation::class)]
+private Collection $reclamations;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Boutique::class)]
-    private Collection $boutiques;
+#[ORM\OneToMany(mappedBy: 'user', targetEntity: Boutique::class)]
+private Collection $boutiques;
 
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy:"sender")]
-    private $sentMessages;
+#[ORM\OneToMany(targetEntity: Message::class, mappedBy: "sender")]
+private $sentMessages;
 
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy:"receiver")]
-    private $receivedMessages;
+#[ORM\OneToMany(targetEntity: Message::class, mappedBy: "receiver")]
+private $receivedMessages;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Participation::class)]
-    private Collection $participations;
+#[ORM\OneToMany(mappedBy: 'user', targetEntity: Participation::class)]
+private Collection $participations;
 
-    #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
-    private Collection $jeux;
+#[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
+#[ORM\JoinTable(name: "jeux_users")]
+private Collection $jeux;
 
-    #[ORM\OneToMany(mappedBy: 'gagnant', targetEntity: Jeux::class)]
-    private Collection $jeuxGagnees;
+#[ORM\OneToMany(mappedBy: 'gagnant', targetEntity: Jeux::class)]
+private Collection $jeuxGagnees;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Suggestion::class)]
-    private Collection $suggestions;
+#[ORM\OneToMany(mappedBy: 'user', targetEntity: Suggestion::class)]
+private Collection $suggestions;
+
 
     public function __construct()
     {
@@ -503,12 +505,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+    
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every userrrr at least has ROLE_USER
         //$roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 

@@ -36,9 +36,9 @@ class Produit
     private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[ORM\JoinColumn(name: 'boutique_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Boutique $boutique = null;
-
-
+    
 
     public function getId(): ?int
     {

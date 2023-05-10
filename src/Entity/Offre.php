@@ -73,22 +73,23 @@ class Offre
         #[Assert\Length(min :8, minMessage :'Le numéro de téléphone doit contenir au moins 8 chiffres.')]
         private ?int $num_tel =null;
 
-        #[ORM\ManyToOne(inversedBy: 'offres')]
-        #[ORM\JoinColumn(name :'id', referencedColumnName :'id')]
-         private ?User $user = null;  
+#[ORM\ManyToOne(inversedBy: 'offres')]
+#[ORM\JoinColumn(name: 'id', referencedColumnName: 'id',onDelete: 'CASCADE')]
+private ?User $user = null;
 
-        #[ORM\ManyToOne(inversedBy: 'offres')]
-        #[ORM\JoinColumn(name :'id_article', referencedColumnName :'id_article')]
-        private ?Article $article = null;
-   
-        #[ORM\ManyToOne(inversedBy: 'offres')]
-        private ?Categorie $categorie = null;
-    
-        #[ORM\ManyToOne(inversedBy: 'offres')]
-        private ?Marque $marque = null;
-    
-        #[ORM\ManyToOne(inversedBy: 'offres')]
-        private ?Souscategorie $sousCategorie = null;
+#[ORM\ManyToOne(inversedBy: 'offres')]
+#[ORM\JoinColumn(name: 'id_article', referencedColumnName: 'id_article',onDelete: 'CASCADE')]
+private ?Article $article = null;
+
+#[ORM\ManyToOne(inversedBy: 'offres')]
+private ?Categorie $categorie = null;
+
+#[ORM\ManyToOne(inversedBy: 'offres')]
+private ?Marque $marque = null;
+
+#[ORM\ManyToOne(inversedBy: 'offres')]
+private ?Souscategorie $sousCategorie = null;
+
     
 
         
